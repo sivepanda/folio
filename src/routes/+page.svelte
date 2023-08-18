@@ -22,7 +22,7 @@
     .herocontainer {
         margin-top: 15vh;
         height: 90vh;
-        background:  linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("./images/photos/DSC_3076.JPG");
+        background:  linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("/images/photos/DSC_3076.JPG");
         background-size: cover;  
         background-position: center;      
     }
@@ -45,7 +45,7 @@
         padding: 0;
     }
     #her0 {
-        background: url("./images/photos/DSC_6492.JPG");
+        background: url("/images/photos/DSC_6492.JPG");
         background-position: center;
         /* -webkit-text-stroke: 1px white; */
         -webkit-text-fill-color: transparent;
@@ -58,7 +58,7 @@
         transition: ease 200ms;
     }
     #her1 {
-        background: url("./images/photos/DSC_6492.JPG");
+        background: url("/images/photos/DSC_6492.JPG");
         /* -webkit-text-stroke: 1px white; */
         -webkit-text-fill-color: transparent;
         -webkit-background-clip: text;
