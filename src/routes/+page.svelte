@@ -1,7 +1,10 @@
 <script>
     import Header from "../components/Header.svelte";
+    // import Cursor from "../components/Cursor.svelte";
+    import Cursor from "../components/Cursor.svelte";
 </script>
 <Header />
+<Cursor />
 <div class="herocontainer">
     <h1 class="hero" id="her0">Create<i>&</i><b>Imagine</b></h1>
     <h1 id="her1">Think<i>&</i><b>Dream</b></h1>
