@@ -22,7 +22,19 @@
 html {
     background-color: var(--almostblack);
     width: 100vw;
+    padding: 0px;
+    margin: 0px;
     overflow-x: hidden;
+    cursor:none;
+}
+
+body {
+    padding: 0px;
+    margin: 0px;
+}
+
+.first {
+    margin-top: calc(15vh - 20px);
 }
 
 h1 {

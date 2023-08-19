@@ -1,19 +1,32 @@
-<script>
+<script lang='ts'>
     import Header from "../components/Header.svelte";
-    // import Cursor from "../components/Cursor.svelte";
-    import Cursor from "../components/Cursor.svelte";
+    import CursorDiv from "../components/CursorDiv.svelte";
+    import { Cursor, Interactive } from 'svelte-cursor';
+    import IntersectionObserved, { elementInViewport } from "../components/IntersectionObserved.svelte"
+    
+    window.addEventListener("scroll", (e) => {
+        if(elementInViewport(document.getElementById("her0"))) {
+            console.log("invew")
+        }
+        console.log('yo')
+    });
 </script>
+
+
+<CursorDiv/>
 <Header />
-<Cursor />
-<div class="herocontainer">
+
+<div class="herocontainer first">
     <h1 class="hero" id="her0">Create<i>&</i><b>Imagine</b></h1>
     <h1 id="her1">Think<i>&</i><b>Dream</b></h1>
     <h2>ask what's next?</h2>
 </div>
+<div class="herocontainer"></div>
 
 
 <style>
     :root {
+        left: 0px;
         /* --dblue: #020036; */
         --dperblue: #07052b;
         --blurple: #2e00b8;
@@ -21,9 +34,10 @@
         --purple: #7100b3;
         --pin: #ff00c8;
         --red: #ff0000;
-    }
+    }  
     .herocontainer {
-        margin-top: 15vh;
+        padding-left: 0px;
+        left:0px;
         height: 90vh;
         background:  linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("/images/photos/DSC_3076.JPG");
         background-size: cover;  

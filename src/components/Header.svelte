@@ -1,11 +1,17 @@
+<script>
+    import {Interactive} from 'svelte-cursor'
+</script>
+
 <div class="whole">
     <h1 class="left">
         Siven Panda
     </h1>
     <div class='right tall'>
-        <a href="/">home</a>
-        <a href="/photography">photography</a>
-        <a href="/webdev">webdev</a>
+        <Interactive><a href="/">home</a></Interactive>
+        <Interactive><a href="/photography">photography</a></Interactive>
+        <Interactive><a href="/webdev">webdev</a></Interactive>
+        <!-- <a href="/photography">photography</a> -->
+        <!-- <a href="/webdev">webdev</a> -->
     </div>
 </div>
 
@@ -22,6 +28,7 @@
         --red: #ff0000;
     }
     .whole {
+        padding-left: 0px;
         position: absolute;
         background-color: rgb(3, 0, 30);
         width: 100vw;
@@ -60,9 +67,9 @@
         padding-left: 2vw;
         transition: ease .7s;
     }
-    .right a:hover {
+    .right span a:hover {
         margin-top: 0vh;
-        margin-bottom: 2vh;
+        /* margin-bottom: 2vh; */
         color: var(--pin);
         transition: cubic-bezier(.57,-0.01,0,.72) 200ms;
     }
