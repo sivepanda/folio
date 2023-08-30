@@ -1,8 +1,8 @@
-<script context="module">
+<script context="module" lang="ts">
      /**Triggered when element is in viewport
      * @param el - parameter being watched
      */
-     export function elementInViewport(el) {
+     function elementInViewport(el) {
 
         var top = el.offsetTop;
         var left = el.offsetLeft;
@@ -10,9 +10,8 @@
         var height = el.offsetHeight;
 
         while (el.offsetParent) {
-            el = el.offsetParent;
-            top += el.offsetTop;
-            left += el.offsetLeft;
+            top += el.offsetParent.offsetTop;
+            left += el.offsetParent.offsetLeft;
         }
 
         return (
@@ -21,5 +20,15 @@
             (top + height) <= (window.scrollY + window.innerHeight) &&
             (left + width) <= (window.scrollX + window.innerWidth)
         );
+    }
+
+    export function useScrollAction(node) {
+            document.addEventListener("scroll", (e) => {
+                // if(elementInViewport(node)) {
+                //     // node?.classList.toggle("anihero");
+                //     console.log('hey')
+                // }
+                console.log('yo')
+            });
     }
 </script>

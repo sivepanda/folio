@@ -25,6 +25,7 @@
         padding: 0;
         margin: 0;
         border-radius: 20px;
+        border-width: 0px;
         background-color: rgba(255, 255, 255, 0.295);
         backdrop-filter: invert(100%) blur(3px) saturate(100%);
         box-shadow: 0px 0px 10px white;
@@ -40,6 +41,7 @@
         left:0;
         top: 0;
         margin: 0;
+        border: 1px solid white;
         /* margin-top: -160%; */
         box-shadow: 0px 0px 50px white;
         border-radius: 90px;

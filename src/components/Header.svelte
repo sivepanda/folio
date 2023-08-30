@@ -29,17 +29,21 @@
     }
     .whole {
         padding-left: 0px;
-        position: absolute;
-        background-color: rgb(3, 0, 30);
+        z-index: 999;
+        backdrop-filter: invert(10%) blur(9px);
+        position: fixed;
+        background-color: rgba(3, 0, 30, 0.4);
         width: 100vw;
         display: grid;
         grid-template-columns: 60vw 40vw;
         align-items: center;
         justify-content: center;
-        height: 15vh;
+        height: 10vh;
         top: 0;
         margin-top: 0;
+        margin-bottom: 0;
         padding-top: 0;    
+        padding-bottom: 0;    
     }
     .left {
         align-self: center;
