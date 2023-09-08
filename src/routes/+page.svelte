@@ -31,9 +31,10 @@
 </div>
 <div class="fullheight">
     <h2 class="idea">development</h2>
-    <Perspective>
+    <Perspective displayImage="/images/retroim.png" url="https://flyretrograde.com" >
         <img slot="headerim" src="/images/retrograde_wh.png" alt="">
     </Perspective>
+
 </div>
 
 
@@ -100,9 +101,9 @@
         transition: ease 200ms;
     }
     .idea {
-        font-size: 15vh;
+        font-size: 10vh;
         padding-left: 5vw;
-        padding-bottom: 0vh;
+        padding-bottom: 2vh;
         margin-bottom: 0vh;
     }
     p {
