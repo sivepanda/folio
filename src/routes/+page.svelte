@@ -2,6 +2,7 @@
     import Header from "../components/Header.svelte";
     import CursorDiv from "../components/CursorDiv.svelte";
     import Perspective from "../components/Perspective.svelte";
+    import Gallery from "../components/Gallery.svelte";
     import IntersectionObserved, { useScrollAction } from "../components/IntersectionObserved.svelte";
     import { Cursor, Interactive } from 'svelte-cursor';
     import { browser } from '$app/environment';
@@ -22,19 +23,50 @@
             dots={false}
             arrows={false}
             swiping={false}>
-            <h1 class="hero" id="her0">Create<i>&</i><b>Imagine</b></h1>
+            <h1 class="hero" id="her0">Create<i>&</i>Imagine</h1>
 
         </Carousel>
     {/if}
-    <h1 id="her1">Think<i>&</i><b>Dream</b></h1>
-    <h2>ask what's next?</h2>
+    <h1 id="her1">Think&<b>Dream</b></h1>
+    <h2>hi. i'm siven panda.</h2>
+</div>
+<div class="fullheight showcasedeck">
+    <h2 class="idea">development</h2>
+    <div>
+        <Perspective displayImage="/images/retroim.png" url="https://flyretrograde.com" >
+            <img slot="headerim" src="/images/retrograde_wh.png" alt="">
+        </Perspective>
+    </div>
+    <div>
+        <Perspective displayImage="/images/sbim.png" url="https://github.com/sivepanda/soundbits" >
+            <img slot="headerim" src="/images/bits.svg" alt="">
+        </Perspective>
+    </div>
+    <div>
+        <Perspective displayImage="/images/nuwrldim.png" url="https://sivepanda.github.io/tsawebmaster22/public_html/" >
+            <img slot="headerim" src="/images/nw22.png" alt="">
+        </Perspective>
+    </div>
+    <div>
+        <Perspective displayImage="/images/ghim.png" url="https://github.com/sivepanda" >
+            <img slot="headerim" src="/images/github-mark-white.png" alt="">
+        </Perspective>
+    </div>
+    
+
 </div>
 <div class="fullheight">
-    <h2 class="idea">development</h2>
-    <Perspective displayImage="/images/retroim.png" url="https://flyretrograde.com" >
-        <img slot="headerim" src="/images/retrograde_wh.png" alt="">
-    </Perspective>
-
+    <h2 class="idea">photography</h2>
+    <div class="gallery">
+        <Gallery gap={10} hover='true' maxColumnWidth={400}>
+            <img src="/images/photos/DSC_2913.JPG" alt="">
+            <img src="../images/photos/_MG_9697.JPG" alt="">
+            <img src="../images/photos/DSC_6566.JPG" alt="">
+            <img src="../images/photos/DSC_6117.png" alt="">
+            <img src="../images/photos/DSC_5527_Edit.jpg" alt="">
+            <img src="../images/photos/DSC_5347.png" alt="">
+        </Gallery>
+    </div>
 </div>
 
 
@@ -50,10 +82,6 @@
         --red: #ff0000;
         --almostblack: #181818;
     }  
-    .fullheight {
-        height: 100vh;
-        width: 100vw;
-    }
     .herocontainer {
         padding-left: 0px;
         left:0px;
@@ -65,7 +93,7 @@
         background-position: center;      
     }
     .herocontainer h1 {
-        font-size: 30vh;
+        font-size: 20vh;
         color: white;
         padding: 0px;
         margin: 0px;
@@ -100,16 +128,41 @@
         filter: brightness(10000%) grayscale(50%) hue-rotate(90deg);
         transition: ease 200ms;
     }
-    .idea {
-        font-size: 10vh;
-        padding-left: 5vw;
-        padding-bottom: 2vh;
-        margin-bottom: 0vh;
+    .fullheight {
+        height: 90vh;
+        width: 100vw;
     }
-    p {
-        font-size: 2vh;
-        margin-top: 0vh;
-        padding-top: 0vh;
+    
+    .showcasedeck {
+        display: grid;
+        grid-template-columns: 50vw 50vw;
+        grid-template-rows: 10vh 40vh 40vh;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .showcasedeck div {
+        align-self: center;
+        justify-self: center;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .idea {
+        /* grid-row: 2; */
+        grid-column: 1 / span 2;
+        font-size: 10vh;
+        padding: 0vw;
         padding-left: 5vw;
+        margin: 0vh;
+    }
+
+    .gallery {
+        width: 90vw;
+        padding-left: 5vw;
+        display: grid !important;
+        /* flex-direction: column !important; */
+        align-items: center !important;
+        justify-items: center !important;
     }
 </style>
