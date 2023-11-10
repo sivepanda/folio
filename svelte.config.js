@@ -11,10 +11,10 @@ const config = {
 	}
 };
 
-// export default config;
+export default config;
 
 
 
-export default {
-	preprocess: [vitePreprocess()]
-  };
+// export default {
+// 	preprocess: [vitePreprocess()]
+//   };
