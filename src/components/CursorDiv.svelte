@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Cursor, Interactive } from 'svelte-cursor';
+    import { Cursor } from 'svelte-cursor';
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->

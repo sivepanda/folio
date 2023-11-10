@@ -4,7 +4,6 @@
     import Perspective from "../components/Perspective.svelte";
     import Gallery from "../components/Gallery.svelte";
     // import IntersectionObserved, { useScrollAction } from "../components/IntersectionObserved.svelte";
-    import { Cursor, Interactive } from 'svelte-cursor';
     import { browser } from '$app/environment';
     import Carousel from 'svelte-carousel';
 </script>

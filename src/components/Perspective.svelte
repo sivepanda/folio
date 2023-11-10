@@ -1,7 +1,7 @@
 <script lang="js">
 // @ts-nocheck
 
-	import { Interactive } from 'svelte-cursor';
+	// import { Interactive } from 'svelte-cursor';
 
 	/**
 	 * @type {any}
@@ -36,7 +36,7 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<Interactive>
+<!-- <Interactive> -->
 <a
 	class="main"
 	aria-live="polite"
@@ -50,7 +50,7 @@
 		<slot name="headerim">no header provided</slot>
 	</div>
 </a>
-</Interactive>
+<!-- </Interactive> -->
 <style>
 	.main {
 		--perspX: 0deg;

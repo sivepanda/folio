@@ -3,7 +3,7 @@
 
 	import { onMount, createEventDispatcher } from 'svelte';
 	import { tick } from 'svelte';
-	import { Interactive } from 'svelte-cursor';
+	// import { Interactive } from 'svelte-cursor';
 
 	export let gap = 10;
 	export let maxColumnWidth = 250;
@@ -122,7 +122,7 @@
 					{#each column as img}
 						<!-- svelte-ignore a11y-click-events-have-key-events -->
 						<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-						<Interactive>
+						<!-- <Interactive> -->
 							<img
 								src={img.src}
 								alt={img.alt}
@@ -130,7 +130,7 @@
 								class="imag {hover === 'true' ? 'img-hover' : ''} {img.class}"
 								{loading}
 							/>
-						</Interactive>
+						<!-- </Interactive> -->
 					{/each}
 				</div>
 			{/each}
