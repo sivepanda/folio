@@ -3,7 +3,14 @@
     font-family: "thunder";
     src: url(./fonts/THUNDER/Thunder-LightHC.ttf) format('truetype');
 }
-
+@font-face {
+    font-family: "casta";
+    src: url(./fonts/Casta/Casta-Thin.otf) format('opentype');
+}
+@font-face {
+    font-family: "dx-sitrus";
+    src: url(./fonts/DXSitrus/DxSitrus-Expanded.otf) format('opentype');
+}
 @font-face {
     font-family: "morganite";
     src: url(./fonts/Morganite/Morganite-Medium.ttf) format('truetype');
@@ -38,8 +45,8 @@ body {
 }
 
 h1 {
-    font-family:  'Notable', 'sans-serif';
-    font-weight: 400;
+    font-family:  'dx-sitrus', 'sans-serif';
+    /* font-weight: 900; */
     font-size: 10vh;
     color: white;
 }
