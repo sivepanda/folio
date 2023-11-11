@@ -6,6 +6,7 @@
     // import IntersectionObserved, { useScrollAction } from "../components/IntersectionObserved.svelte";
     import { browser } from '$app/environment';
     import Carousel from 'svelte-carousel';
+	import IntersectionObserved from "../components/IntersectionObserved.svelte";
 </script>
 
 
@@ -55,7 +56,7 @@
 
 </div>
 <div class="fullheight gallery">
-    <h2 class="idea">&gt;&gt; photography</h2>
+    <IntersectionObserved><h2 class="idea">&gt;&gt; photography</h2></IntersectionObserved>
     <div class="images">
         <img src="../images/photos/DSC_2913.JPG" alt="">
         <img src="../images/photos/_MG_9697.JPG" alt="">
