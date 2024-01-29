@@ -13,12 +13,29 @@
     let observer;
 
     /**
+     * @type {String}
+     */
+    export let classname;
+
+    export let effect = 'slide';
+
+    const originalEffectState = effect;
+
+    $: effect = effect;
+
+    /**
 	 * @param {any[]} entries
-	 */
+	 */    
     function onIntersect(entries) {
         entries.forEach(entry => {
             if(entry.isIntersecting) {
-                console.log("element in viewport")
+                switch(effect) {
+                    case "slide":
+                        effect = 'complete';
+                        break;
+                }
+            } else {
+                effect = originalEffectState;
             }
         });
     }
@@ -42,7 +59,7 @@
 
   </script>
   
-  <svelte:element class="io" bind:this={element} this={tag} {...$$restProps}>
+  <svelte:element class="io {classname} {effect}" bind:this={element} this={tag} {...$$restProps}>
       <slot></slot>
   </svelte:element>
 
@@ -50,5 +67,15 @@
     .io {
         margin: 0;
         padding: 0;
+    }
+
+    .slide {
+        transform: translateX(100px);
+        transition: 400ms 300ms cubic-bezier(0, 0.55, 0.45, 1);
+    }
+
+    .complete {
+        transform: translateX(0px);
+        transition: 400ms 300ms cubic-bezier(0, 0.55, 0.45, 1);
     }
   </style>

@@ -4,9 +4,36 @@
     import Perspective from "../components/Perspective.svelte";
     import Gallery from "../components/Gallery.svelte";
     // import IntersectionObserved, { useScrollAction } from "../components/IntersectionObserved.svelte";
-    import { browser } from '$app/environment';
-    import Carousel from 'svelte-carousel';
 	import IntersectionObserved from "../components/IntersectionObserved.svelte";
+	import gsap from "gsap";
+	import { onMount } from "svelte";
+	import ScrollTrigger from "gsap/dist/ScrollTrigger";
+
+    let photoHeadline:Element;
+    let gallery: Element;
+    let photos: Element;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    onMount(() => {
+        gsap.from(photoHeadline, {
+            scrollTrigger: photoHeadline,
+            x: '20vw',
+            ease: "sine.out",
+            duration: 1,
+        })
+        gsap.from(gallery, {
+            scrollTrigger: photoHeadline,
+            height: '15vh',
+            delay: 2
+        });
+        // gsap.from(photos, {
+        //     scrollTrigger: photoHeadline,
+        //     height: '0vh',
+        //     delay: 2
+        // })
+    })
+
 </script>
 
 
@@ -14,19 +41,7 @@
 <Header />
 
 <div class="herocontainer first">
-    {#if browser}
-        <Carousel
-            autoplay
-            autoplayDuration={5}
-            duration={5500}
-            timingFunction="linear"
-            dots={false}
-            arrows={false}
-            swiping={false}>
-            <h1 class="hero" id="her0">Create<i>&</i>Imagine</h1>
-
-        </Carousel>
-    {/if}
+    <h1 class="hero" id="her0">Create<i>&</i>Imagine</h1>
     <h1 id="her1">Think&<b>Dream</b></h1>
     <h2>&gt;&gt; hi. i'm siven panda.</h2>
 </div>
@@ -55,9 +70,10 @@
     
 
 </div>
-<div class="fullheight gallery">
-    <IntersectionObserved><h2 class="idea">&gt;&gt; photography</h2></IntersectionObserved>
-    <div class="images">
+<div class="fullheight gallery" bind:this={gallery}>
+    <h2 bind:this={photoHeadline} class="intersec-obs-gall-h2">photography</h2>
+    <!-- <IntersectionObserved classname="intersec-obs-gall-h2"><h2 class="idea">&gt;&gt; photography</h2></IntersectionObserved> -->
+    <div class="images" bind:this={photos}>
         <img src="../images/photos/DSC_2913.JPG" alt="">
         <img src="../images/photos/_MG_9697.JPG" alt="">
         <img src="../images/photos/DSC_6566.JPG" alt="">
@@ -67,6 +83,8 @@
     </div>
         
 </div>
+
+<div class="fullheight"></div>
 
 
 <style>
@@ -113,8 +131,8 @@
     #her0 {
         background: url("/images/photos/DSC_6492.JPG");
         z-index: 2;
-        margin-top: 20vh;
-        margin-left: 10vw;
+        padding-top: 15vh;
+        margin-top: 0vh;
         background-position: center;
         -webkit-text-fill-color: transparent;
         -webkit-background-clip: text;
@@ -132,7 +150,6 @@
         height: 90vh;
         width: 100vw;
     }
-    
     .showcasedeck {
         display: grid;
         grid-template-columns: 50vw 50vw;
@@ -141,14 +158,12 @@
         justify-content: center;
         padding-bottom: 15vh;
     }
-    
     .showcasedeck div {
         align-self: center;
         justify-self: center;
         margin: 0px;
         padding: 0px;
     }
-
     .idea {
         /* grid-row: 2; */
         grid-column: 1 / span 2;
@@ -156,27 +171,36 @@
         padding: 0vw;
         padding-left: 5vw;
         margin: 0vh;
+        padding-bottom: 2vh;
+    }
+
+    .intersec-obs-gall-h2 {
+        padding-left: 5vw;
+        grid-row: 1;
+        color: #181818 !important;
+        grid-column: 1 !important;
+        align-self: left;
+        justify-self: left;
+        color: #181818 !important;
+        width: 20vw;
+        text-align: center;
+        padding: 0px;
+        margin: 0px;
     }
 
     .gallery {
         background: var(--light);
-        padding-top: 15vh;
-        padding-bottom: 10vh;
+        /* padding-top: 3vh; */
+        /* padding-bottom: 10vh; */
         width: 99svw;
+        height: 90vh;
         display: grid !important;
         align-items: center !important;
-        justify-items: center !important;
+        /* justify-items: center !important; */
+        padding: 0px;
         border-radius: 20px 20px 20px 20px;
         box-shadow: black 0px -10px 10px;
-    }
-
-    .gallery h2 {
-        color: var(--almostblack);
-        padding-left: 5vw;
-        grid-row: 1;
-        grid-column: 1 !important;
-        align-self: left;
-        justify-self: left;
+        overflow-y: hidden;
     }
 
     .gallery .images {
@@ -192,8 +216,7 @@
     }
 
     .gallery img:hover {
-        height: 40vh;
-        width: 30vw;
+        transform: scaleX(110%) scaleY(110%);
         background-size: cover;
         transition: 200ms all ease-in-out;
     }
