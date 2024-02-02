@@ -1,81 +1,80 @@
 <script>
-    import { onDestroy, onMount } from "svelte";
+	import { onDestroy, onMount } from 'svelte';
 
-    export let tag = 'div';
+	export let tag = 'div';
 
-    /**
+	/**
 	 * @type {Element}
 	 */
-    let element;
-    /**
+	let element;
+	/**
 	 * @type {IntersectionObserver}
 	 */
-    let observer;
+	let observer;
 
-    /**
-     * @type {String}
-     */
-    export let classname;
+	/**
+	 * @type {String}
+	 */
+	export let classname;
 
-    export let effect = 'slide';
+	export let effect = 'slide';
 
-    const originalEffectState = effect;
+	const originalEffectState = effect;
 
-    $: effect = effect;
+	$: effect = effect;
 
-    /**
+	/**
 	 * @param {any[]} entries
-	 */    
-    function onIntersect(entries) {
-        entries.forEach(entry => {
-            if(entry.isIntersecting) {
-                switch(effect) {
-                    case "slide":
-                        effect = 'complete';
-                        break;
-                }
-            } else {
-                effect = originalEffectState;
-            }
-        });
-    }
+	 */
+	function onIntersect(entries) {
+		entries.forEach((entry) => {
+			if (entry.isIntersecting) {
+				switch (effect) {
+					case 'slide':
+						effect = 'complete';
+						break;
+				}
+			} else {
+				effect = originalEffectState;
+			}
+		});
+	}
 
-    onMount(() => {
-        observer = new IntersectionObserver(onIntersect, {
-            root: null,
-            threshold: 0.5
-        })
+	onMount(() => {
+		observer = new IntersectionObserver(onIntersect, {
+			root: null,
+			threshold: 0.5
+		});
 
-        if(element) {
-            observer.observe(element);
-        }
-    });
+		if (element) {
+			observer.observe(element);
+		}
+	});
 
-    onDestroy(() => {
-        if(element) {
-            observer.unobserve(element)
-        }
-    })
+	onDestroy(() => {
+		if (element) {
+			observer.unobserve(element);
+		}
+	});
+</script>
 
-  </script>
-  
-  <svelte:element class="io {classname} {effect}" bind:this={element} this={tag} {...$$restProps}>
-      <slot></slot>
-  </svelte:element>
+<svelte:element this={tag} class="io {classname} {effect}" bind:this={element} {...$$restProps}>
+	<slot />
+</svelte:element>
 
-  <style>
-    .io {
-        margin: 0;
-        padding: 0;
-    }
+<style>
+	.io {
+		margin: 0;
+		padding: 0;
+	}
 
-    .slide {
-        transform: translateX(100px);
-        transition: 400ms 300ms cubic-bezier(0, 0.55, 0.45, 1);
-    }
+	.slide {
+		transform: translateX(100px);
+		transition: 400ms 300ms cubic-bezier(0, 0.55, 0.45, 1);
+	}
 
-    .complete {
-        transform: translateX(0px);
-        transition: 400ms 300ms cubic-bezier(0, 0.55, 0.45, 1);
-    }
-  </style>
+	.complete {
+		transform: translateX(0px);
+		transition: 400ms 300ms cubic-bezier(0, 0.55, 0.45, 1);
+	}
+</style>

@@ -1,5 +1,5 @@
 <script lang="js">
-// @ts-nocheck
+	// @ts-nocheck
 
 	import { Interactive } from 'svelte-cursor';
 
@@ -10,7 +10,7 @@
 	/**
 	 * @type {any}
 	 */
-	 export let url;
+	export let url;
 
 	/**
 	 * @param {{ target: { getBoundingClientRect: () => { (): any; new (): any; x: number; y: number; }; offsetWidth: number; offsetHeight: number; style: { transform: string; }; }; clientX: number; clientY: number; }} node
@@ -37,20 +37,21 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <Interactive>
-<a
-	class="main"
-	aria-live="polite"
-	style="--displayimage: url({displayImage}); color:green"
-	href={url}
-	target="_blank"
-	on:mousemove={hov}
-	on:mouseleave={out}
->
-	<div class="headerim">
-		<slot name="headerim">no header provided</slot>
-	</div>
-</a>
+	<a
+		class="main"
+		aria-live="polite"
+		style="--displayimage: url({displayImage}); color:green"
+		href={url}
+		target="_blank"
+		on:mousemove={hov}
+		on:mouseleave={out}
+	>
+		<div class="headerim">
+			<slot name="headerim">no header provided</slot>
+		</div>
+	</a>
 </Interactive>
+
 <style>
 	.main {
 		--perspX: 0deg;
@@ -84,13 +85,13 @@
 	/* .main:hover :global(img) {
     } */
 	.headerim {
-        display: flex;
+		display: flex;
 		align-content: center;
 		justify-content: center;
 		align-self: center;
-        justify-self: center;
-        max-width: 60%;
-        max-height: 60%;
+		justify-self: center;
+		max-width: 60%;
+		max-height: 60%;
 		transform: rotateX(0deg) rotateY(0deg);
 		transform: translateZ(10px);
 		-webkit-filter: drop-shadow(0px 0px 1px black);
@@ -105,12 +106,11 @@
 		/* filter: drop-shadow(0px 0px 10px black); */
 	}
 	.headerim :global(img) {
-        align-self: center;
-        justify-self: center;
+		align-self: center;
+		justify-self: center;
 		max-width: 100%;
-        border-radius: 20px;
-        max-height: 100%;
-        
+		border-radius: 20px;
+		max-height: 100%;
 	}
 	.main::after {
 		inset: 0px;

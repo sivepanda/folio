@@ -1,59 +1,59 @@
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@200;400;600&family=Poppins:wght@400;600&family=Notable&display=swap');
 @font-face {
-    font-family: "thunder";
-    src: url(./fonts/THUNDER/Thunder-LightHC.ttf) format('truetype');
+	font-family: 'thunder';
+	src: url(./fonts/THUNDER/Thunder-LightHC.ttf) format('truetype');
 }
 @font-face {
-    font-family: "morganite";
-    src: url(./fonts/Morganite/Morganite-Medium.ttf) format('truetype');
+	font-family: 'morganite';
+	src: url(./fonts/Morganite/Morganite-Medium.ttf) format('truetype');
 }
 
 :root {
-    --dblue: #1e1e2b;
-    --blurple: #2e00b8;
-    --lblue: #5255eb;
-    --purple: #7100b3;
-    --pin: #ff00c8;
-    --red: #ff0000;
-    --almostblack: #181818;
+	--dblue: #1e1e2b;
+	--blurple: #2e00b8;
+	--lblue: #5255eb;
+	--purple: #7100b3;
+	--pin: #ff00c8;
+	--red: #ff0000;
+	--almostblack: #181818;
 }
 
 html {
-    background-color: var(--almostblack);
-    width: 100vw;
-    padding: 0px;
-    margin: 0px;
-    overflow-x: hidden;
-    cursor:none;
+	background-color: var(--almostblack);
+	width: 100vw;
+	padding: 0px;
+	margin: 0px;
+	overflow-x: hidden;
+	cursor: none;
 }
 
 body {
-    padding: 0px;
-    margin: 0px;
+	padding: 0px;
+	margin: 0px;
 }
 
 .first {
-    margin-top: calc(15vh - 20px);
+	margin-top: calc(15vh - 20px);
 }
 
 h1 {
-    font-family:  'Bricolage Grotesque', 'serif';
-    font-weight: 500;
-    font-size: 10vh;
-    color: white;
+	font-family: 'Bricolage Grotesque', 'serif';
+	font-weight: 500;
+	font-size: 10vh;
+	color: white;
 }
 
 h2 {
-    font-family: 'morganite';
-    font-size: 10vh;
-    color: white;
+	font-family: 'Bricolage Grotesque';
+	font-size: 10vh;
+	color: white;
 }
 
 p {
-    font-family: "Poppins", sans-serif;
-    color: white;
+	font-family: 'Poppins', sans-serif;
+	color: white;
 }
 
 .tall {
-    font-family: "morganite";
+	font-family: 'morganite';
 }

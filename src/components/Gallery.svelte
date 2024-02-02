@@ -25,7 +25,7 @@
 	async function getNatHeight(img) {
 		return new Promise(function (resolve, reject) {
 			if (img.naturalHeight && img.naturalWidth) {
-				resolve((img.naturalHeight) / (img.naturalWidth / galleryWidth));
+				resolve(img.naturalHeight / (img.naturalWidth / galleryWidth));
 			} else {
 				reject();
 			}
@@ -42,10 +42,10 @@
 	}
 
 	async function Draw() {
-		await tick()
+		await tick();
 
 		if (!slotHolder) {
-			console.log('no bueno',columns);
+			console.log('no bueno', columns);
 			return;
 		}
 
@@ -57,37 +57,51 @@
 		var shift = 0;
 
 		console.log('ran', ran);
-		console.log(columns)
+		console.log(columns);
 
 		let promises = images.map((value, i) => {
 			new Promise(async (resolve, reject) => {
 				var idx = (i % columnCount) + shift;
 				const img = new Image();
 				img.src = await images[i].src;
-				columns[idx] = columns[idx]?columns[idx]:[]
+				columns[idx] = columns[idx] ? columns[idx] : [];
 
-				console.log(columns, idx, 'ind',i, '\ncolumncount', columnCount, '\ngw', galleryWidth, '\nmcw', maxColumnWidth)
-				
+				console.log(
+					columns,
+					idx,
+					'ind',
+					i,
+					'\ncolumncount',
+					columnCount,
+					'\ngw',
+					galleryWidth,
+					'\nmcw',
+					maxColumnWidth
+				);
+
 				const imgObject = {
-						src: images[i].src,
-						alt: images[i].alt,
-						class: images[i].className,
-						height: (img.naturalHeight) / (img.naturalWidth / galleryWidth)
-					}
+					src: images[i].src,
+					alt: images[i].alt,
+					class: images[i].className,
+					height: img.naturalHeight / (img.naturalWidth / galleryWidth)
+				};
 
 				if (columns[idx].length > 0) {
 					const naturalHeight = await getNatHeight(img);
-					if ( idx < columnCount - 1 && columns[idx].slice(-1)[0].height + 100 >= naturalHeight + columns[idx + 1].slice(-1)[0].height ) {
-						await columns[(idx + 1)]?.push(imgObject);
-						console.log((idx+1),'e',imgObject);
+					if (
+						idx < columnCount - 1 &&
+						columns[idx].slice(-1)[0].height + 100 >=
+							naturalHeight + columns[idx + 1].slice(-1)[0].height
+					) {
+						await columns[idx + 1]?.push(imgObject);
+						console.log(idx + 1, 'e', imgObject);
 						shift += 1;
-						
+
 						await resolve(imgObject);
-						
 					} else {
 						await columns[idx]?.push(imgObject);
 						console.log(columns);
-						
+
 						resolve(imgObject);
 					}
 				} else {
@@ -97,12 +111,11 @@
 					await resolve(imgObject);
 				}
 				reject();
-			})
+			});
 		});
 
-		
-		return Promise.all(promises).then(values => {
-			console.log('v',values);
+		return Promise.all(promises).then((values) => {
+			console.log('v', values);
 			return columns;
 		});
 	}
@@ -113,27 +126,26 @@
 </div>
 
 <div id="gallery" bind:clientWidth={galleryWidth} style={galleryStyle}>
-
 	{#await Draw()}
 		<div><p>Loading...</p></div>
 	{:then columns}
-			{#each columns as column}
-				<div class="column">
-					{#each column as img}
-						<!-- svelte-ignore a11y-click-events-have-key-events -->
-						<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-						<Interactive>
-							<img
-								src={img.src}
-								alt={img.alt}
-								on:click={HandleClick}
-								class="imag {hover === 'true' ? 'img-hover' : ''} {img.class}"
-								{loading}
-							/>
-						</Interactive>
-					{/each}
-				</div>
-			{/each}
+		{#each columns as column}
+			<div class="column">
+				{#each column as img}
+					<!-- svelte-ignore a11y-click-events-have-key-events -->
+					<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+					<Interactive>
+						<img
+							src={img.src}
+							alt={img.alt}
+							on:click={HandleClick}
+							class="imag {hover === 'true' ? 'img-hover' : ''} {img.class}"
+							{loading}
+						/>
+					</Interactive>
+				{/each}
+			</div>
+		{/each}
 	{/await}
 </div>
 
