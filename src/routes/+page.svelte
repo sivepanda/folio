@@ -19,10 +19,10 @@
 
 	$: heroscrollcounter;
 
-	gsap.registerPlugin(ScrollTrigger);
 
 	onMount(() => {
-        gsap.to(doormansvg, {
+		gsap.registerPlugin(ScrollTrigger);
+		gsap.to(doormansvg, {
             opacity: 1,
             width: '100%',
 			borderRadius: 200,
