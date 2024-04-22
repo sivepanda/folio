@@ -21,6 +21,14 @@
             to simple scripts. Most of my work is done in Java and JS/TS, but I have worked
             extensively with Python, Rust, C, and C++
         </p>
+        <h2>Favorite/Frequent Languages and Tools</h2>
+        <p>Java</p>
+        <p>Python</p>
+        <p>TypeScript</p>
+        <p>Svelte</p>
+        <p>Next.js</p>
+        <p>Huggingface</p>
+        <p>Rust</p>
     </div>
 </div>
 
@@ -32,7 +40,7 @@
     }
 
     .hero {
-        background: linear-gradient(90deg, rgb(31, 31, 46) 40%, rgba(0, 0, 0, 0)),
+        background: linear-gradient(90deg, rgb(31, 31, 46) 60%, rgba(31, 31, 46, .4) 80%, rgba(0, 0, 0, 0)),
             url('/images/DSC_7287.JPG');
         background-size: contain;
         background-repeat: no-repeat;
@@ -73,10 +81,15 @@
 
     .dev > h1 {
         font-size: 15vh;
+        margin-bottom: .5em;
+        padding-bottom: 0;
     }
 
     .dev > p {
         width: 50vw;
+        font-size: 1.2em;
         line-height: 1.5;
+        padding-top: 0px;
+        margin-top: 0;
     }
 </style>
