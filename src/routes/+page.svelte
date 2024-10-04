@@ -37,7 +37,7 @@
             health, education, or software development.
         </p>
     </div>
-    <div class="dev">
+    <div class="sect dev">
         <h1>Development</h1>
         <p>
             I program in a number of languages and principles, from frontend and design to backend,
@@ -57,17 +57,31 @@
             </div>
         </div>
     </div>
-    <div class="experience">
+    <div class="sect experience">
         <h1>Experience</h1>
+        <!-- Onhov to org colors -->
+        <!-- Register domain on aws -->
         <h2>Oklahoma Medical Research Foundation</h2>
         <p>
             Experimented with Transformer and Convolutional Machine Learning models in Python to 
-            determine the viability of a feature reduction model over an entire genomic track.
+            determine the viability of a feature reduction model over an entire genomic track. Included 
+            building custom tokenizers to convert research standard BED files into vectors.
         </p>
 
-        Robotics Match Predictor
-
-        Win Predictor for FIRST Robotics with 85% accuracy; Using Sci-kit Learn, I coded cross validation (feature importance) by way of Random Forest Classifiers. In addition, ran a binary classification to train the data on accuracy. Data utilized from Statbotics API.
+        <h2>University of Central Oklahoma</h2>
+        <p>
+            Utilized Large Language Models and text classifiers (OpenAI API and LangChain) to create a web
+            resource for students to generate practice tests from a PDF of notes. Text classification via LangChain
+            allowed for users to select a number of questions from particular generalized concepts generated from the notes.
+        </p>
+        
+        <h2>FIRST Robotics Match Optimization</h2>
+        <p>
+            Built matchup optimizer utilizing Random Forest Classifiers and data pulled from official
+            FIRST APIs to train a Random Forest Classifier alongside Binary Classification to predict wins
+            to about an 85% accuracy rate. Included a Svelte frontend and visualization to inform match strategy.
+        </p>
+        
     </div>
 </div>
 
@@ -111,29 +125,35 @@
         line-height: 1.5;
     }
 
-    .dev, 
-    .experience {
-        height: 100vh;
+    .sect {
         display: flex;
         flex-direction: column;
         padding-left: 5vw;
     }
 
-    .dev > h1,
-    .experience > h1 {
+    .sect > h1 {
         font-size: 15vh;
         margin-bottom: .5em;
         padding-bottom: 0;
     }
 
-    .dev > p,
-    .experience > p {
+    .sect> p {
         width: 50vw;
         font-size: 1.2em;
         line-height: 1.5;
         padding-top: 0px;
         margin-top: 0;
     }
+
+    .dev {
+        height: 100vh;
+    }
+
+    .experience {
+        height: 120vh;
+        background: linear-gradient(180deg, rgb(31, 31, 46) 0%, rgba(100, 0, 200, 1) 100%);
+    }
+
 
     .dev .langs {
         width: calc(100vw - 5vw - 5vw); 
@@ -166,10 +186,6 @@
         font-family: 'Gloock', 'serif' !important;
         padding-left: 1vw;
         height: 22vh;
-    }
-
-    .experience {
-        background: linear-gradient(180deg, rgb(31, 31, 46) 0%, rgba(100, 0, 200, 1) 100%);
     }
 
 </style>
