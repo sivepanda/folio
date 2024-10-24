@@ -8,8 +8,6 @@
     </svg>
     <div class="right">
         <a href="/">Home</a>
-        <a href="/">Dev</a>
-        <a href="/">Photography</a>
     </div>
 </div>
 
