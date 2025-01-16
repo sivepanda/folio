@@ -1,9 +1,45 @@
-<div class="header">
+<script>
+    import Header from "./Header.svelte";
+    import anime from "animejs";
+    import { onMount } from "svelte";
+
+    let visible = true;
+    $: visible;
+
+    onMount(() => {
+        let tl = anime.timeline({
+            easing: 'easeInOutExpo',
+            duration: 2000,
+        });
+
+        
+        // @ts-ignore
+        tl.add({
+            targets: "#g1045 .pth",
+            strokeDashoffset: [anime.setDashoffset, 0],
+            direction: 'alternate',
+            delay: function(/** @type {any} */ el, /** @type {number} */ i) { return i * 250 },
+            duration: 1500,
+        });
+
+        //@ts-ignore
+        tl.add({
+            targets: "#page",
+            opacity: 0,
+            duration: 500,
+            complete: (anim) => {visible = !anim}
+
+        })
+    })
+</script>
+
+{#if visible}
+<div id="page"> 
     <svg
     version="1.1"
     id="svg179"
-    width="90"
-    height="90"
+    width="790.15509"
+    height="553.80859"
     viewBox="0 0 790.15509 553.80859"
     xmlns="http://www.w3.org/2000/svg">
     <g
@@ -28,58 +64,26 @@
         </g>
     </g>
     </svg>
-    <div class="right">
-        <a href="/">Home</a>
-        <!-- <a href="/photography">Photography</a> -->
-    </div>
 </div>
+{/if}
 
 <style>
-    .header {
-        font-family: 'Urbanist', 'sans-serif';
-        font-weight: 650;
-        background: linear-gradient(
-            rgba(31, 31, 46, 1),
-            rgba(31, 31, 46, 0.7) 50%,
-            rgba(0, 0, 0, 0)
-        );
-        backdrop-filter: blur(20px);
-        height: 12vh;
+    #page {
+        position: absolute;
+        z-index: 9999;
+        display: flex;
+        background-color: rgba(0,0,0,0.5);
+        height: 100vh;
         width: 100vw;
-        position: fixed;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+        backdrop-filter: blur(40px);
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+
     }
-    #svg179 {
-        padding-left: 2vw;
-    }
-    #g1045, .pth {
+    #g1045 {
         fill: none;
-        stroke: white;
-        stroke-width: 1.5;
-    }
-    .right {
-        display: flex;
-        padding-right: 2vw;
-        flex-direction: row;
-    }
-    .right a {
-        display: block;
-        align-self: center;
-        font-size: 3svh;
-        text-decoration: none;
-        color: white;
-        margin: 0;
-        padding: 0;
-        padding-left: 2vw;
-        transition: ease 0.7s;
-    }
-    .right a:hover {
-        margin-top: 0vh;
-        font-weight: 950;
-        /* margin-bottom: 2vh; */
-        color: gray;
-        transition: cubic-bezier(0.57, -0.01, 0, 0.72) 200ms;
+        stroke: #fff;
+        stroke-width: 1.43124;
     }
 </style>

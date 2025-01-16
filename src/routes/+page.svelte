@@ -2,8 +2,16 @@
     import { onMount } from 'svelte';
     import { browser } from '$app/environment';
     import Header from '../components/Header.svelte';
+    import Load from '../components/Load.svelte';
     import gsap from 'gsap';
     import {ScrollTrigger} from 'gsap/dist/ScrollTrigger';
+
+    let defaul = "rgba(100, 0, 200, 1)";
+    let omrf = "rgba(5, 175, 242, 1)";
+    let uco = "rgba(0, 57, 114, 1)";
+    let frc = "rgba(1, 123, 5, 1)";
+
+    let color =  defaul;
 
     onMount(() => {
 		gsap.registerPlugin(ScrollTrigger);
@@ -24,7 +32,7 @@
 		}
 	});
 </script>
-
+<Load />
 <Header />
 
 <div class="main">
@@ -57,10 +65,11 @@
             </div>
         </div>
     </div>
-    <div class="sect experience">
+    <div class="sect experience" style="--gradient-to: {color}">
         <h1>Experience</h1>
         <!-- Onhov to org colors -->
         <!-- Register domain on aws -->
+        <!-- svelte-ignore a11y-mouse-events-have-key-events -->
         <h2>Oklahoma Medical Research Foundation</h2>
         <p>
             Experimented with Transformer and Convolutional Machine Learning models in Python to 
@@ -83,6 +92,13 @@
         </p>
         
     </div>
+    <div class="sect const">
+        <h2>This website is still under construction</h2>
+        <p>Check out my socials to reach me or find more up-to-date info!</p>
+    </div>
+    <div class="social">
+
+    </div>
 </div>
 
 <style>
@@ -90,6 +106,11 @@
         background: rgb(31, 31, 46);
         height: 100vh;
         width: 100vw;
+    }
+
+    #g1045 {
+        stroke: white;
+        stroke-width: 0.02;
     }
 
     .hero {
@@ -151,7 +172,7 @@
 
     .experience {
         height: 120vh;
-        background: linear-gradient(180deg, rgb(31, 31, 46) 0%, rgba(100, 0, 200, 1) 100%);
+        background: linear-gradient(180deg, rgb(31, 31, 46) 0%, var(--gradient-to) 100%);
     }
 
 
@@ -186,6 +207,30 @@
         font-family: 'Gloock', 'serif' !important;
         padding-left: 1vw;
         height: 22vh;
+    }
+
+    .const {
+        display: flex;
+        flex-direction: column;
+        width: 100vw;
+        height: 10vh;
+        align-items: center;
+        align-content: center;
+        justify-items: center;
+        background-color: black;
+        padding: 0;
+        padding-bottom: 2vh;
+    } 
+    .const > h2 {
+        width: auto;
+       padding: 0;
+       padding-top: 2vh;
+       margin: 0;
+    }
+    .const > p {
+        width: auto;
+        padding: 0;
+        margin: 0;
     }
 
 </style>
