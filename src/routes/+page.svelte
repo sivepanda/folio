@@ -97,6 +97,21 @@
         <p>Check out my socials to reach me or find more up-to-date info!</p>
     </div>
     <div class="social">
+        <p>Siven Panda</p>
+        <div class="brandimgs">
+            <a href="https://github.com/sivepanda">
+                <i class="fa-brands fa-github"></i>
+            </a>
+            <a href="www.linkedin.com/in/sivenp">
+                <i class="fa-brands fa-linkedin"></i>
+            </a>
+            <a href="https://open.spotify.com/user/sivenpanda2005?si=db790b52f868409f">
+                <i class="fa-brands fa-spotify"></i>
+            </a>
+            <a href="https://github.com/sivepanda">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+        </div>
 
     </div>
 </div>
@@ -114,8 +129,6 @@
     }
 
     .hero {
-        background: linear-gradient(90deg, rgb(31, 31, 46) 60%, rgba(31, 31, 46, .4) 80%, rgba(0, 0, 0, 0)),
-            url('/images/DSC_7287.JPG');
         background-size: contain;
         background-repeat: no-repeat;
         background-position: right;
@@ -126,9 +139,51 @@
         padding-bottom: 0px;
         justify-content: center;
     }
+    
+    @media (max-aspect-ratio: 1/2) {
+        .hero {
+            background: linear-gradient(0deg, rgb(31, 31, 46) 00%, rgba(31, 31, 46, .4) 70%, rgba(0, 0, 0, 0.7)),
+                url('/images/DSC_7287.JPG');
+            background-position: center;
+            background-size: cover;
+            height: 100vh;
+        }
+
+        .hero > h2 {
+            font-size: 6vw;
+        }
+
+        p {
+            padding-right: 5vw;
+        }
+
+    }
+
+    @media (min-aspect-ratio: 1/2) {
+        .hero {
+            background: linear-gradient(90deg, rgb(31, 31, 46) 60%, rgba(31, 31, 46, .4) 80%, rgba(0, 0, 0, 0)),
+                url('/images/DSC_7287.JPG');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: right;
+        }
+
+        .hero > p {
+            width: 40vw;
+        }
+
+
+        .hero > h2 {
+            font-size: 2vw;
+        }
+
+        .sect> p {
+            width: 50vw;
+        }
+    }
 
     .hero > h1 {
-        font-size: 15vh;
+        font-size: 8vw;
         margin-bottom: 0vh;
         padding-bottom: 0vh;
     }
@@ -136,13 +191,11 @@
     .hero > h2 {
         font-family: 'Urbanist', 'sans-serif';
         font-weight: 450;
-        font-size: 5svh;
         margin-top: 1vh;
         margin-bottom: 2vh;
     }
 
     .hero > p {
-        width: 40vw;
         line-height: 1.5;
     }
 
@@ -153,13 +206,12 @@
     }
 
     .sect > h1 {
-        font-size: 15vh;
+        font-size: 8vw;
         margin-bottom: .5em;
         padding-bottom: 0;
     }
 
-    .sect> p {
-        width: 50vw;
+    .sect > p {
         font-size: 1.2em;
         line-height: 1.5;
         padding-top: 0px;
@@ -171,7 +223,8 @@
     }
 
     .experience {
-        height: 120vh;
+        padding-bottom: 20vh;
+        /* height: 120vh; */
         background: linear-gradient(180deg, rgb(31, 31, 46) 0%, var(--gradient-to) 100%);
     }
 
@@ -213,7 +266,6 @@
         display: flex;
         flex-direction: column;
         width: 100vw;
-        height: 10vh;
         align-items: center;
         align-content: center;
         justify-items: center;
@@ -223,14 +275,45 @@
     } 
     .const > h2 {
         width: auto;
-       padding: 0;
-       padding-top: 2vh;
-       margin: 0;
+        height: auto;
+        padding: 0;
+        padding-top: 2vh;
+        margin: 0;
     }
     .const > p {
         width: auto;
         padding: 0;
         margin: 0;
+        font-size: 2vw;
+    }
+
+    .social {
+        height: 5vh;
+        background-color: black;
+        border-top: 1px solid white;
+        padding-left: 2vw;
+        padding-right: 2vw;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .social > .brandimgs {
+        display: flex;
+        font-size: 2vh;
+        flex-direction: row;
+        gap: 1em;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .brandimgs > a {
+        color: white;
+    }
+
+    .brandimgs > .fa-brands:hover {
+        color: gray;
     }
 
 </style>

@@ -3,7 +3,7 @@
     version="1.1"
     id="svg179"
     width="90"
-    height="90"
+    height="63"
     viewBox="0 0 790.15509 553.80859"
     xmlns="http://www.w3.org/2000/svg">
     <g
@@ -31,6 +31,7 @@
     <div class="right">
         <a href="/">Home</a>
         <!-- <a href="/photography">Photography</a> -->
+         <div></div>
     </div>
 </div>
 
@@ -44,12 +45,13 @@
             rgba(0, 0, 0, 0)
         );
         backdrop-filter: blur(20px);
-        height: 12vh;
+        height: 10vh;
         width: 100vw;
         position: fixed;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        align-items: center;
     }
     #svg179 {
         padding-left: 2vw;
