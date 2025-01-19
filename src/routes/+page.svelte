@@ -99,16 +99,16 @@
     <div class="social">
         <p>Siven Panda</p>
         <div class="brandimgs">
-            <a href="https://github.com/sivepanda">
+            <a href="https://github.com/sivepanda" target="_blank">
                 <i class="fa-brands fa-github"></i>
             </a>
-            <a href="www.linkedin.com/in/sivenp">
+            <a href="https://www.linkedin.com/in/sivenp" target="_blank">
                 <i class="fa-brands fa-linkedin"></i>
             </a>
-            <a href="https://open.spotify.com/user/sivenpanda2005?si=db790b52f868409f">
+            <a href="https://open.spotify.com/user/sivenpanda2005?si=db790b52f868409f" target="_blank">
                 <i class="fa-brands fa-spotify"></i>
             </a>
-            <a href="https://github.com/sivepanda">
+            <a href="https://github.com/sivepanda" target="_blank">
                 <i class="fa-brands fa-instagram"></i>
             </a>
         </div>
