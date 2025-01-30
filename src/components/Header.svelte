@@ -30,7 +30,7 @@
     </svg>
     <div class="right">
         <a href="/">Home</a>
-        <!-- <a href="/photography">Photography</a> -->
+        <a href="/photography">Photography</a>
          <div></div>
     </div>
 </div>
@@ -53,6 +53,21 @@
         justify-content: space-between;
         align-items: center;
     }
+
+
+    @media (max-aspect-ratio: 1/2) {
+        .header {
+            width: calc(100vw - 4vw - 4vw);
+            padding-left: 4vw;
+            padding-right: 4vw;
+        }
+
+        #svg179 {
+            transfrom: scale(0.2, 0.2);
+        }
+    }
+
+
     #svg179 {
         padding-left: 2vw;
     }

@@ -3,8 +3,8 @@
     import anime from "animejs";
     import { onMount } from "svelte";
 
-    let visible = true;
-    $: visible;
+    let visible = $state(true);
+
 
     onMount(() => {
         let tl = anime.timeline({

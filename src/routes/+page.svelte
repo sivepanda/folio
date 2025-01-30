@@ -3,6 +3,7 @@
     import { browser } from '$app/environment';
     import Header from '../components/Header.svelte';
     import Load from '../components/Load.svelte';
+    import Footer from '../components/Footer.svelte';
     import gsap from 'gsap';
     import {ScrollTrigger} from 'gsap/dist/ScrollTrigger';
 
@@ -45,6 +46,7 @@
             health, education, or software development.
         </p>
     </div>
+
     <div class="sect dev">
         <h1>Development</h1>
         <p>
@@ -55,66 +57,59 @@
         <h2>Favorite/Frequent Languages and Tools</h2>
         <div class="langs">
             <div class="langbox">
+                <p>Next.js</p>
+                <p>React</p>
+                <p>Svelte</p>
                 <p>Java</p>
                 <p>Python</p>
                 <p>TypeScript</p>
-                <p>Svelte</p>
-                <p>Next.js</p>
+                <p>Golang</p>
                 <p>Huggingface</p>
                 <p>Rust</p>
             </div>
         </div>
     </div>
+
     <div class="sect experience" style="--gradient-to: {color}">
         <h1>Experience</h1>
         <!-- Onhov to org colors -->
         <!-- Register domain on aws -->
-        <!-- svelte-ignore a11y-mouse-events-have-key-events -->
+        <!-- svelte-ignore a11y_mouse_events_have_key_events -->
+        <h2>Duke University Dept. of Biostatics & Bioinformatics</h2>
+        <p>
+            Working with multi-omic and genetic sequence data to find associations in the genome. More to come!
+        </p>
         <h2>Oklahoma Medical Research Foundation</h2>
         <p>
             Experimented with Transformer and Convolutional Machine Learning models in Python to 
             determine the viability of a feature reduction model over an entire genomic track. Included 
             building custom tokenizers to convert research standard BED files into vectors.
         </p>
-
         <h2>University of Central Oklahoma</h2>
         <p>
             Utilized Large Language Models and text classifiers (OpenAI API and LangChain) to create a web
             resource for students to generate practice tests from a PDF of notes. Text classification via LangChain
             allowed for users to select a number of questions from particular generalized concepts generated from the notes.
         </p>
-        
-        <h2>FIRST Robotics Match Optimization</h2>
+    </div>
+
+    <div class="sect proj" style="--gradient-to: {color}">
+        <h1>Projects</h1>
+        <h2>FIRST Robotics Match Optimizer</h2>
         <p>
-            Built matchup optimizer utilizing Random Forest Classifiers and data pulled from official
-            FIRST APIs to train a Random Forest Classifier alongside Binary Classification to predict wins
-            to about an 85% accuracy rate. Included a Svelte frontend and visualization to inform match strategy.
+            Built matchup optimizer utilizing Random Forest Classifiers and data pulled from official FIRST APIs to train a Random Forest Classifier alongside Binary Classification to predict wins to about an 85% accuracy rate. Included a Svelte frontend and visualization to inform match strategy.
         </p>
+        <h2>roundify</h2>
+        <p>
+            Customized user interface for Firefox (via userchrome.css), includes integration that modifies the default homepage with the daily Astronomy Picture of the Day.
+        </p>
+        <h2>mtxmathtools</h2>
+        <p>CLI matrix computational tool I wrote to make doing linear algebra homework easier. Wrapped in a python package.</p>
         
     </div>
-    <div class="sect const">
-        <h2>This website is still under construction</h2>
-        <p>Check out my socials to reach me or find more up-to-date info!</p>
-    </div>
-    <div class="social">
-        <p>Siven Panda</p>
-        <div class="brandimgs">
-            <a href="https://github.com/sivepanda" target="_blank">
-                <i class="fa-brands fa-github"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/sivenp" target="_blank">
-                <i class="fa-brands fa-linkedin"></i>
-            </a>
-            <a href="https://open.spotify.com/user/sivenpanda2005?si=db790b52f868409f" target="_blank">
-                <i class="fa-brands fa-spotify"></i>
-            </a>
-            <a href="https://github.com/sivepanda" target="_blank">
-                <i class="fa-brands fa-instagram"></i>
-            </a>
-        </div>
+    <Footer />
 
     </div>
-</div>
 
 <style>
     .main {
@@ -146,6 +141,7 @@
                 url('/images/DSC_7287.JPG');
             background-position: center;
             background-size: cover;
+            background-repeat: no-repeat;
             height: 100vh;
         }
 
@@ -228,6 +224,12 @@
         background: linear-gradient(180deg, rgb(31, 31, 46) 0%, var(--gradient-to) 100%);
     }
 
+    .proj {
+        background: linear-gradient(180deg, var(--gradient-to) 0%, rgb(20, 0, 100) 100%);
+        height: 100vh;
+        padding-bottom: 5vh;
+    }
+
 
     .dev .langs {
         width: calc(100vw - 5vw - 5vw); 
@@ -287,33 +289,5 @@
         font-size: 2vw;
     }
 
-    .social {
-        height: 5vh;
-        background-color: black;
-        border-top: 1px solid white;
-        padding-left: 2vw;
-        padding-right: 2vw;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
-    .social > .brandimgs {
-        display: flex;
-        font-size: 2vh;
-        flex-direction: row;
-        gap: 1em;
-        height: 100%;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .brandimgs > a {
-        color: white;
-    }
-
-    .brandimgs > .fa-brands:hover {
-        color: gray;
-    }
 
 </style>
