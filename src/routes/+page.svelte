@@ -135,7 +135,7 @@
         justify-content: center;
     }
     
-    @media (max-aspect-ratio: 1/2) {
+    @media (max-aspect-ratio: 1) {
         .hero {
             background: linear-gradient(0deg, rgb(31, 31, 46) 00%, rgba(31, 31, 46, .4) 70%, rgba(0, 0, 0, 0.7)),
                 url('/images/DSC_7287.JPG');
@@ -155,7 +155,7 @@
 
     }
 
-    @media (min-aspect-ratio: 1/2) {
+    @media (min-aspect-ratio: 1) {
         .hero {
             background: linear-gradient(90deg, rgb(31, 31, 46) 60%, rgba(31, 31, 46, .4) 80%, rgba(0, 0, 0, 0)),
                 url('/images/DSC_7287.JPG');
