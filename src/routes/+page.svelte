@@ -1,5 +1,6 @@
 <script>
     import { onMount } from 'svelte';
+    import H1 from '../components/h1.svelte';
     import { browser } from '$app/environment';
     import Header from '../components/Header.svelte';
     import Load from '../components/Load.svelte';
@@ -50,7 +51,7 @@
     <div class="sect dev">
         <h1>Development</h1>
         <p>
-            I program in a number of languages and principles, from frontend and design to backend,
+            I program in a number of languages and with a broad range of principles, from frontend and design to backend,
             to simple scripts. Most of my work is done in Java and JS/TS, but I have worked
             extensively with Python, Rust, C, and C++
         </p>
@@ -95,6 +96,10 @@
 
     <div class="sect proj" style="--gradient-to: {color}">
         <h1>Projects</h1>
+        <h2>LARI</h2>
+        <p>EHR-integrated application that automates managing patient appointment scheduling (and rescheduling).</p>
+        <h2>Soundbits</h2>
+        <p>Architected, designed and built a social media application that allows users to share and send "bits" of sound that they come across in their daily life, and enable other uses to use them as a library of samples for them to use in their music productions.</p>
         <h2>FIRST Robotics Match Optimizer</h2>
         <p>
             Built matchup optimizer utilizing Random Forest Classifiers and data pulled from official FIRST APIs to train a Random Forest Classifier alongside Binary Classification to predict wins to about an 85% accuracy rate. Included a Svelte frontend and visualization to inform match strategy.
@@ -105,7 +110,6 @@
         </p>
         <h2>mtxmathtools</h2>
         <p>CLI matrix computational tool I wrote to make doing linear algebra homework easier. Wrapped in a python package.</p>
-        
     </div>
     <Footer />
 

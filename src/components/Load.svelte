@@ -1,35 +1,44 @@
 <script>
+    // @ts-ignore
     import Header from "./Header.svelte";
-    import anime from "animejs";
+    // import anime from "animejs";
+    import { createTimeline, svg, animate, stagger } from 'animejs';
     import { onMount } from "svelte";
 
     let visible = $state(true);
 
 
+
     onMount(() => {
-        let tl = anime.timeline({
-            easing: 'easeInOutExpo',
-            duration: 2000,
-        });
+        const [ drawable ] = svg.createDrawable('.pth')
+        console.log(drawable)
 
-        
-        // @ts-ignore
-        tl.add({
-            targets: "#g1045 .pth",
-            strokeDashoffset: [anime.setDashoffset, 0],
-            direction: 'alternate',
-            delay: function(/** @type {any} */ el, /** @type {number} */ i) { return i * 250 },
+        const anim = animate(drawable, {
+            draw: ['0 0', '0 1'],
+            ease: 'inOutExpo',
             duration: 1500,
-        });
+            delay: stagger(150)
+        })
 
-        //@ts-ignore
-        tl.add({
+        const tl = createTimeline({
+            // ease: 'inOutExpo',
+            duration: 2000,
+        // @ts-ignore
+        }).sync(anim).add({
+            targets: "#svg179",
+            scale: 0.7,
+            duration: 250,
+        // @ts-ignore
+        }, '-=100').add({
             targets: "#page",
             opacity: 0,
+            // scale: 0.7,
             duration: 500,
-            complete: (anim) => {visible = !anim}
+            // complete: (anim) => {visible = !anim}
 
-        })
+        }, '-=200')
+
+        tl.play();
     })
 </script>
 
@@ -38,6 +47,7 @@
     <svg
     version="1.1"
     id="svg179"
+    preserveAspectRatio="xMidyMid"
     width="790.15509"
     height="553.80859"
     viewBox="0 0 790.15509 553.80859"
@@ -46,7 +56,7 @@
         id="g185"
         transform="translate(-144.92244,-263.1002)">
         <g
-        id="g1045"
+        id="pth1045"
         transform="matrix(13.203648,0,0,13.203648,-95.525119,-65.780623)">
         <path
             d="M 18.926311,66.016776 V 41.358024 a 7.7587396,7.7587396 130.64145 0 1 6.582858,-7.669116 l 51.829597,-7.946871 v 11.034219 a 9.7936922,9.7936922 130.56116 0 1 -8.282277,9.676364 l -15.262956,2.384022 v 11.772617 z"
@@ -81,9 +91,10 @@
         overflow: hidden;
 
     }
-    #g1045 {
+    #pth1045 {
         fill: none;
         stroke: #fff;
         stroke-width: 1.43124;
     }
 </style>
+
