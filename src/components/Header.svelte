@@ -30,7 +30,9 @@
     </svg>
     <div class="right">
         <a href="/">Home</a>
-        <!-- <a href="/photography">Photography</a> -->
+        <a href="/#skills">Skills</a>
+        <a href="/#projects">Projects</a>
+        <a href="/photography">Photography</a>
          <div></div>
     </div>
 </div>

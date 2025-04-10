@@ -21,17 +21,27 @@
         })
 
         const tl = createTimeline({
-            ease: 'inOutExpo',
             duration: 2000,
         // @ts-ignore
-        }).sync(anim)
+        })
+        .add('#svg179', {
+            scale: 0.7,
+            duration: 1000 
+        },)
+        .sync(anim, '<<')
         .add('#page', {
             opacity: 0,
             // scale: 0.7,
             duration: 500,
+            ease: 'outCubic',
             // complete: (anim) => {visible = !anim}
 
         }, '-=200')
+        .add('#svg179', {
+            scale: 1,
+            ease: 'outCubic',
+            duration: 300 
+        }, '<<')
 
         tl.play();
         tl.then(() => {visible = false})

@@ -49,8 +49,8 @@
         </p>
     </div>
 
-    <div class="sect dev">
-        <h1>Development</h1>
+    <div id="skills" class="sect dev">
+        <h1>Skills</h1>
         <p>
             I program in a number of languages and with a broad range of principles, from frontend and design to backend,
             to simple scripts. Most of my work is done in Java and JS/TS, but I have worked
@@ -95,7 +95,7 @@
         </p>
     </div>
 
-    <div class="sect proj" style="--gradient-to: {color}">
+    <div id="projects" class="sect proj" style="--gradient-to: {color}">
         <h1>Projects</h1>
         <h2>LARI</h2>
         <p>EHR-integrated application that automates managing patient appointment scheduling (and rescheduling).</p>

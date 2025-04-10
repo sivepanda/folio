@@ -3,6 +3,7 @@
     import Header from "../../components/Header.svelte";
     import Footer from "../../components/Footer.svelte";
     import Player from "../../components/Player.svelte";
+    import H1 from "../../components/h1.svelte";
 </script>
 
 <Load />
@@ -12,6 +13,8 @@
 </div>
 <Player />
 
+
+<H1 />
 <Footer />
 
 <style>

@@ -7,9 +7,9 @@
 
 <svg viewBox="0 0 100 100">
   <text>
-    <textPath id="textPath" font-size={fontSize} style="stroke: {strokeColor}; --fillcol: {fillColor}">
-      {text}
-    </textPath>
+    <!-- <textPath id="textPath" style="stroke: {strokeColor}; --fillcol: {fillColor}"> -->
+      {text} hw
+    <!-- </textPath> -->
   </text>
 </svg>
 
