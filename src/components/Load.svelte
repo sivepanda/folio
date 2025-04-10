@@ -13,7 +13,7 @@
         const [ drawable ] = svg.createDrawable('.pth')
         console.log(drawable)
 
-        const anim = animate(drawable, {
+        const anim = animate(svg.createDrawable('.pth'), {
             draw: ['0 0', '0 1'],
             ease: 'inOutExpo',
             duration: 1500,
@@ -21,16 +21,11 @@
         })
 
         const tl = createTimeline({
-            // ease: 'inOutExpo',
+            ease: 'inOutExpo',
             duration: 2000,
         // @ts-ignore
-        }).sync(anim).add({
-            targets: "#svg179",
-            scale: 0.7,
-            duration: 250,
-        // @ts-ignore
-        }, '-=100').add({
-            targets: "#page",
+        }).sync(anim)
+        .add('#page', {
             opacity: 0,
             // scale: 0.7,
             duration: 500,
@@ -39,6 +34,7 @@
         }, '-=200')
 
         tl.play();
+        tl.then(() => {visible = false})
     })
 </script>
 

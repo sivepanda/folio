@@ -1,4 +1,5 @@
 <script>
+    // import Nokia from 'virtual:icons/cib/nokia'
     import { onMount } from 'svelte';
     import H1 from '../components/h1.svelte';
     import { browser } from '$app/environment';
