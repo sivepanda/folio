@@ -31,10 +31,8 @@
         .sync(anim, '<<')
         .add('#page', {
             opacity: 0,
-            // scale: 0.7,
             duration: 500,
             ease: 'outCubic',
-            // complete: (anim) => {visible = !anim}
 
         }, '-=200')
         .add('#svg179', {

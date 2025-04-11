@@ -1,13 +1,13 @@
 <script>
     // import Nokia from 'virtual:icons/cib/nokia'
     import { onMount } from 'svelte';
-    import H1 from '../components/h1.svelte';
     import { browser } from '$app/environment';
     import Header from '../components/Header.svelte';
     import Load from '../components/Load.svelte';
     import Footer from '../components/Footer.svelte';
     import gsap from 'gsap';
     import {ScrollTrigger} from 'gsap/dist/ScrollTrigger';
+    import Animbk from '../components/animbk.svelte';
 
     let defaul = "rgba(100, 0, 200, 1)";
     let omrf = "rgba(5, 175, 242, 1)";

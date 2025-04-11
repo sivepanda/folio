@@ -32,7 +32,7 @@
         <a href="/">Home</a>
         <a href="/#skills">Skills</a>
         <a href="/#projects">Projects</a>
-        <a href="/photography">Photography</a>
+        <!-- <a href="/photography">Photography</a> -->
          <div></div>
     </div>
 </div>
