@@ -500,6 +500,11 @@
             width: 70vw !important;
             margin-left: 5vw !important;
         }
+        .svgs > svg {
+            scale: 3 !important;
+            margin-right: 9vw !important;
+
+        }
     }
 
     @media (min-aspect-ratio: 1) {
@@ -663,8 +668,4 @@
         flex-wrap: wrap;
     }
 
-    .svgs > svg {
-        scale: 3;
-        margin-right: 9vw;
-    }
 </style>
