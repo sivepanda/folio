@@ -585,7 +585,7 @@
 
     .proj {
         background: linear-gradient(180deg, var(--gradient-to) 0%, rgb(20, 0, 100) 100%);
-        height: 100vh;
+        min-height: 100vh;
         padding-bottom: 15vh;
     }
 
