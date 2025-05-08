@@ -500,6 +500,11 @@
             width: 70vw !important;
             margin-left: 5vw !important;
         }
+        .svgs > svg {
+            scale: 3 !important;
+            margin-right: 9vw !important;
+
+        }
     }
 
     @media (min-aspect-ratio: 1) {
@@ -580,7 +585,7 @@
 
     .proj {
         background: linear-gradient(180deg, var(--gradient-to) 0%, rgb(20, 0, 100) 100%);
-        height: 100vh;
+        min-height: 100vh;
         padding-bottom: 15vh;
     }
 
@@ -663,8 +668,4 @@
         flex-wrap: wrap;
     }
 
-    .svgs > svg {
-        scale: 3;
-        margin-right: 9vw;
-    }
 </style>
