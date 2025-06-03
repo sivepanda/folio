@@ -11,10 +11,6 @@
     import { animate, engine, onScroll, stagger, svg } from 'animejs';
 
     let defaul = 'rgba(100, 0, 200, 1)';
-    let omrf = 'rgba(5, 175, 242, 1)';
-    let uco = 'rgba(0, 57, 114, 1)';
-    let frc = 'rgba(1, 123, 5, 1)';
-
     let color = defaul;
 
     onMount(() => {
@@ -43,11 +39,10 @@
 <div class="main">
     <div class="hero">
         <h1>Hey, I'm Siven!</h1>
-        <h2>I code, design, and take pictures sometimes</h2>
         <p>
-            I'm a computer science student at Duke University. My goal is to create software and
-            experiences that enable both equity and efficiency across many fields, whether it be
-            health, education, or software development.
+            I'm an computer engineering and computer science student at Duke University. I write
+            software and create systems to help people, whether it be in health, education, or
+            software development. I also take pictures sometimes.
         </p>
     </div>
 
@@ -55,8 +50,8 @@
         <h1>Skills</h1>
         <p>
             I program in a number of languages and with a broad range of principles, from frontend
-            and design to backend, to simple scripts. Most of my work is done in Java and JS/TS, but
-            I have worked extensively with Python, Rust, C, and C++
+            and design to backend, to simple scripts. Most of my work is done in Java and
+            TypeScript, but I have worked extensively with Go, Python, C, and C++
         </p>
         <h2>Favorite/Frequent Languages and Tools</h2>
         <div id="lan">
@@ -400,12 +395,13 @@
             determine the viability of a feature reduction model over an entire genomic track.
             Included building custom tokenizers to convert research standard BED files into vectors.
         </p>
-        <h2>University of Central Oklahoma</h2>
+        <h2>Red River Community Corps</h2>
         <p>
-            Utilized Large Language Models and text classifiers (OpenAI API and LangChain) to create
-            a web resource for students to generate practice tests from a PDF of notes. Text
-            classification via LangChain allowed for users to select a number of questions from
-            particular generalized concepts generated from the notes.
+            Designed and architected software for curriculum delivery systems alongside Slalom
+            Consulting, as well as contributed to an AWS Imagine Grant. Designed workflows for
+            student podcast and media creation, and custom software tools to automate these
+            processes utilizing tools such as ClickUp. Additionally built volunteer management tools
+            that linked external databases and volunteer management solutions.
         </p>
     </div>
 
@@ -415,6 +411,13 @@
         <p>
             EHR-integrated application that automates managing patient appointment scheduling (and
             rescheduling).
+        </p>
+        <h2>VeloceQuiz</h2>
+        <p>
+            Utilized Large Language Models and text classifiers (OpenAI API and LangChain) to create
+            a web resource for students to generate practice tests from a PDF of notes. Text
+            classification via LangChain allowed for users to select a number of questions from
+            particular generalized concepts generated from the notes.
         </p>
         <h2>Soundbits</h2>
         <p>
@@ -444,8 +447,71 @@
 </div>
 
 <style>
+    @media (max-aspect-ratio: 1) {
+        .hero {
+            background:
+                linear-gradient(
+                    0deg,
+                    rgb(11, 11, 26) 00%,
+                    rgba(11, 11, 26, 0.4) 70%,
+                    rgba(0, 0, 0, 0.7)
+                ),
+                url('/images/DSC_7287.JPG');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 100vh;
+        }
+
+        .hero h1 {
+            font-size: 9vw;
+        }
+
+        p {
+            font-size: 4vw;
+            text-align: center;
+        }
+
+        .sect {
+            height: auto !important;
+            padding-right: 5px;
+        }
+
+        .lb > .svgs {
+            width: 70vw !important;
+            margin-left: 5vw !important;
+        }
+        .svgs > svg {
+            scale: 3 !important;
+            margin-right: 9vw !important;
+        }
+    }
+
+    @media (min-aspect-ratio: 1) {
+        .hero {
+            /* background: url('/images/DSC_7287.JPG'); */
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .hero > p {
+            text-align: center;
+            width: 20vw;
+        }
+
+        .hero > h1 {
+            font-size: 3vw;
+            text-align: center;
+        }
+
+        .sect > p {
+            width: 50vw;
+        }
+    }
+
     .main {
-        background: rgb(31, 31, 46);
+        background: rgb(11, 11, 26);
         height: 100vh;
         width: 100vw;
         overflow-y: scroll;
@@ -457,106 +523,46 @@
     }
 
     .hero {
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: right;
+        background: url('/images/bkg.png');
+        background-size: cover;
         height: 100vh;
         display: flex;
         flex-direction: column;
-        padding-left: 5vw;
         padding-bottom: 0px;
         justify-content: center;
+        align-items: center;
+        animation: hue-backdrop 5s linear infinite;
     }
 
-    @media (max-aspect-ratio: 1) {
-        .hero {
-            background:
-                linear-gradient(
-                    0deg,
-                    rgb(31, 31, 46) 00%,
-                    rgba(31, 31, 46, 0.4) 70%,
-                    rgba(0, 0, 0, 0.7)
-                ),
-                url('/images/DSC_7287.JPG');
-            background-position: center;
-            background-size: cover;
-            background-repeat: no-repeat;
-            height: 100vh;
+    @keyframes hue-backdrop {
+        0% {
+            filter: hue-rotate(0deg);
         }
-
-        .hero > h2 {
-            font-size: 6vw;
+        50% {
+            filter: hue-rotate(40deg);
         }
-
-        p {
-            padding-right: 5vw;
+        100% {
+            filter: hue-rotate(0deg);
         }
-
-        .sect {
-            height: auto !important;
-        }
-
-        .lb > .svgs {
-            width: 70vw !important;
-            margin-left: 5vw !important;
-        }
-        .svgs > svg {
-            scale: 3 !important;
-            margin-right: 9vw !important;
-
-        }
-    }
-
-    @media (min-aspect-ratio: 1) {
-        .hero {
-            background:
-                linear-gradient(
-                    90deg,
-                    rgb(31, 31, 46) 60%,
-                    rgba(31, 31, 46, 0.4) 80%,
-                    rgba(0, 0, 0, 0)
-                ),
-                url('/images/DSC_7287.JPG');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: right;
-        }
-
-        .hero > p {
-            width: 40vw;
-        }
-
-        .hero > h2 {
-            font-size: 2vw;
-        }
-
-        .sect > p {
-            width: 50vw;
-        }
-
     }
 
     .hero > h1 {
-        font-size: 8vw;
         margin-bottom: 0vh;
         padding-bottom: 0vh;
     }
 
-    .hero > h2 {
-        font-family: 'Urbanist', 'sans-serif';
-        font-weight: 450;
-        margin-top: 1vh;
-        margin-bottom: 2vh;
-    }
-
     .hero > p {
         line-height: 1.5;
+        font-family: 'Mozilla Text';
+        font-weight: 300;
     }
 
     .sect {
         display: flex;
         flex-direction: column;
+        width: 90vw;
         padding-left: 5vw;
+        padding-right: 5vw;
     }
 
     .sect > h1 {
@@ -570,6 +576,7 @@
         line-height: 1.5;
         padding-top: 0px;
         margin-top: 0;
+        text-align: left;
     }
 
     .dev {
@@ -579,9 +586,8 @@
     .experience {
         padding-bottom: 20vh;
         /* height: 120vh; */
-        background: linear-gradient(180deg, rgb(31, 31, 46) 0%, var(--gradient-to) 100%);
+        background: linear-gradient(180deg, rgb(11, 11, 26) 0%, var(--gradient-to) 100%);
     }
-
 
     .proj {
         background: linear-gradient(180deg, var(--gradient-to) 0%, rgb(20, 0, 100) 100%);
@@ -622,7 +628,7 @@
     .dev .langbox > p {
         color: transparent;
         font-size: 5em;
-        font-family: 'Gloock', 'serif' !important;
+        font-family: 'Mozilla Text', 'monospace' !important;
         padding-left: 1vw;
         height: 22vh;
     }
@@ -667,5 +673,4 @@
         flex-direction: row;
         flex-wrap: wrap;
     }
-
 </style>

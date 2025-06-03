@@ -21,9 +21,10 @@
 
 <!-- {#if opened=='opened'} -->
 <div class="fullmnu" style="height: {hei}; padding-top: {pdg}">
-    <a href="/">Home</a>
-    <a href="/#skills">Skills</a>
-    <a href="/#projects">Projects</a>
+    <a href="/">cd /</a>
+    <a href="/#skills">cd /skills</a>
+    <a href="/#projects">cd /projects</a>
+    <a href="/photography">cd /photography</a>
 </div>
 
 <!-- {/if} -->
@@ -58,10 +59,10 @@
         </g>
     </svg>
     <div class="right">
-        <a href="/">Home</a>
-        <a href="/#skills">Skills</a>
-        <a href="/#projects">Projects</a>
-        <!-- <a href="/photography">Photography</a> -->
+        <a href="/">/</a>
+        <a href="/#skills">/skills</a>
+        <a href="/#projects">/projects</a>
+        <a href="/photography">/photography</a>
         <div></div>
     </div>
     <div class="mnuicon">
@@ -85,13 +86,9 @@
 <style>
     .fullmnu {
         position: absolute;
-        font-family: 'Urbanist', 'sans-serif';
+        font-family: 'Mozilla Headline', 'sans-serif';
         font-weight: 650;
-        background: linear-gradient(
-            rgba(31, 31, 46, 1),
-            rgba(31, 31, 46, 0.7) 50%,
-            rgba(0, 0, 0, 0)
-        );
+        background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0));
         backdrop-filter: blur(20px);
         width: 80vw;
         height: 0vh;
@@ -110,13 +107,9 @@
         padding-top: 5vh;
     }
     .header {
-        font-family: 'Urbanist', 'sans-serif';
+        font-family: 'Mozilla Headline', 'sans-serif';
         font-weight: 650;
-        background: linear-gradient(
-            rgba(31, 31, 46, 1),
-            rgba(31, 31, 46, 0.7) 50%,
-            rgba(0, 0, 0, 0)
-        );
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0));
         backdrop-filter: blur(20px);
         height: 10vh;
         width: 100vw;
