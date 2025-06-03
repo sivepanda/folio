@@ -531,6 +531,19 @@
         padding-bottom: 0px;
         justify-content: center;
         align-items: center;
+        animation: hue-backdrop 5s linear infinite;
+    }
+
+    @keyframes hue-backdrop {
+        0% {
+            filter: hue-rotate(0deg);
+        }
+        50% {
+            filter: hue-rotate(40deg);
+        }
+        100% {
+            filter: hue-rotate(0deg);
+        }
     }
 
     .hero > h1 {

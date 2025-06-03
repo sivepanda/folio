@@ -2,21 +2,15 @@
     import Load from '../../components/Load.svelte';
     import Header from '../../components/Header.svelte';
     import Footer from '../../components/Footer.svelte';
-    import { Gallery } from 'flowbite-svelte';
+    import MasonryGallery from '../../components/MasonryGallery.svelte';
 
-    const images1 = [
+    const images = [
         { src: '/images/imgfolio/DSC_3157.JPG' },
         { src: '/images/imgfolio/IMG_6097.jpg' },
-        { src: '/images/imgfolio/IMG_6098.jpg' }
-    ];
-
-    const images2 = [
+        { src: '/images/imgfolio/IMG_6098.jpg' },
         { src: '/images/imgfolio/IMG_6186.png' },
         { src: '/images/imgfolio/DSC_7764_FIN.JPG' },
-        { src: '/images/imgfolio/DSC_7782_FIN.png' }
-    ];
-
-    const images3 = [
+        { src: '/images/imgfolio/DSC_7782_FIN.png' },
         { src: '/images/imgfolio/IMG_6099.jpg' },
         { src: '/images/imgfolio/DSC_7777_FINAL.png' },
         { src: '/images/imgfolio/DSC_7778_FINAL.png' }
@@ -29,16 +23,19 @@
 <div class="top sect">
     <h1>Photography</h1>
 
-    <Gallery>
-        <Gallery items={images1} />
-        <Gallery items={images2} />
-        <Gallery items={images3} />
-    </Gallery>
+    <div class="im sect">
+        <MasonryGallery {images} />
+    </div>
 </div>
 
 <Footer />
 
 <style>
+    .im {
+        width: 90vw;
+        padding-left: 5vw;
+    }
+
     .top {
         margin-top: 10vh;
     }
@@ -49,6 +46,7 @@
     }
 
     .sect {
-        height: 100vh;
+        min-height: 100vh;
+        padding-bottom: 5vh;
     }
 </style>

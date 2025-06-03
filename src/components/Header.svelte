@@ -24,6 +24,7 @@
     <a href="/">cd /</a>
     <a href="/#skills">cd /skills</a>
     <a href="/#projects">cd /projects</a>
+    <a href="/photography">cd /photography</a>
 </div>
 
 <!-- {/if} -->
@@ -61,7 +62,7 @@
         <a href="/">/</a>
         <a href="/#skills">/skills</a>
         <a href="/#projects">/projects</a>
-        <!-- <a href="/photography">Photography</a> -->
+        <a href="/photography">/photography</a>
         <div></div>
     </div>
     <div class="mnuicon">
