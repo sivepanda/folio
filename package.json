@@ -32,7 +32,7 @@
     "dependencies": {
         "@fortawesome/free-regular-svg-icons": "^6.7.2",
         "animejs": "^4.0.1",
-        "flowbite": "^3.0.0",
+        "flowbite": "^3.1.2",
         "flowbite-svelte": "^0.47.4",
         "flowbite-svelte-icons": "^2.0.2",
         "gsap": "^3.12.5"
