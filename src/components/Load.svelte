@@ -8,6 +8,9 @@
     let visible = $state(true);
 
     onMount(() => {
+        // Add no-scroll class to body when component mounts
+        document.body.classList.add('no-scroll');
+
         const [drawable] = svg.createDrawable('.pth');
         console.log(drawable);
 
@@ -49,6 +52,8 @@
         tl.play();
         tl.then(() => {
             visible = false;
+            // Remove no-scroll class when loading is complete
+            document.body.classList.remove('no-scroll');
         });
     });
 </script>
@@ -88,6 +93,13 @@
 {/if}
 
 <style>
+    :global(.no-scroll) {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+    }
+
     #page {
         position: absolute;
         z-index: 9999;
