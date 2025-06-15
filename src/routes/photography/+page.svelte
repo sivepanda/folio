@@ -18,8 +18,6 @@
 </script>
 
 <Load />
-<Header />
-
 <div class="top sect">
     <h1>Photography</h1>
 
