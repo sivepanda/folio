@@ -45,7 +45,7 @@
             title: 'VeloceQuiz',
             description:
                 'Utilized Large Language Models and text classifiers (OpenAI API and LangChain) to create a web resource for students to generate practice tests from a PDF of notes. Text classification via LangChain allowed for users to select a number of questions from particular generalized concepts generated from the notes.',
-            link: null,
+            link: 'https://github.com/sivepanda/velocequiz',
             color: 'rgba(255, 0, 100, 0.1)'
         },
         {
