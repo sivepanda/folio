@@ -4,17 +4,20 @@
     import Footer from '../../components/Footer.svelte';
     import MasonryGallery from '../../components/MasonryGallery.svelte';
 
-    const images = [
-        { src: '/images/imgfolio/DSC_3157.JPG' },
-        { src: '/images/imgfolio/IMG_6097.jpg' },
-        { src: '/images/imgfolio/IMG_6098.jpg' },
-        { src: '/images/imgfolio/IMG_6186.png' },
-        { src: '/images/imgfolio/DSC_7764_FIN.JPG' },
-        { src: '/images/imgfolio/DSC_7782_FIN.png' },
-        { src: '/images/imgfolio/IMG_6099.jpg' },
-        { src: '/images/imgfolio/DSC_7777_FINAL.png' },
-        { src: '/images/imgfolio/DSC_7778_FINAL.png' }
-    ];
+    // Dynamically import all images from the imgfolio directory
+    const imageModules = import.meta.glob('/static/images/imgfolio/*.(jpg|jpeg|png|gif|webp|JPG|JPEG|PNG|GIF|WEBP)', { eager: true, as: 'url' });
+    
+    const images = Object.entries(imageModules).map(([path, url]) => {
+        // Extract filename from path for alt text
+        const filename = path.split('/').pop()?.replace(/\.[^/.]+$/, '') || '';
+        // Convert static path to public URL
+        const publicPath = path.replace('/static', '');
+        
+        return {
+            src: publicPath,
+            alt: filename.replace(/[_-]/g, ' ') // Convert underscores/dashes to spaces for cleaner alt text
+        };
+    });
 </script>
 
 <Load />

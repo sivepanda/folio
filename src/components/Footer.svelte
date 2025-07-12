@@ -1,22 +1,25 @@
 <div class="social">
     <p>Siven Panda</p>
     <div class="brandimgs">
-        <a href="https://github.com/sivepanda" target="_blank">
-            <i class="fa-brands fa-github"></i>
+        <a aria-label="GitHub" href="https://github.com/sivepanda" target="_blank">
+            <i class="ri-github-fill"></i>
         </a>
-        <a href="https://www.linkedin.com/in/sivenp" target="_blank">
-            <i class="fa-brands fa-linkedin"></i>
+        <a aria-label="LinkedIn" href="https://www.linkedin.com/in/sivenp" target="_blank">
+            <i class="ri-linkedin-fill"></i>
         </a>
-        <a href="https://open.spotify.com/user/sivenpanda2005?si=db790b52f868409f" target="_blank">
-            <i class="fa-brands fa-spotify"></i>
+        <a aria-label="Spotify" href="https://open.spotify.com/user/sivenpanda2005?si=db790b52f868409f" target="_blank">
+            <i class="ri-spotify-fill"></i>
         </a>
-        <a href="https://github.com/sivepanda" target="_blank">
-            <i class="fa-brands fa-instagram"></i>
-        </a>
+        <!-- <a aria-label="Instagram" href="https://github.com/sivepanda" target="_blank">
+            <i class="ri-instagram-fill"></i>
+        </a> -->
     </div>
 </div>
 
 <style>
+    a {
+        text-decoration: none;
+    }
     .social {
         height: 5vh;
         background-color: rgb(20, 0, 100);
@@ -43,7 +46,7 @@
         color: white;
     }
 
-    .brandimgs > .fa-brands:hover {
+    .brandimgs > a:hover {
         color: gray;
     }
 </style>

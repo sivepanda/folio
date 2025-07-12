@@ -9,9 +9,12 @@
     let scrollY = $derived(scrY);
 
     // Element references
-    let svgContainer;
-    let nameText;
-    let headerElement;
+    /** @type {SVGSVGElement | null} */
+    let svgContainer = null;
+    /** @type {HTMLSpanElement | null} */
+    let nameText = null;
+    /** @type {HTMLElement | null} */
+    let headerElement = null;
 
     // Animation state tracking
     let animationStarted = $state(false);
@@ -29,6 +32,12 @@
             pdg = '0vh';
         }
         console.log(opened);
+    }
+
+    function closeMenu() {
+        opened = 'closed';
+        hei = '0vh';
+        pdg = '0vh';
     }
 
     // Reactive effect for scroll-based animations
@@ -109,17 +118,21 @@
     function startTypingEffect() {
         const text = 'Siven Panda';
         let i = 0;
-        nameText.textContent = '';
+        if (nameText) {
+            nameText.textContent = '';
 
         const typeInterval = setInterval(() => {
             if (i < text.length) {
+                // @ts-ignore
                 nameText.textContent += text.charAt(i);
                 i++;
             } else {
                 clearInterval(typeInterval);
-                nameText.classList.add('typing-complete');
-            }
-        }, 80);
+                    // @ts-ignore
+                    nameText.classList.add('typing-complete');
+                }
+            }, 80);
+        }
     }
 
     onMount(() => {
@@ -138,11 +151,11 @@
 <!-- height="63" -->
 <!-- viewBox="0 0 790.15509 553.80859" -->
 <div class="fullmnu" style="height: {hei}; padding-top: {pdg}">
-    <a href="/">/</a>
-    <a href="/#skills">/skills</a>
-    <a href="/#experience">/experience</a>
-    <a href="/#projects">/projects</a>
-    <a href="/photography">/photography</a>
+    <a href="/" onclick={closeMenu}>/</a>
+    <a href="/#skills" onclick={closeMenu}>/skills</a>
+    <a href="/#experience" onclick={closeMenu}>/experience</a>
+    <a href="/#projects" onclick={closeMenu}>/projects</a>
+    <a href="/photography" onclick={closeMenu}>/photography</a>
 </div>
 
 <div class="header" bind:this={headerElement}>
@@ -245,6 +258,7 @@
         justify-content: space-between;
         align-items: center;
         z-index: 9998;
+        top:0;
         border-bottom: 1px solid rgba(100, 100, 100, 0.4);
     }
 
@@ -294,6 +308,10 @@
 
     @media (min-aspect-ratio: 1) {
         .mnuicon {
+            display: none !important;
+        }
+
+        .fullmnu {
             display: none !important;
         }
     }
