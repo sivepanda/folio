@@ -11,25 +11,45 @@
 
     const experiences = [
         {
-            title: 'Duke University Dept. of Biostatics & Bioinformatics',
+            title: 'Duke School of Medicine (B&B)',
             description:
-                'Working with multi-omic and genetic sequence data to find associations in the genome. More to come!',
+                'Working with multi-omic and genetic sequence data to find associations in the genome, as well as building pipelines to host and share data visualizations.',
             link: 'https://yi-zhang-compbio-lab.github.io/',
-            color: 'rgba(0, 59, 153, 0.5)'
+            color: 'rgba(0, 59, 153, 0.5)',
+            technologies: [
+                { name: 'Python', icon: 'fa-brands fa-python' },
+                { name: 'Git', icon: 'ri-git-branch-fill' },
+                { name: 'Data Visualization', icon: 'ri-window-fill' },
+                { name: 'Linux', icon: 'ri-qq-fill' }
+            ]
         },
         {
-            title: 'Oklahoma Medical Research Foundation',
+            title: 'Okla. Medical Research Foundation',
             description:
                 'Experimented with Transformer and Convolutional Machine Learning models in Python to determine the viability of a feature reduction model over an entire genomic track. Included building custom tokenizers to convert research standard BED files into vectors.',
             link: 'https://omrf.org',
-            color: 'rgba(100, 0, 255, 0.5)'
+            color: 'rgba(100, 0, 255, 0.5)',
+            technologies: [
+                { name: 'Python', icon: 'fa-brands fa-python' },
+                { name: 'Scikit-learn', icon: 'ri-bar-chart-fill' },
+                { name: 'NumPy', icon: 'ri-calculator-fill' },
+                { name: 'TensorFlow', icon: 'ri-brain-fill' },
+                { name: 'PyTorch', icon: 'ri-fire-fill' },
+                { name: 'Slurm', icon: 'ri-terminal-fill' },
+                { name: 'Git', icon: 'ri-git-branch-fill' }
+            ]
         },
         {
             title: 'Red River Community Corps',
             description:
                 'Designed and architected software for curriculum delivery systems alongside Slalom Consulting, as well as contributed to an AWS Imagine Grant. Designed workflows for student podcast and media creation, and custom software tools to automate these processes utilizing tools such as ClickUp. Additionally built volunteer management tools that linked external databases and volunteer management solutions.',
             link: 'https://rrccok.org',
-            color: 'rgba(150, 0, 0, 0.5)'
+            color: 'rgba(150, 0, 0, 0.5)',
+            technologies: [
+                { name: 'AWS', icon: 'ri-amazon-fill' },
+                { name: 'JavaScript', icon: 'ri-javascript-fill' },
+                { name: 'Node.js', icon: 'ri-nodejs-fill' },
+            ]
         }
     ];
 
@@ -37,51 +57,95 @@
         {
             title: 'LARI',
             description:
-                'EHR-integrated application that automates managing patient appointment scheduling (and rescheduling).',
+                'EHR-integrated application that automates managing patient appointment scheduling (and rescheduling). Built to scale with Go, React, and Next.js using modularized.',
             link: 'https://github.com/lari-health',
-            color: 'rgba(100, 0, 255, 0.3)'
+            color: 'rgba(100, 0, 255, 0.3)',
+            technologies: [
+                { name: 'React', icon: 'ri-reactjs-fill' },
+                { name: 'Go', icon: 'fa-brands fa-golang' },
+                { name: 'Next.js', icon: 'ri-nextjs-fill' },
+                { name: 'FHIR', icon: 'ri-heart-fill' },
+                { name: 'REST API', icon: 'ri-plug-fill' }
+            ]
         },
         {
             title: 'VeloceQuiz',
             description:
                 'Utilized Large Language Models and text classifiers (OpenAI API and LangChain) to create a web resource for students to generate practice tests from a PDF of notes. Text classification via LangChain allowed for users to select a number of questions from particular generalized concepts generated from the notes.',
             link: 'https://github.com/sivepanda/velocequiz',
-            color: 'rgba(255, 0, 100, 0.1)'
+            color: 'rgba(255, 0, 100, 0.1)',
+            technologies: [
+                { name: 'Python', icon: 'fa-brands fa-python' },
+                { name: 'OpenAI', icon: 'ri-brain-fill' },
+                { name: 'Svelte', icon: 'ri-svelte-fill' },
+                { name: 'LangChain', icon: 'ri-links-fill' },
+                { name: 'Flask', icon: 'ri-flask-fill' },
+                { name: 'JavaScript', icon: 'ri-javascript-fill' }
+            ]
         },
         {
             title: 'Soundbits',
             description:
                 "Architected, designed and built a social media application that allows users to share and send 'bits' of sound that they come across in their daily life, and enable other uses to use them as a library of samples for them to use in their music productions.",
             link: 'https://github.com/sivepanda/soundbits',
-            color: 'rgba(255, 0, 200, 0.5)'
+            color: 'rgba(255, 0, 200, 0.5)',
+            technologies: [
+                { name: 'React', icon: 'ri-reactjs-fill' },
+                { name: 'Node.js', icon: 'ri-nodejs-fill' },
+                { name: 'MySQL', icon: 'ri-database-fill' },
+                { name: 'AWS', icon: 'ri-amazon-fill' },
+                { name: 'API', icon: 'ri-plug-fill' }
+            ]
         },
         {
             title: 'Retrograde',
             description:
-                "Built and designed a fully functional and reactive website using solely HTML, CSS, and JavaScript. This includes a sales flow, auth (admittedly only saving data locally for lack of access to a more full fledged auth and databasing solution), and components using HTML injection. From my high school years!",
-            link: 'https://github.com/sivepanda/tsawebmaster23',
-            color: 'rgba(205, 0, 250, 0.5)'
+                'Built and designed a fully functional and reactive website using solely HTML, CSS, and JavaScript. This includes a sales flow, auth (admittedly only saving data locally for lack of access to a more full fledged auth and databasing solution), and components using HTML injection. From my high school years!',
+            link: 'https://retrograde.sivenpanda.com',
+            color: 'rgba(205, 0, 250, 0.5)',
+            technologies: [
+                { name: 'HTML5', icon: 'ri-html5-fill' },
+                { name: 'CSS3', icon: 'ri-css3-fill' },
+                { name: 'JavaScript', icon: 'ri-javascript-fill' },
+                { name: 'Local Storage', icon: 'ri-save-fill' }
+            ]
         },
         {
             title: 'FIRST Robotics Match Optimizer',
             description:
                 'Built matchup optimizer utilizing Random Forest Classifiers and data pulled from official FIRST APIs to train a Random Forest Classifier alongside Binary Classification to predict wins to about an 85% accuracy rate. Included a Svelte frontend and visualization to inform match strategy.',
             link: 'https://github.com/2Ahmad5/scoutviz-calc',
-            color: 'rgba(0, 255, 0, 0.1)'
+            color: 'rgba(0, 255, 0, 0.1)',
+            technologies: [
+                { name: 'Python', icon: 'ri-python-fill' },
+                { name: 'Scikit-learn', icon: 'ri-bar-chart-fill' },
+                { name: 'Svelte', icon: 'ri-svelte-fill' },
+                { name: 'Data Viz', icon: 'ri-pie-chart-fill' },
+                { name: 'API', icon: 'ri-plug-fill' }
+            ]
         },
         {
             title: 'roundify',
             description:
                 'Customized user interface for Firefox (via userchrome.css), includes integration that modifies the default homepage with the daily Astronomy Picture of the Day.',
             link: 'https://github.com/sivepanda/roundify',
-            color: 'rgba(255, 255, 0, 0.1)'
+            color: 'rgba(255, 255, 0, 0.1)',
+            technologies: [
+                { name: 'CSS3', icon: 'ri-css3-fill' },
+                { name: 'Firefox', icon: 'ri-firefox-fill' },
+                { name: 'API', icon: 'ri-plug-fill' }
+            ]
         },
         {
             title: 'mtxmathtools',
             description:
                 'CLI matrix computational tool I wrote to make doing linear algebra homework easier. Wrapped in a python package.',
             link: 'https://github.com/sivepanda/mtxmathtools',
-            color: 'rgba(255, 100, 255, 0.1)'
+            color: 'rgba(255, 100, 255, 0.1)',
+            technologies: [
+                { name: 'Python', icon: 'fa-brands fa-python' },
+                { name: 'CLI', icon: 'ri-terminal-fill' },
+            ]
         }
     ];
 
@@ -96,7 +160,7 @@
             repeat: false,
             autoplay: onScroll({
                 target: '#lan',
-                container: '.main'
+                // container: '.main'
             })
         });
     });
@@ -108,9 +172,9 @@
 <div class="hero">
     <h1>Hey, I'm Siven!</h1>
     <p>
-        I'm an computer engineering and computer science student at Duke University. I write
-        software and create systems to help people, whether it be in health, education, or software
-        development. I also take pictures sometimes.
+        I'm a computer engineering and computer science student at Duke University. I write software
+        and create systems to help people, whether it be in health, education, or software
+        development. I also take pictures sometimes. Check those out too!
     </p>
 </div>
 
@@ -464,6 +528,7 @@
                 description={exp.description}
                 link={exp.link}
                 color={exp.color}
+                technologies={exp.technologies}
             />
         {/each}
     </div>
@@ -478,6 +543,7 @@
                 description={proj.description}
                 link={proj.link}
                 color={proj.color}
+                technologies={proj.technologies}
             />
         {/each}
     </div>
@@ -485,12 +551,6 @@
 <Footer />
 
 <style>
-    .main {
-        height: 100vh;
-        width: 100vw;
-        overflow-y: scroll;
-    }
-
     .hero {
         background: url('/images/bkg.png');
         background-size: cover;
@@ -549,10 +609,7 @@
         text-align: left;
     }
 
-
     .experience {
-        padding-bottom: 20vh;
-        /* height: 120vh; */
         background: linear-gradient(180deg, rgb(11, 11, 26) 0%, var(--gradient-to) 100%);
     }
 
@@ -568,6 +625,7 @@
     }
 
     .tooltip {
+        font-family: 'Mozilla Text';
         position: absolute;
         bottom: 100%;
         left: 50%;
@@ -611,12 +669,12 @@
 
     .experience-list,
     .projects-list {
-        display: flex;
-        justify-content: space-between;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 5%;
-        margin: 2rem 0;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(500px, 100%), 1fr));
+        gap: 20px;
+        justify-content: space-around;
+        margin: 0px 0px;
     }
 
     @media (max-width: 768px) {
@@ -633,7 +691,8 @@
 
         .sect {
             width: 95vw;
-            padding: 0 2.5vw;
+            padding-left: 2.5vw;
+            padding-right: 2.5vw;
         }
 
         .sect > h1 {
@@ -667,7 +726,8 @@
 
         .sect {
             width: 85vw;
-            padding: 0 7.5vw;
+            padding-left: 7.5vw;
+            padding-right: 7.5vw;
         }
 
         .sect > h1 {
@@ -687,7 +747,8 @@
 
         .sect {
             width: 80vw;
-            padding: 0 10vw;
+            padding-left: 10vw;
+            padding-right: 10vw;
         }
 
         .sect > h1 {

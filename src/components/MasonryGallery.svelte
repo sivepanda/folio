@@ -34,19 +34,22 @@
 
 <div class="masonry" style="--columns: {columns};">
     {#each images as image}
+        <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
         <img 
             src={image.src} 
             alt={image.alt} 
             loading="lazy" 
-            on:click={() => openLightbox(image)}
+            tabindex="0"
+            onclick={() => openLightbox(image)}
+            onkeydown={(e) => e.key === 'Enter' && openLightbox(image)}
             class="gallery-image"
         />
     {/each}
 </div>
 
 {#if selectedImage}
-    <div class="lightbox-backdrop" class:open={isLightboxOpen} on:click={closeLightbox}>
-        <div class="lightbox-content" on:click={handleContentClick}>
+    <div class="lightbox-backdrop" class:open={isLightboxOpen} onclick={closeLightbox}>
+        <div class="lightbox-content" onclick={handleContentClick}>
             <img src={selectedImage.src} alt={selectedImage.alt} />
         </div>
     </div>
@@ -56,6 +59,28 @@
     .masonry {
         column-count: var(--columns);
         column-gap: 12px;
+    }
+
+    @media (max-width: 768px) {
+        .masonry {
+            column-count: 2;
+            column-gap: 10px;
+        }
+        
+        .gallery-image {
+            margin-bottom: 10px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .masonry {
+            column-count: 1;
+            column-gap: 8px;
+        }
+        
+        .gallery-image {
+            margin-bottom: 8px;
+        }
     }
 
     .gallery-image {
@@ -73,7 +98,6 @@
         transform: scale(1.02);
     }
 
-    /* Lightbox styles */
     .lightbox-backdrop {
         position: fixed;
         top: 0;
@@ -96,6 +120,7 @@
 
     .lightbox-content {
         transform: scale(0.9);
+        padding-top: 5vh;
         transition: transform 0.3s ease;
     }
 
