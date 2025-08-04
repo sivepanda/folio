@@ -3,10 +3,12 @@
     import { browser } from '$app/environment';
     import Header from '../components/Header.svelte';
     import Load from '../components/Load.svelte';
+    import NowPlayingWidget from '../components/NowPlayingWidget.svelte';
     import gsap from 'gsap';
     import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
     import { animate, engine, onScroll, stagger, svg } from 'animejs';
 
+    const { children } = $props();
     let scrY = $state(0);
 </script>
 
@@ -14,4 +16,6 @@
 
 <Header {scrY} />
 
-<slot /> 
+{@render children?.()}
+
+<NowPlayingWidget /> 
