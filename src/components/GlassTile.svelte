@@ -18,7 +18,7 @@
     {#if link}
         <a class="tile-link" href={link} target="_blank" rel="noopener noreferrer">
             <h2>
-                <span class="visit-text">&dollar;&nbsp;cd</span>
+                <span class="visit-text">&gt;</span>
                 <span class="title-text">{title}</span>
             </h2>
         </a>
