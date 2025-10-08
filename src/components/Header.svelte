@@ -19,9 +19,10 @@
     // Animation state tracking
     let animationStarted = $state(false);
     let typingStarted = $state(false);
+    /** @type {number | null} */
+    let typingInterval = null;
 
     function toggleOpened() {
-        console.log('test');
         if (opened === 'closed') {
             opened = 'opened';
             hei = '90vh';
@@ -93,6 +94,12 @@
                 animationStarted = false;
                 typingStarted = false;
 
+                // Clear typing interval if running
+                if (typingInterval) {
+                    clearInterval(typingInterval);
+                    typingInterval = null;
+                }
+
                 gsap.to(svgContainer, {
                     x: 0,
                     duration: 0.3,
@@ -116,20 +123,31 @@
     });
 
     function startTypingEffect() {
+        // Clear any existing interval first
+        if (typingInterval) {
+            clearInterval(typingInterval);
+            typingInterval = null;
+        }
+
         const text = 'Siven Panda';
         let i = 0;
         if (nameText) {
             nameText.textContent = '';
 
-        const typeInterval = setInterval(() => {
-            if (i < text.length) {
-                // @ts-ignore
-                nameText.textContent += text.charAt(i);
-                i++;
-            } else {
-                clearInterval(typeInterval);
+            typingInterval = setInterval(() => {
+                if (i < text.length && nameText) {
                     // @ts-ignore
-                    nameText.classList.add('typing-complete');
+                    nameText.textContent += text.charAt(i);
+                    i++;
+                } else {
+                    if (typingInterval) {
+                        clearInterval(typingInterval);
+                        typingInterval = null;
+                    }
+                    // @ts-ignore
+                    if (nameText) {
+                        nameText.classList.add('typing-complete');
+                    }
                 }
             }, 80);
         }
@@ -258,7 +276,7 @@
         justify-content: space-between;
         align-items: center;
         z-index: 9998;
-        top:0;
+        top: 0;
         border-bottom: 1px solid rgba(100, 100, 100, 0.4);
     }
 
@@ -339,7 +357,6 @@
 
     .mnuicon {
         scale: 0.8;
-
     }
 
     #svgcontain {

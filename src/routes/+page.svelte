@@ -11,6 +11,20 @@
 
     const experiences = [
         {
+            title: 'Duke Office of Information Technology',
+            description:
+                'Developing and maintaining internal university systems and (systems, applications, etc)',
+            link: 'https://oit.duke.edu/',
+            color: 'rgba(0, 59, 153, 0.5)',
+            technologies: [
+                { name: 'Next.js', icon: 'fa-brands fa-nextjs-fill' },
+                { name: 'React', icon: 'ri-reactjs-fill' },
+                { name: 'MongoDB', icon: 'ri-leaf-fill' },
+                { name: 'Docker', icon: 'fa-brands fa-docker' },
+                { name: 'Git', icon: 'ri-git-branch-fill' }
+            ]
+        },
+        {
             title: 'Duke School of Medicine (B&B)',
             description:
                 'Working with multi-omic and genetic sequence data to find associations in the genome, as well as building pipelines to host and share data visualizations.',
@@ -42,13 +56,13 @@
         {
             title: 'Red River Community Corps',
             description:
-                'Designed and architected software for curriculum delivery systems alongside Slalom Consulting, as well as contributed to an AWS Imagine Grant. Designed workflows for student podcast and media creation, and custom software tools to automate these processes utilizing tools such as ClickUp. Additionally built volunteer management tools that linked external databases and volunteer management solutions.',
+                'Designed and architected software for curriculum delivery systems alongside Slalom Consulting. Designed workflows for student podcast and media creation, and custom software tools to automate and connect common volunteer and database management processes utilizing tools such as ClickUp.',
             link: 'https://rrccok.org',
             color: 'rgba(150, 0, 0, 0.5)',
             technologies: [
                 { name: 'AWS', icon: 'ri-amazon-fill' },
                 { name: 'JavaScript', icon: 'ri-javascript-fill' },
-                { name: 'Node.js', icon: 'ri-nodejs-fill' },
+                { name: 'Node.js', icon: 'ri-nodejs-fill' }
             ]
         }
     ];
@@ -144,7 +158,7 @@
             color: 'rgba(255, 100, 255, 0.1)',
             technologies: [
                 { name: 'Python', icon: 'fa-brands fa-python' },
-                { name: 'CLI', icon: 'ri-terminal-fill' },
+                { name: 'CLI', icon: 'ri-terminal-fill' }
             ]
         }
     ];
@@ -159,7 +173,7 @@
             delay: stagger(50),
             repeat: false,
             autoplay: onScroll({
-                target: '#lan',
+                target: '#lan'
                 // container: '.main'
             })
         });

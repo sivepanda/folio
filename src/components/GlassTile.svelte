@@ -1,47 +1,71 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    
+
     export let title: string;
     export let description: string;
     export let link: string | null = null;
     export let color: string = 'rgba(255, 255, 255, 0.1)';
-    export let technologies: Array<{name: string, icon: string}> = [];
+    export let technologies: Array<{ name: string; icon: string }> = [];
 
     let mounted = false;
+    let mouseX = 50;
+    let mouseY = 50;
+
+    function handleMouseMove(e: MouseEvent) {
+        const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+        mouseX = ((e.clientX - rect.left) / rect.width) * 100;
+        mouseY = ((e.clientY - rect.top) / rect.height) * 100;
+    }
 
     onMount(() => {
         mounted = true;
     });
 </script>
 
-<div class="glass-tile" style="--tile-color: {color}">
-    {#if link}
-        <a class="tile-link" href={link} target="_blank" rel="noopener noreferrer">
-            <h2>
-                <span class="visit-text">&gt;</span>
-                <span class="title-text">{title}</span>
-            </h2>
-        </a>
-    {:else}
-        <h2 class="tile-link no-link">
-            {title}
-        </h2>
-    {/if}
-    <p>{description}</p>
-    
-    {#if technologies.length > 0}
-        <div class="tech-footer">
-            <div class="tech-icons">
-                {#each technologies as tech}
-                    <div class="tech-icon-container">
-                        <i class={tech.icon} aria-label={tech.name}></i>
-                        <div class="tech-tooltip">{tech.name}</div>
-                    </div>
-                {/each}
+{#if link}
+    <a
+        class="glass-tile"
+        style="--tile-color: {color}; --mouse-x: {mouseX}%; --mouse-y: {mouseY}%;"
+        href={link}
+        target="_blank"
+        rel="noopener noreferrer"
+        on:mousemove={handleMouseMove}
+    >
+        <h2>{title}</h2>
+        <p>{description}</p>
+
+        {#if technologies.length > 0}
+            <div class="tech-footer">
+                <div class="tech-icons">
+                    {#each technologies as tech}
+                        <div class="tech-icon-container">
+                            <i class={tech.icon} aria-label={tech.name}></i>
+                            <div class="tech-tooltip">{tech.name}</div>
+                        </div>
+                    {/each}
+                </div>
             </div>
-        </div>
-    {/if}
-</div>
+        {/if}
+    </a>
+{:else}
+    <div class="glass-tile" style="--tile-color: {color}">
+        <h2>{title}</h2>
+        <p>{description}</p>
+
+        {#if technologies.length > 0}
+            <div class="tech-footer">
+                <div class="tech-icons">
+                    {#each technologies as tech}
+                        <div class="tech-icon-container">
+                            <i class={tech.icon} aria-label={tech.name}></i>
+                            <div class="tech-tooltip">{tech.name}</div>
+                        </div>
+                    {/each}
+                </div>
+            </div>
+        {/if}
+    </div>
+{/if}
 
 <style>
     .glass-tile {
@@ -59,6 +83,25 @@
         position: relative;
         overflow: hidden;
         min-height: 250px;
+        text-decoration: none;
+        color: rgb(219, 219, 219);
+        transition:
+            box-shadow 0.3s ease,
+            border-color 0.3s ease;
+        cursor: default;
+    }
+
+    a.glass-tile {
+        cursor: pointer;
+    }
+
+    a.glass-tile:hover,
+    a.glass-tile:focus {
+        border-color: rgba(255, 255, 255, 0.5);
+        box-shadow:
+            0 8px 32px 0 rgba(31, 38, 135, 0.18),
+            0 0 0 3px rgba(255, 255, 255, 0.1),
+            0 0 20px rgba(255, 255, 255, 0.15);
     }
 
     .glass-tile::before {
@@ -76,6 +119,28 @@
         );
         pointer-events: none;
         z-index: 1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    a.glass-tile::before {
+        opacity: 1;
+    }
+
+    a.glass-tile:hover::before {
+        background:
+            radial-gradient(
+                circle 900px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(255, 255, 255, 0.05) 40%,
+                transparent 80%
+            ),
+            linear-gradient(
+                135deg,
+                var(--tile-color, rgba(255, 255, 255, 0.1)) 0%,
+                rgba(255, 255, 255, 0.05) 25%,
+                rgba(255, 255, 255, 0) 40%
+            );
     }
 
     .glass-tile::after {
@@ -154,7 +219,10 @@
         white-space: nowrap;
         opacity: 0;
         visibility: hidden;
-        transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+        transition:
+            opacity 0.3s,
+            visibility 0.3s,
+            transform 0.3s;
         pointer-events: none;
         z-index: 1000;
         margin-bottom: 8px;
@@ -176,55 +244,6 @@
         opacity: 1;
         visibility: visible;
         transform: translateX(-50%) translateY(0);
-    }
-
-    .tile-link {
-        color: rgb(219, 219, 219);
-        text-decoration: none;
-        display: inline-block;
-        position: relative;
-    }
-
-    .visit-text {
-        opacity: 0;
-        max-width: 0em;
-        max-height: 0em;
-        display: inline-block;
-        padding: 0;
-        white-space: nowrap;
-        transition: 0.8s ease-in;
-        margin-right: 0;
-    }
-
-    .title-text {
-        transition: transform 0.8s ease;
-        color: inherit;
-        display: inline-block;
-    }
-
-    .tile-link:hover .visit-text,
-    .tile-link:focus .visit-text {
-        color: rgba(255,255,255,1);
-        opacity: 1;
-        max-height: 10em;
-        max-width: 20em;
-        transition: 0.8s ease-in-out;
-    }
-
-    .tile-link:hover .title-text,
-    .tile-link:focus .title-text {
-        color: rgba(255,255,255,1);
-        transition: 0.8s ease-in-out;
-        transform: translateX(0);
-    }
-
-    .tile-link h2 {
-        display: inline;
-        cursor: pointer;
-    }
-
-    .tile-link.no-link {
-        cursor: default;
     }
 
     @media (max-width: 768px) {
@@ -249,4 +268,5 @@
             font-size: 1.25rem;
         }
     }
-</style> 
+</style>
+

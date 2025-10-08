@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { dev } from '$app/environment';
+
     interface Image {
         src: string;
         alt: string;
@@ -12,6 +14,15 @@
 
     let selectedImage = $state<Image | null>(null);
     let isLightboxOpen = $state(false);
+
+    function getOptimizedUrl(src: string, width: number, quality: number): string {
+        if (dev) {
+            // In development, use original images
+            return src;
+        }
+        // In production on Vercel, use image optimization
+        return `/_vercel/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality}`;
+    }
 
     function openLightbox(image: Image) {
         selectedImage = image;
@@ -35,10 +46,10 @@
 <div class="masonry" style="--columns: {columns};">
     {#each images as image}
         <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-        <img 
-            src={image.src} 
-            alt={image.alt} 
-            loading="lazy" 
+        <img
+            src={getOptimizedUrl(image.src, 600, 60)}
+            alt={image.alt}
+            loading="lazy"
             tabindex="0"
             onclick={() => openLightbox(image)}
             onkeydown={(e) => e.key === 'Enter' && openLightbox(image)}
@@ -50,7 +61,10 @@
 {#if selectedImage}
     <div class="lightbox-backdrop" class:open={isLightboxOpen} onclick={closeLightbox}>
         <div class="lightbox-content" onclick={handleContentClick}>
-            <img src={selectedImage.src} alt={selectedImage.alt} />
+            <img
+                src={getOptimizedUrl(selectedImage.src, 1920, 85)}
+                alt={selectedImage.alt}
+            />
         </div>
     </div>
 {/if}
