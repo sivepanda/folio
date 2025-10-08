@@ -1,12 +1,17 @@
 <script lang="ts">
     import { dev } from '$app/environment';
+    import { optimize } from '$lib/image';
 
     interface Image {
         src: string;
         alt: string;
     }
 
-    let { images = [], columns = 3, lightbox = true } = $props<{
+    let {
+        images = [],
+        columns = 3,
+        lightbox = true
+    } = $props<{
         images?: Image[];
         columns?: number;
         lightbox?: boolean;
@@ -14,15 +19,6 @@
 
     let selectedImage = $state<Image | null>(null);
     let isLightboxOpen = $state(false);
-
-    function getOptimizedUrl(src: string, width: number, quality: number): string {
-        if (dev) {
-            // In development, use original images
-            return src;
-        }
-        // In production on Vercel, use image optimization
-        return `/_vercel/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality}`;
-    }
 
     function openLightbox(image: Image) {
         selectedImage = image;
@@ -47,7 +43,7 @@
     {#each images as image}
         <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
         <img
-            src={getOptimizedUrl(image.src, 600, 60)}
+            srcset={optimize(image.src)}
             alt={image.alt}
             loading="lazy"
             tabindex="0"
@@ -61,10 +57,7 @@
 {#if selectedImage}
     <div class="lightbox-backdrop" class:open={isLightboxOpen} onclick={closeLightbox}>
         <div class="lightbox-content" onclick={handleContentClick}>
-            <img
-                src={getOptimizedUrl(selectedImage.src, 1920, 85)}
-                alt={selectedImage.alt}
-            />
+            <img srcset={optimize(selectedImage.src)} alt={selectedImage.alt} />
         </div>
     </div>
 {/if}
@@ -80,7 +73,7 @@
             column-count: 2;
             column-gap: 10px;
         }
-        
+
         .gallery-image {
             margin-bottom: 10px;
         }
@@ -91,7 +84,7 @@
             column-count: 1;
             column-gap: 8px;
         }
-        
+
         .gallery-image {
             margin-bottom: 8px;
         }
