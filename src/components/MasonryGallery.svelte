@@ -57,7 +57,7 @@
 {#if selectedImage}
     <div class="lightbox-backdrop" class:open={isLightboxOpen} onclick={closeLightbox}>
         <div class="lightbox-content" onclick={handleContentClick}>
-            <img srcset={optimize(selectedImage.src)} alt={selectedImage.alt} />
+            <img src={selectedImage.src} alt={selectedImage.alt} />
         </div>
     </div>
 {/if}
