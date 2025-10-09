@@ -170,9 +170,9 @@
 <!-- viewBox="0 0 790.15509 553.80859" -->
 <div class="fullmnu" style="height: {hei}; padding-top: {pdg}">
     <a href="/" onclick={closeMenu}>/</a>
-    <a href="/#skills" onclick={closeMenu}>/skills</a>
-    <a href="/#experience" onclick={closeMenu}>/experience</a>
-    <a href="/#projects" onclick={closeMenu}>/projects</a>
+    <a href="/skills" onclick={closeMenu}>/skills</a>
+    <a href="/experience" onclick={closeMenu}>/experience</a>
+    <a href="/projects" onclick={closeMenu}>/projects</a>
     <a href="/photography" onclick={closeMenu}>/photography</a>
 </div>
 
@@ -213,9 +213,9 @@
 
     <div class="right">
         <a href="/">/</a>
-        <a href="/#skills">/skills</a>
-        <a href="/#experience">/experience</a>
-        <a href="/#projects">/projects</a>
+        <a href="/skills">/skills</a>
+        <a href="/experience">/experience</a>
+        <a href="/projects">/projects</a>
         <a href="/photography">/photography</a>
         <div></div>
     </div>

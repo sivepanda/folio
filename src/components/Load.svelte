@@ -54,6 +54,15 @@
             visible = false;
             // Remove no-scroll class when loading is complete
             document.body.classList.remove('no-scroll');
+
+            // Handle path-based scrolling after animation
+            const path = window.location.pathname.slice(1); // Remove leading slash
+            if (path && path !== '') {
+                const target = document.getElementById(path);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
         });
     });
 </script>
