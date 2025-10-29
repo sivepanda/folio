@@ -13,7 +13,7 @@
         {
             title: 'Duke Office of Information Technology',
             description:
-                'Developing and maintaining internal university systems and (systems, applications, etc)',
+                'Deploying feature updates and bug fixes for internal university services including attendance tracking systems. Engineering and maintaining backend integrations with core university infrastructure including REST APIs, authentication systems, and databases. Implementing improvements based on user feedback to increase adoption and real-world usage.',
             link: 'https://oit.duke.edu/',
             color: 'rgba(0, 59, 153, 0.5)',
             technologies: [
@@ -27,7 +27,7 @@
         {
             title: 'Duke School of Medicine (B&B)',
             description:
-                'Working with multi-omic and genetic sequence data to find associations in the genome, as well as building pipelines to host and share data visualizations.',
+                'Created internal data preparation tools and accelerated data visualization pipelines to improve research workflows. Developed documentation for remote hosting of visualization applications handling large datasets. Focused on enabling better data sharing and collaboration within the research team.',
             link: 'https://yi-zhang-compbio-lab.github.io/',
             color: 'rgba(0, 59, 153, 0.5)',
             technologies: [
@@ -38,9 +38,21 @@
             ]
         },
         {
+            title: 'Red River Community Corps',
+            description:
+                'Built a cloud-based platform as the founding engineer to deliver learning modules across schools, standardizing instruction. Implemented automated synchronization between the learning platform and task-management systems to streamline onboarding. Developed a centralized database system with automated pipelines to manage clients and volunteers.',
+            link: 'https://rrccok.org',
+            color: 'rgba(150, 0, 0, 0.5)',
+            technologies: [
+                { name: 'AWS', icon: 'ri-amazon-fill' },
+                { name: 'JavaScript', icon: 'ri-javascript-fill' },
+                { name: 'Node.js', icon: 'ri-nodejs-fill' }
+            ]
+        },
+        {
             title: 'Okla. Medical Research Foundation',
             description:
-                'Experimented with Transformer and Convolutional Machine Learning models in Python to determine the viability of a feature reduction model over an entire genomic track. Included building custom tokenizers to convert research standard BED files into vectors.',
+                'Led evaluation and performance testing of neural networks for genomic dataset feature reduction to improve associativity detection. Optimized large-scale genomic computations using parallel processing techniques on HPC clusters. Engineered a generalized data-processing pipeline as a Python package to streamline machine learning dataset creation.',
             link: 'https://omrf.org',
             color: 'rgba(100, 0, 255, 0.5)',
             technologies: [
@@ -51,18 +63,6 @@
                 { name: 'PyTorch', icon: 'ri-fire-fill' },
                 { name: 'Slurm', icon: 'ri-terminal-fill' },
                 { name: 'Git', icon: 'ri-git-branch-fill' }
-            ]
-        },
-        {
-            title: 'Red River Community Corps',
-            description:
-                'Designed and architected software for curriculum delivery systems alongside Slalom Consulting. Designed workflows for student podcast and media creation, and custom software tools to automate and connect common volunteer and database management processes utilizing tools such as ClickUp.',
-            link: 'https://rrccok.org',
-            color: 'rgba(150, 0, 0, 0.5)',
-            technologies: [
-                { name: 'AWS', icon: 'ri-amazon-fill' },
-                { name: 'JavaScript', icon: 'ri-javascript-fill' },
-                { name: 'Node.js', icon: 'ri-nodejs-fill' }
             ]
         }
     ];
