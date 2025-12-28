@@ -13,7 +13,7 @@
         {
             title: 'Duke Office of Information Technology',
             description:
-                'Deploying feature updates and bug fixes for internal university services including attendance tracking systems. Engineering and maintaining backend integrations with core university infrastructure including REST APIs, authentication systems, and databases. Implementing improvements based on user feedback to increase adoption and real-world usage.',
+                'Internal university services and maintaining backend integrations with core university infrastructure including REST APIs, authentication systems, and databases.',
             link: 'https://oit.duke.edu/',
             color: 'rgba(0, 59, 153, 0.5)',
             technologies: [
@@ -27,7 +27,7 @@
         {
             title: 'Duke School of Medicine (B&B)',
             description:
-                'Created internal data preparation tools and accelerated data visualization pipelines to improve research workflows. Developed documentation for remote hosting of visualization applications handling large datasets. Focused on enabling better data sharing and collaboration within the research team.',
+                'Created internal data preparation tools and data visualization pipelines to improve research workflows.',
             link: 'https://yi-zhang-compbio-lab.github.io/',
             color: 'rgba(0, 59, 153, 0.5)',
             technologies: [
@@ -40,7 +40,7 @@
         {
             title: 'Red River Community Corps',
             description:
-                'Built a cloud-based platform as the founding engineer to deliver learning modules across schools, standardizing instruction. Implemented automated synchronization between the learning platform and task-management systems to streamline onboarding. Developed a centralized database system with automated pipelines to manage clients and volunteers.',
+                'Built a cloud-based platform as the founding engineer to deliver learning modules across schools, standardizing instruction, and built systems to streamline client and volunteer onboarding.',
             link: 'https://rrccok.org',
             color: 'rgba(150, 0, 0, 0.5)',
             technologies: [
@@ -52,7 +52,7 @@
         {
             title: 'Okla. Medical Research Foundation',
             description:
-                'Led evaluation and performance testing of neural networks for genomic dataset feature reduction to improve associativity detection. Optimized large-scale genomic computations using parallel processing techniques on HPC clusters. Engineered a generalized data-processing pipeline as a Python package to streamline machine learning dataset creation.',
+                'Led evaluation and performance testing of neural networks for large-scale genomic dataset feature reduction to improve associativity detection.',
             link: 'https://omrf.org',
             color: 'rgba(100, 0, 255, 0.5)',
             technologies: [
@@ -83,9 +83,23 @@
             ]
         },
         {
+            title: 'Soundbits',
+            description:
+                "Social media application that enables users to easily make and share short sound recordings for music producers to use in their music.",
+            link: 'https://github.com/sivepanda/soundbits',
+            color: 'rgba(255, 0, 200, 0.5)',
+            technologies: [
+                { name: 'React', icon: 'ri-reactjs-fill' },
+                { name: 'Node.js', icon: 'ri-nodejs-fill' },
+                { name: 'MySQL', icon: 'ri-database-fill' },
+                { name: 'AWS', icon: 'ri-amazon-fill' },
+                { name: 'API', icon: 'ri-plug-fill' }
+            ]
+        },
+        {
             title: 'VeloceQuiz',
             description:
-                'Utilized Large Language Models and text classifiers (OpenAI API and LangChain) to create a web resource for students to generate practice tests from a PDF of notes. Text classification via LangChain allowed for users to select a number of questions from particular generalized concepts generated from the notes.',
+                'Web resource for students to generate practice tests from a PDF of notes with text classification to detect generalized concepts to customize generated quizzes.',
             link: 'https://github.com/sivepanda/velocequiz',
             color: 'rgba(255, 0, 100, 0.1)',
             technologies: [
@@ -98,23 +112,9 @@
             ]
         },
         {
-            title: 'Soundbits',
-            description:
-                "Architected, designed and built a social media application that allows users to share and send 'bits' of sound that they come across in their daily life, and enable other uses to use them as a library of samples for them to use in their music productions.",
-            link: 'https://github.com/sivepanda/soundbits',
-            color: 'rgba(255, 0, 200, 0.5)',
-            technologies: [
-                { name: 'React', icon: 'ri-reactjs-fill' },
-                { name: 'Node.js', icon: 'ri-nodejs-fill' },
-                { name: 'MySQL', icon: 'ri-database-fill' },
-                { name: 'AWS', icon: 'ri-amazon-fill' },
-                { name: 'API', icon: 'ri-plug-fill' }
-            ]
-        },
-        {
             title: 'Retrograde',
             description:
-                'Built and designed a fully functional and reactive website using solely HTML, CSS, and JavaScript. This includes a sales flow, auth (admittedly only saving data locally for lack of access to a more full fledged auth and databasing solution), and components using HTML injection. From my high school years!',
+                'Fully functional and reactive website using solely HTML, CSS, and JavaScript. From my high school years!',
             link: 'https://retrograde.sivenpanda.com',
             color: 'rgba(205, 0, 250, 0.5)',
             technologies: [
@@ -127,7 +127,7 @@
         {
             title: 'FIRST Robotics Match Optimizer',
             description:
-                'Built matchup optimizer utilizing Random Forest Classifiers and data pulled from official FIRST APIs to train a Random Forest Classifier alongside Binary Classification to predict wins to about an 85% accuracy rate. Included a Svelte frontend and visualization to inform match strategy.',
+                'Matchup optimizer using data pulled from official FIRST APIs to train a classifiers to predict wins to about an 85% accuracy rate. Included visualizations to inform match strategy.',
             link: 'https://github.com/2Ahmad5/scoutviz-calc',
             color: 'rgba(0, 255, 0, 0.1)',
             technologies: [
