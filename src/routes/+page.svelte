@@ -598,6 +598,7 @@
         line-height: 1.5;
         font-family: 'Mozilla Text';
         font-weight: 300;
+        font-size: var(--p-size);
     }
 
     .sect {
@@ -616,7 +617,7 @@
     }
 
     .sect > p {
-        font-size: 1.2em;
+        font-size: var(--p-size);
         line-height: 1.5;
         padding-top: 0px;
         margin-top: 0;
@@ -698,7 +699,6 @@
         }
 
         .hero p {
-            font-size: 1rem;
             width: 90% !important;
             text-align: center;
         }
@@ -720,7 +720,7 @@
         }
 
         .hero p {
-            font-size: 0.9rem;
+            font-size: var(--p-size);
         }
 
         .sect > h1 {
@@ -734,7 +734,6 @@
         }
 
         .hero p {
-            font-size: 1.1rem;
             width: 60% !important;
         }
 
@@ -755,7 +754,6 @@
         }
 
         .hero p {
-            font-size: 1.2rem;
             width: 40% !important;
         }
 
@@ -776,7 +774,7 @@
         }
 
         p {
-            font-size: 4vw;
+            font-size: clamp(1em, 4vw, 4vw);
         }
 
         .sect {

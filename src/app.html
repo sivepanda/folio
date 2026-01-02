@@ -46,6 +46,9 @@
         font-weight: 125 950;
     }
 
+    :root {
+        --p-size: clamp(1em, 0.7vw + 0.4rem, 1.1em);
+    }
 
     h1,
     h2,
@@ -56,6 +59,7 @@
     p {
         font-family: 'Mozilla Text', 'sans-serif';
         font-weight: 250;
+        font-size: var(--p-size);
     }
 </style>
 <script src="https://kit.fontawesome.com/07f5345973.js" crossorigin="anonymous"></script>

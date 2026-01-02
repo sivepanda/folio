@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "post-pull": [
+    {
+      "command": "bun install",
+      "working_dir": "",
+      "description": "Install Bun dependencies"
+    }
+  ],
+  "post-checkout": [
+    {
+      "command": "bun install",
+      "working_dir": "",
+      "description": "Install Bun dependencies"
+    }
+  ]
+}

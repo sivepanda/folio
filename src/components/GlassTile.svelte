@@ -71,7 +71,7 @@
     .glass-tile {
         background: rgba(255, 255, 255, 0.15);
         width: calc(100% - 5rem);
-        border-radius: 1.5rem;
+        border-radius: 1rem;
         box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
@@ -82,7 +82,6 @@
         justify-content: space-between;
         position: relative;
         overflow: hidden;
-        min-height: 250px;
         text-decoration: none;
         color: rgb(219, 219, 219);
         transition:
@@ -167,13 +166,13 @@
 
     .glass-tile h2 {
         margin: 0 0 0.5rem 0;
-        font-size: 2rem;
-        line-height: 2;
+        font-size: 1.7rem;
+        line-height: 1.3;
     }
 
     .glass-tile p {
         margin: 0;
-        font-size: 1.1rem;
+        font-size: var(--p-size);
         line-height: 2;
         flex-grow: 1;
     }
@@ -249,7 +248,6 @@
     @media (max-width: 768px) {
         .glass-tile {
             padding: 1.5rem;
-            min-height: 220px;
         }
 
         .glass-tile h2 {
@@ -257,7 +255,7 @@
         }
 
         .glass-tile p {
-            font-size: 1rem;
+            font-size: var(--p-size);
         }
 
         .tech-icons {
@@ -269,4 +267,3 @@
         }
     }
 </style>
-

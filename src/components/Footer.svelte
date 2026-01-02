@@ -1,5 +1,5 @@
 <div class="social">
-    <p>Siven Panda</p>
+    <p class="name">Siven Panda</p>
     <div class="brandimgs">
         <a aria-label="GitHub" href="https://github.com/sivepanda" target="_blank">
             <i class="ri-github-fill"></i>
@@ -21,15 +21,15 @@
         text-decoration: none;
     }
     .social {
-        height: 5vh;
-        background-color: rgb(20, 0, 100);
-        border-top: 1px solid white;
-        padding-left: 2vw;
-        padding-right: 2vw;
-        padding-bottom: 1vh;
+        min-height: 8vh;
+        background: rgb(11, 11, 26);
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 2vh 5vw;
         display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 0.6rem;
     }
 
     .social > .brandimgs {
@@ -39,7 +39,21 @@
         gap: 1em;
         height: 100%;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
+        line-height: 1;
+    }
+
+    .name {
+        font-size: 3rem;
+        letter-spacing: 0.02em;
+        line-height: 1;
+        margin: 0;
+        font-weight: 650;
+    }
+
+    .brandimgs > a {
+        display: flex;
+        align-items: center;
     }
 
     .brandimgs > a {
