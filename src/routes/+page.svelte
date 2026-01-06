@@ -4,7 +4,10 @@
     import Footer from '../components/Footer.svelte';
     import GlassTile from '../components/GlassTile.svelte';
     import { animate, engine, onScroll, stagger, svg } from 'animejs';
-
+    import { dev } from '$app/environment';
+    import { injectAnalytics } from '@vercel/analytics/sveltekit';
+     
+    injectAnalytics({ mode: dev ? 'development' : 'production' });
     let scrY = $state(0);
 
     let defaul = 'rgba(100, 0, 200, 1)';
