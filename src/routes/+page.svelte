@@ -3,6 +3,7 @@
     import Load from '../components/Load.svelte';
     import Footer from '../components/Footer.svelte';
     import GlassTile from '../components/GlassTile.svelte';
+    import Banner from '../components/Banner.svelte';
     import { animate, engine, onScroll, stagger, svg } from 'animejs';
 
     let scrY = $state(0);
@@ -85,7 +86,7 @@
         {
             title: 'Soundbits',
             description:
-                "Social media application that enables users to easily make and share short sound recordings for music producers to use in their music.",
+                'Social media application that enables users to easily make and share short sound recordings for music producers to use in their music.',
             link: 'https://github.com/sivepanda/soundbits',
             color: 'rgba(255, 0, 200, 0.5)',
             technologies: [
@@ -183,6 +184,7 @@
 <svelte:window bind:scrollY={scrY} />
 
 <Load />
+<Banner />
 <div class="hero">
     <h1>Hey, I'm Siven!</h1>
     <p>
