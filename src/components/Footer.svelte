@@ -1,18 +1,22 @@
 <div class="social">
-    <p class="name">Siven Panda</p>
+    <p class="name">//Siven Panda</p>
     <div class="brandimgs">
+        <a aria-label="Email" href="mailto:siven.panda@duke.edu" target="_blank">
+            <i class="fa-solid fa-envelope"></i>
+        </a>
         <a aria-label="GitHub" href="https://github.com/sivepanda" target="_blank">
             <i class="ri-github-fill"></i>
         </a>
         <a aria-label="LinkedIn" href="https://www.linkedin.com/in/sivenp" target="_blank">
             <i class="ri-linkedin-fill"></i>
         </a>
-        <a aria-label="Spotify" href="https://open.spotify.com/user/sivenpanda2005?si=db790b52f868409f" target="_blank">
+        <a
+            aria-label="Spotify"
+            href="https://open.spotify.com/user/sivenpanda2005?si=db790b52f868409f"
+            target="_blank"
+        >
             <i class="ri-spotify-fill"></i>
         </a>
-        <!-- <a aria-label="Instagram" href="https://github.com/sivepanda" target="_blank">
-            <i class="ri-instagram-fill"></i>
-        </a> -->
     </div>
 </div>
 
@@ -44,7 +48,7 @@
     }
 
     .name {
-        font-size: 3rem;
+        font-size: 2rem;
         letter-spacing: 0.02em;
         line-height: 1;
         margin: 0;
