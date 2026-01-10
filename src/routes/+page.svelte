@@ -6,7 +6,7 @@
     import { animate, engine, onScroll, stagger, svg } from 'animejs';
     import { dev } from '$app/environment';
     import { injectAnalytics } from '@vercel/analytics/sveltekit';
-     
+
     injectAnalytics({ mode: dev ? 'development' : 'production' });
     let scrY = $state(0);
 
@@ -18,7 +18,7 @@
             description:
                 'Internal university services and maintaining backend integrations with core university infrastructure including REST APIs, authentication systems, and databases.',
             link: 'https://oit.duke.edu/',
-            color: 'rgba(0, 59, 153, 0.5)',
+            color: 'rgba(0, 59, 153, 1)',
             technologies: [
                 { name: 'Next.js', icon: 'fa-brands fa-nextjs-fill' },
                 { name: 'React', icon: 'ri-reactjs-fill' },
@@ -32,7 +32,7 @@
             description:
                 'Created internal data preparation tools and data visualization pipelines to improve research workflows.',
             link: 'https://yi-zhang-compbio-lab.github.io/',
-            color: 'rgba(0, 59, 153, 0.5)',
+            color: 'rgba(0, 59, 153, 1)',
             technologies: [
                 { name: 'Python', icon: 'fa-brands fa-python' },
                 { name: 'Git', icon: 'ri-git-branch-fill' },
@@ -45,7 +45,7 @@
             description:
                 'Built a cloud-based platform as the founding engineer to deliver learning modules across schools, standardizing instruction, and built systems to streamline client and volunteer onboarding.',
             link: 'https://rrccok.org',
-            color: 'rgba(150, 0, 0, 0.5)',
+            color: 'rgba(150, 0, 0, 1)',
             technologies: [
                 { name: 'AWS', icon: 'ri-amazon-fill' },
                 { name: 'JavaScript', icon: 'ri-javascript-fill' },
@@ -57,7 +57,7 @@
             description:
                 'Led evaluation and performance testing of neural networks for large-scale genomic dataset feature reduction to improve associativity detection.',
             link: 'https://omrf.org',
-            color: 'rgba(100, 0, 255, 0.5)',
+            color: 'rgba(100, 0, 255, 1)',
             technologies: [
                 { name: 'Python', icon: 'fa-brands fa-python' },
                 { name: 'Scikit-learn', icon: 'ri-bar-chart-fill' },
@@ -72,11 +72,38 @@
 
     const projects = [
         {
+            title: 'Carya',
+            description:
+                'Visual TUI to supercharge your Git experience. Includes a compenent to autodetect changes in a package manager and suggest installing these changes on pull or checkout, and a diff selection tool to compose commits.',
+            link: 'https://github.com/sivepanda/carya',
+            color: 'rgba(200, 0, 255, 1)',
+            technologies: [
+                { name: 'Go', icon: 'fa-brands fa-golang' },
+                { name: 'Bubble Tea', icon: 'ri-drinks-fill' },
+                { name: 'Git', icon: 'ri-git-branch-fill' },
+                { name: 'TUI', icon: 'ri-terminal-window-fill' }
+            ]
+        },
+
+        {
+            title: 'Teabag',
+            description:
+                'Moves Linux AppImages to a central directory and adds a symlink entry to your app drawer.',
+            link: 'https://github.com/sivepanda/teabag',
+            color: 'rgba(255, 0, 50, 1)',
+            technologies: [
+                { name: 'Go', icon: 'fa-brands fa-golang' },
+                { name: 'Bubble Tea', icon: 'ri-drinks-fill' },
+                { name: 'AppImage', icon: 'ri-apps-2-fill' },
+                { name: 'Linux', icon: 'ri-qq-fill' }
+            ]
+        },
+        {
             title: 'LARI',
             description:
                 'EHR-integrated application that automates managing patient appointment scheduling (and rescheduling). Built to scale with Go, React, and Next.js using a scalable modularized architecture.',
             link: 'https://github.com/lari-health',
-            color: 'rgba(100, 0, 255, 0.3)',
+            color: 'rgba(100, 0, 255, 1)',
             technologies: [
                 { name: 'React', icon: 'ri-reactjs-fill' },
                 { name: 'Go', icon: 'fa-brands fa-golang' },
@@ -88,9 +115,9 @@
         {
             title: 'Soundbits',
             description:
-                "Social media application that enables users to easily make and share short sound recordings for music producers to use in their music.",
+                'Social media application that enables users to easily make and share short sound recordings for music producers to use in their music.',
             link: 'https://github.com/sivepanda/soundbits',
-            color: 'rgba(255, 0, 200, 0.5)',
+            color: 'rgba(255, 0, 200, 1)',
             technologies: [
                 { name: 'React', icon: 'ri-reactjs-fill' },
                 { name: 'Node.js', icon: 'ri-nodejs-fill' },
@@ -104,7 +131,7 @@
             description:
                 'Web resource for students to generate practice tests from a PDF of notes with text classification to detect generalized concepts to customize generated quizzes.',
             link: 'https://github.com/sivepanda/velocequiz',
-            color: 'rgba(255, 0, 100, 0.1)',
+            color: 'rgba(255, 0, 100, 1)',
             technologies: [
                 { name: 'Python', icon: 'fa-brands fa-python' },
                 { name: 'OpenAI', icon: 'ri-brain-fill' },
@@ -119,7 +146,7 @@
             description:
                 'Fully functional and reactive website using solely HTML, CSS, and JavaScript. From my high school years!',
             link: 'https://retrograde.sivenpanda.com',
-            color: 'rgba(205, 0, 250, 0.5)',
+            color: 'rgba(205, 0, 250, 1)',
             technologies: [
                 { name: 'HTML5', icon: 'ri-html5-fill' },
                 { name: 'CSS3', icon: 'ri-css3-fill' },
@@ -132,7 +159,7 @@
             description:
                 'Matchup optimizer using data pulled from official FIRST APIs to train a classifiers to predict wins to about an 85% accuracy rate. Included visualizations to inform match strategy.',
             link: 'https://github.com/2Ahmad5/scoutviz-calc',
-            color: 'rgba(0, 255, 0, 0.1)',
+            color: 'rgba(0, 255, 0, 1)',
             technologies: [
                 { name: 'Python', icon: 'ri-python-fill' },
                 { name: 'Scikit-learn', icon: 'ri-bar-chart-fill' },
@@ -146,7 +173,7 @@
             description:
                 'Customized user interface for Firefox (via userchrome.css), includes integration that modifies the default homepage with the daily Astronomy Picture of the Day.',
             link: 'https://github.com/sivepanda/roundify',
-            color: 'rgba(255, 255, 0, 0.1)',
+            color: 'rgba(255, 255, 0, 1)',
             technologies: [
                 { name: 'CSS3', icon: 'ri-css3-fill' },
                 { name: 'Firefox', icon: 'ri-firefox-fill' },
@@ -158,7 +185,7 @@
             description:
                 'CLI matrix computational tool I wrote to make doing linear algebra homework easier. Wrapped in a python package.',
             link: 'https://github.com/sivepanda/mtxmathtools',
-            color: 'rgba(255, 100, 255, 0.1)',
+            color: 'rgba(255, 100, 255, 1)',
             technologies: [
                 { name: 'Python', icon: 'fa-brands fa-python' },
                 { name: 'CLI', icon: 'ri-terminal-fill' }

@@ -96,24 +96,23 @@
         cursor: pointer;
     }
 
-    a.glass-tile:hover,
-    a.glass-tile:focus {
-        border-color: rgba(255, 255, 255, 0.5);
-        box-shadow:
-            0 8px 32px 0 rgba(31, 38, 135, 0.18),
-            0 24px 70px -40px var(--tile-color, rgba(255, 255, 255, 0.25)),
-            0 0 0 3px rgba(255, 255, 255, 0.1),
-            0 0 20px rgba(255, 255, 255, 0.15);
-    }
-
+    /* a.glass-tile:hover, */
+    /* a.glass-tile:focus { */
+    /*     box-shadow: */
+    /*         0 10px 40px rgba(31, 38, 135, 0.35), */
+    /*         0 30px 80px -10px var(--tile-color, rgba(255, 255, 255, 0.35)), */
+    /*         0 0 0 3px rgba(255, 255, 255, 0.2), */
+    /*         0 0 24px rgba(255, 255, 255, 0.25); */
+    /* } */
+    /**/
     @supports (color: hsl(from white h s l / 1)) {
         a.glass-tile:hover,
         a.glass-tile:focus {
             box-shadow:
-                0 8px 32px 0 rgba(31, 38, 135, 0.18),
-                0 24px 70px -40px hsl(from var(--tile-color) h s calc(l + 12%) / 0.35),
-                0 0 0 3px rgba(255, 255, 255, 0.1),
-                0 0 20px rgba(255, 255, 255, 0.15);
+                0 10px 40px rgba(31, 38, 135, 0.4),
+                0 36px 90px -6px hsl(from var(--tile-color) h s calc(l + 12%) / 1),
+                0 0 0 3px rgba(255, 255, 255, 0.35),
+                0 0 32px rgba(255, 255, 255, 0.35);
         }
     }
 

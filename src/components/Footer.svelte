@@ -1,5 +1,5 @@
 <div class="social">
-    <p class="name">//Siven Panda</p>
+    <p class="name">//maybesivenpanda</p>
     <div class="brandimgs">
         <a aria-label="Email" href="mailto:siven.panda@duke.edu" target="_blank">
             <i class="fa-solid fa-envelope"></i>
