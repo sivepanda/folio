@@ -233,15 +233,20 @@
 
     @media (max-width: 768px) {
         .glass-tile {
-            padding: 1.5rem;
+            width: 85%;
+            max-width: 280px;
+            padding: 1.25rem;
+            margin: 0 auto;
         }
 
         .glass-tile h2 {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
+            margin-bottom: 0.4rem;
         }
 
         .glass-tile p {
-            font-size: var(--p-size);
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
 
         .tech-icons {
@@ -249,7 +254,12 @@
         }
 
         .tech-icon-container i {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
+        }
+
+        .tech-footer {
+            margin-top: 1rem;
+            padding-top: 0.75rem;
         }
     }
 </style>

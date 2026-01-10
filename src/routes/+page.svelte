@@ -715,6 +715,12 @@
         .sect > h1 {
             font-size: 2.5rem;
         }
+
+        .experience-list,
+        .projects-list {
+            grid-template-columns: 1fr;
+            justify-items: center;
+        }
     }
 
     @media (max-width: 480px) {
