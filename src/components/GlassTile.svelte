@@ -96,24 +96,23 @@
         cursor: pointer;
     }
 
-    a.glass-tile:hover,
-    a.glass-tile:focus {
-        border-color: rgba(255, 255, 255, 0.5);
-        box-shadow:
-            0 8px 32px 0 rgba(31, 38, 135, 0.18),
-            0 24px 70px -40px var(--tile-color, rgba(255, 255, 255, 0.25)),
-            0 0 0 3px rgba(255, 255, 255, 0.1),
-            0 0 20px rgba(255, 255, 255, 0.15);
-    }
-
+    /* a.glass-tile:hover, */
+    /* a.glass-tile:focus { */
+    /*     box-shadow: */
+    /*         0 10px 40px rgba(31, 38, 135, 0.35), */
+    /*         0 30px 80px -10px var(--tile-color, rgba(255, 255, 255, 0.35)), */
+    /*         0 0 0 3px rgba(255, 255, 255, 0.2), */
+    /*         0 0 24px rgba(255, 255, 255, 0.25); */
+    /* } */
+    /**/
     @supports (color: hsl(from white h s l / 1)) {
         a.glass-tile:hover,
         a.glass-tile:focus {
             box-shadow:
-                0 8px 32px 0 rgba(31, 38, 135, 0.18),
-                0 24px 70px -40px hsl(from var(--tile-color) h s calc(l + 12%) / 0.35),
-                0 0 0 3px rgba(255, 255, 255, 0.1),
-                0 0 20px rgba(255, 255, 255, 0.15);
+                0 10px 40px rgba(31, 38, 135, 0.4),
+                0 36px 90px -6px hsl(from var(--tile-color) h s calc(l + 12%) / 1),
+                0 0 0 3px rgba(255, 255, 255, 0.35),
+                0 0 32px rgba(255, 255, 255, 0.35);
         }
     }
 
@@ -233,15 +232,20 @@
 
     @media (max-width: 768px) {
         .glass-tile {
-            padding: 1.5rem;
+            width: 85%;
+            max-width: 280px;
+            padding: 1.25rem;
+            margin: 0 auto;
         }
 
         .glass-tile h2 {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
+            margin-bottom: 0.4rem;
         }
 
         .glass-tile p {
-            font-size: var(--p-size);
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
 
         .tech-icons {
@@ -249,7 +253,12 @@
         }
 
         .tech-icon-container i {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
+        }
+
+        .tech-footer {
+            margin-top: 1rem;
+            padding-top: 0.75rem;
         }
     }
 </style>
