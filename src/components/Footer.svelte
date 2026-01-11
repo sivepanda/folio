@@ -1,3 +1,24 @@
+<script>
+    import { browser } from '$app/environment';
+    import { onMount } from 'svelte';
+
+    let musicEnabled = $state(true);
+
+    onMount(() => {
+        if (browser) {
+            musicEnabled = localStorage.getItem('nowPlayingEnabled') !== 'false';
+        }
+    });
+
+    function toggleMusic() {
+        if (browser) {
+            const newState = !musicEnabled;
+            localStorage.setItem('nowPlayingEnabled', newState ? 'true' : 'false');
+            window.location.reload();
+        }
+    }
+</script>
+
 <div class="social">
     <p class="name">//maybesivenpanda</p>
     <div class="brandimgs">
@@ -17,6 +38,9 @@
         >
             <i class="ri-spotify-fill"></i>
         </a>
+        <button onclick={toggleMusic} class="music-toggle">
+            <i class="ri-music-2-line"></i> {musicEnabled ? 'hide' : 'show'} music widget
+        </button>
     </div>
 </div>
 
@@ -66,5 +90,24 @@
 
     .brandimgs > a:hover {
         color: gray;
+    }
+
+    .music-toggle {
+        background: none;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 4px;
+        color: rgba(255, 255, 255, 0.7);
+        cursor: pointer;
+        font-size: 0.75rem;
+        padding: 0.3em 0.6em;
+        display: flex;
+        align-items: center;
+        gap: 0.4em;
+        transition: all 0.2s ease;
+    }
+
+    .music-toggle:hover {
+        border-color: rgba(255, 255, 255, 0.6);
+        color: white;
     }
 </style>
