@@ -10,6 +10,9 @@
     let mounted = false;
     let mouseX = 50;
     let mouseY = 50;
+    let shimmerAngle = 0;
+    let isHovered = false;
+    let animationFrame: number;
 
     function handleMouseMove(e: MouseEvent) {
         const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
@@ -17,19 +20,39 @@
         mouseY = ((e.clientY - rect.top) / rect.height) * 100;
     }
 
+    function animateShimmer() {
+        shimmerAngle = (shimmerAngle + 0.5) % 360;
+        if (isHovered) {
+            animationFrame = requestAnimationFrame(animateShimmer);
+        }
+    }
+
+    function handleMouseEnter() {
+        isHovered = true;
+        animateShimmer();
+    }
+
+    function handleMouseLeave() {
+        isHovered = false;
+        cancelAnimationFrame(animationFrame);
+    }
+
     onMount(() => {
         mounted = true;
+        return () => cancelAnimationFrame(animationFrame);
     });
 </script>
 
 {#if link}
     <a
         class="glass-tile"
-        style="--tile-color: {color}; --mouse-x: {mouseX}%; --mouse-y: {mouseY}%;"
+        style="--tile-color: {color}; --mouse-x: {mouseX}%; --mouse-y: {mouseY}%; --shimmer-angle: {shimmerAngle}deg;"
         href={link}
         target="_blank"
         rel="noopener noreferrer"
         on:mousemove={handleMouseMove}
+        on:mouseenter={handleMouseEnter}
+        on:mouseleave={handleMouseLeave}
     >
         <h2>{title}</h2>
         <p>{description}</p>
@@ -114,7 +137,8 @@
                 0 10px 40px rgba(31, 38, 135, 0.25),
                 0 0 60px 10px hsl(from var(--tile-color) h s 60% / 0.45),
                 0 0 0 2px rgba(255, 255, 255, 0.2),
-                0 0 100px 20px hsl(from var(--tile-color) h s 70% / 0.25);
+                0 0 100px 20px hsl(from var(--tile-color) h s 70% / 0.25),
+                calc(cos(var(--shimmer-angle, 0deg)) * 30px) calc(sin(var(--shimmer-angle, 0deg)) * 30px) 60px 10px hsl(from var(--tile-color) h s 75% / 0.35);
         }
     }
 
