@@ -69,7 +69,7 @@
 
 <style>
     .glass-tile {
-        background: rgba(255, 255, 255, 0.15);
+        background: rgba(255, 255, 255, 0.05);
         width: calc(100% - 5rem);
         border-radius: 1rem;
         box-shadow:
@@ -77,7 +77,7 @@
             0 20px 60px -40px var(--tile-color, rgba(255, 255, 255, 0.2));
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
-        border: 1px solid rgba(255, 255, 255, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.18);
         padding: 2rem 2.5rem;
         display: flex;
         flex-direction: column;
@@ -88,7 +88,8 @@
         color: rgb(219, 219, 219);
         transition:
             box-shadow 0.3s ease,
-            border-color 0.3s ease;
+            border-color 0.3s ease,
+            background 0.3s ease;
         cursor: default;
     }
 
@@ -108,11 +109,12 @@
     @supports (color: hsl(from white h s l / 1)) {
         a.glass-tile:hover,
         a.glass-tile:focus {
+            background: rgba(255, 255, 255, 0.09);
             box-shadow:
-                0 10px 40px rgba(31, 38, 135, 0.4),
-                0 36px 90px -6px hsl(from var(--tile-color) h s calc(l + 12%) / 1),
-                0 0 0 3px rgba(255, 255, 255, 0.35),
-                0 0 32px rgba(255, 255, 255, 0.35);
+                0 10px 40px rgba(31, 38, 135, 0.25),
+                0 0 60px 10px hsl(from var(--tile-color) h s 60% / 0.45),
+                0 0 0 2px rgba(255, 255, 255, 0.2),
+                0 0 100px 20px hsl(from var(--tile-color) h s 70% / 0.25);
         }
     }
 
