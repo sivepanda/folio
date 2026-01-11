@@ -9,11 +9,23 @@
     /** @type {string | null} */
     let error = $state(null);
 
-    // Check localStorage for enabled state
+    // Check localStorage for dismiss state
     onMount(() => {
         if (browser) {
-            const enabled = localStorage.getItem('nowPlayingEnabled');
-            isVisible = enabled !== 'false';
+            const dismissed = localStorage.getItem('nowPlayingDismissed');
+            const dismissedTime = localStorage.getItem('nowPlayingDismissedTime');
+
+            // Reset visibility after 24 hours
+            if (dismissed && dismissedTime) {
+                const dayInMs = 24 * 60 * 60 * 1000;
+                if (Date.now() - parseInt(dismissedTime) > dayInMs) {
+                    localStorage.removeItem('nowPlayingDismissed');
+                    localStorage.removeItem('nowPlayingDismissedTime');
+                    isVisible = true;
+                } else {
+                    isVisible = false;
+                }
+            }
 
             if (isVisible) {
                 fetchNowPlaying();
@@ -49,7 +61,8 @@
     function dismiss() {
         isVisible = false;
         if (browser) {
-            localStorage.setItem('nowPlayingEnabled', 'false');
+            localStorage.setItem('nowPlayingDismissed', 'true');
+            localStorage.setItem('nowPlayingDismissedTime', Date.now().toString());
         }
     }
 

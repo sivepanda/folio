@@ -2,18 +2,23 @@
     import { browser } from '$app/environment';
     import { onMount } from 'svelte';
 
-    let musicEnabled = $state(true);
+    let musicHidden = $state(false);
 
     onMount(() => {
         if (browser) {
-            musicEnabled = localStorage.getItem('nowPlayingEnabled') !== 'false';
+            musicHidden = localStorage.getItem('nowPlayingDismissed') === 'true';
         }
     });
 
     function toggleMusic() {
         if (browser) {
-            const newState = !musicEnabled;
-            localStorage.setItem('nowPlayingEnabled', newState ? 'true' : 'false');
+            if (musicHidden) {
+                localStorage.removeItem('nowPlayingDismissed');
+                localStorage.removeItem('nowPlayingDismissedTime');
+            } else {
+                localStorage.setItem('nowPlayingDismissed', 'true');
+                localStorage.setItem('nowPlayingDismissedTime', Date.now().toString());
+            }
             window.location.reload();
         }
     }
@@ -39,7 +44,7 @@
             <i class="ri-spotify-fill"></i>
         </a>
         <button onclick={toggleMusic} class="music-toggle">
-            <i class="ri-music-2-line"></i> {musicEnabled ? 'hide' : 'show'} music widget
+            <i class="ri-music-2-line"></i> {musicHidden ? 'show' : 'hide'} music widget
         </button>
     </div>
 </div>
