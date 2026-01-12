@@ -14,7 +14,7 @@
         if (browser) {
             const dismissed = localStorage.getItem('nowPlayingDismissed');
             const dismissedTime = localStorage.getItem('nowPlayingDismissedTime');
-            
+
             // Reset visibility after 24 hours
             if (dismissed && dismissedTime) {
                 const dayInMs = 24 * 60 * 60 * 1000;

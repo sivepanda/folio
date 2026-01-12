@@ -25,12 +25,12 @@
     function toggleOpened() {
         if (opened === 'closed') {
             opened = 'opened';
-            hei = '90vh';
-            pdg = '10vh';
+            hei = 'calc(100vh - 60px)';
+            pdg = '40px';
         } else {
             opened = 'closed';
             hei = '0vh';
-            pdg = '0vh';
+            pdg = '0px';
         }
         console.log(opened);
     }
@@ -38,7 +38,7 @@
     function closeMenu() {
         opened = 'closed';
         hei = '0vh';
-        pdg = '0vh';
+        pdg = '0px';
     }
 
     // Reactive effect for scroll-based animations
@@ -170,52 +170,48 @@
 <!-- viewBox="0 0 790.15509 553.80859" -->
 <div class="fullmnu" style="height: {hei}; padding-top: {pdg}">
     <a href="/" onclick={closeMenu}>/</a>
-    <a href="/skills" onclick={closeMenu}>/skills</a>
-    <a href="/experience" onclick={closeMenu}>/experience</a>
-    <a href="/projects" onclick={closeMenu}>/projects</a>
     <a href="/photography" onclick={closeMenu}>/photography</a>
 </div>
 
 <div class="header" bind:this={headerElement}>
     <div class="logo-container">
-        <svg
-            bind:this={svgContainer}
-            version="1.1"
-            id="svgcontain"
-            viewBox="0 12 100 70"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            <g id="g185">
-                <g id="pthgrp">
-                    <path
-                        d="M 18.926311,66.016776 V 41.358024 a 7.7587396,7.7587396 130.64145 0 1 6.582858,-7.669116 l 51.829597,-7.946871 v 11.034219 a 9.7936922,9.7936922 130.56116 0 1 -8.282277,9.676364 l -15.262956,2.384022 v 11.772617 z"
-                        class="logopath"
-                        id="path297"
-                    />
-                    <path
-                        d="m 46.358197,35.881132 -16.590655,2.459531 a 5.047311,5.047311 130.78372 0 0 -4.307147,4.992745 v 7.136755 L 46.58351,47.372106 v 5.4631 A 7.2123416,7.2123416 130.92569 0 1 40.393456,59.97473 L 22.193353,62.580749 V 42.009908 a 5.9040234,5.9040234 130.58981 0 1 4.998716,-5.834202 l 47.273953,-7.335613 v 8.292199 a 6.8074949,6.8074949 130.38167 0 1 -5.714805,6.719227 L 51.25876,46.696167 v 11.153005"
-                        class="logopath"
-                        id="path1034"
-                    />
-                    <path
-                        d="M 51.089775,43.142815 V 35.26152 L 71.53695,31.994479 v 2.703758"
-                        class="logopath"
-                        id="path1036"
-                    />
+        <a href="/" class="logo-link">
+            <svg
+                bind:this={svgContainer}
+                version="1.1"
+                id="svgcontain"
+                viewBox="0 12 100 70"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <g id="g185">
+                    <g id="pthgrp">
+                        <path
+                            d="M 18.926311,66.016776 V 41.358024 a 7.7587396,7.7587396 130.64145 0 1 6.582858,-7.669116 l 51.829597,-7.946871 v 11.034219 a 9.7936922,9.7936922 130.56116 0 1 -8.282277,9.676364 l -15.262956,2.384022 v 11.772617 z"
+                            class="logopath"
+                            id="path297"
+                        />
+                        <path
+                            d="m 46.358197,35.881132 -16.590655,2.459531 a 5.047311,5.047311 130.78372 0 0 -4.307147,4.992745 v 7.136755 L 46.58351,47.372106 v 5.4631 A 7.2123416,7.2123416 130.92569 0 1 40.393456,59.97473 L 22.193353,62.580749 V 42.009908 a 5.9040234,5.9040234 130.58981 0 1 4.998716,-5.834202 l 47.273953,-7.335613 v 8.292199 a 6.8074949,6.8074949 130.38167 0 1 -5.714805,6.719227 L 51.25876,46.696167 v 11.153005"
+                            class="logopath"
+                            id="path1034"
+                        />
+                        <path
+                            d="M 51.089775,43.142815 V 35.26152 L 71.53695,31.994479 v 2.703758"
+                            class="logopath"
+                            id="path1036"
+                        />
+                    </g>
                 </g>
-            </g>
-        </svg>
+            </svg>
 
-        <div class="name-text" bind:this={nameText}>
-            <!-- Text will be typed in here -->
-        </div>
+            <div class="name-text" bind:this={nameText}>
+                <!-- Text will be typed in here -->
+            </div>
+        </a>
     </div>
 
     <div class="right">
         <a href="/">/</a>
-        <a href="/skills">/skills</a>
-        <a href="/experience">/experience</a>
-        <a href="/projects">/projects</a>
         <a href="/photography">/photography</a>
         <div></div>
     </div>
@@ -240,6 +236,7 @@
 <style>
     .fullmnu {
         position: fixed;
+        top: 60px;
         font-family: 'Mozilla Headline', 'sans-serif';
         font-weight: 650;
         background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0));
@@ -248,19 +245,19 @@
         height: 0vh;
         display: flex;
         flex-direction: column;
-        padding-top: 10vh;
-        padding-left: 10vw;
-        padding-right: 10vw;
+        padding-top: 0;
+        padding-left: 20px;
+        padding-right: 20px;
         transition: 500ms ease-in-out;
-        z-index: 9998;
+        z-index: 9997;
         overflow-x: hidden;
     }
 
     .fullmnu > a {
         text-decoration: none;
-        font-size: 3em;
+        font-size: clamp(2rem, 8vw, 3rem);
         color: white;
-        padding-top: 5vh;
+        padding-top: 40px;
     }
 
     .header {
@@ -287,6 +284,14 @@
         position: relative;
         width: auto;
         height: 100%;
+    }
+
+    .logo-link {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        height: 100%;
+        cursor: pointer;
     }
 
     .name-text {
@@ -336,14 +341,14 @@
 
     @media (max-aspect-ratio: 1) {
         .header {
-            width: calc(100vw - 4vw - 4vw);
-            height: 7vh;
-            padding-left: 4vw;
-            padding-right: 4vw;
+            width: 100vw;
+            height: 60px;
+            padding-left: 20px;
+            padding-right: 20px;
         }
 
         .logo-container {
-            padding-left: 4vw;
+            padding-left: 0;
         }
 
         .right {
@@ -351,7 +356,25 @@
         }
 
         .name-text {
-            font-size: 2vh;
+            font-size: 16px;
+        }
+
+        #svgcontain {
+            height: 40px;
+        }
+
+        .mnuicon {
+            scale: 0.6;
+        }
+
+        .fullmnu {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .fullmnu > a {
+            font-size: clamp(1.5rem, 6vw, 2.5rem);
+            padding-top: 30px;
         }
     }
 

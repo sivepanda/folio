@@ -10,6 +10,11 @@
     let mounted = false;
     let mouseX = 50;
     let mouseY = 50;
+    let shimmerAngle = 0;
+    let isHovered = false;
+    let animationFrame: number;
+    let titleEl: HTMLElement;
+    let titleOverflows = false;
 
     function handleMouseMove(e: MouseEvent) {
         const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
@@ -17,21 +22,48 @@
         mouseY = ((e.clientY - rect.top) / rect.height) * 100;
     }
 
+    function animateShimmer() {
+        shimmerAngle = (shimmerAngle + 0.5) % 360;
+        if (isHovered) {
+            animationFrame = requestAnimationFrame(animateShimmer);
+        }
+    }
+
+    function handleMouseEnter() {
+        isHovered = true;
+        animateShimmer();
+    }
+
+    function handleMouseLeave() {
+        isHovered = false;
+        cancelAnimationFrame(animationFrame);
+    }
+
+    function checkTitleOverflow() {
+        if (titleEl) {
+            titleOverflows = titleEl.scrollWidth > titleEl.clientWidth;
+        }
+    }
+
     onMount(() => {
         mounted = true;
+        checkTitleOverflow();
+        return () => cancelAnimationFrame(animationFrame);
     });
 </script>
 
 {#if link}
     <a
         class="glass-tile"
-        style="--tile-color: {color}; --mouse-x: {mouseX}%; --mouse-y: {mouseY}%;"
+        style="--tile-color: {color}; --mouse-x: {mouseX}%; --mouse-y: {mouseY}%; --shimmer-angle: {shimmerAngle}deg;"
         href={link}
         target="_blank"
         rel="noopener noreferrer"
         on:mousemove={handleMouseMove}
+        on:mouseenter={handleMouseEnter}
+        on:mouseleave={handleMouseLeave}
     >
-        <h2>{title}</h2>
+        <h2 class="title-marquee" class:title-overflows={titleOverflows} bind:this={titleEl}><span>{title}</span></h2>
         <p>{description}</p>
 
         {#if technologies.length > 0}
@@ -49,7 +81,7 @@
     </a>
 {:else}
     <div class="glass-tile" style="--tile-color: {color}">
-        <h2>{title}</h2>
+        <h2 class="title-marquee" class:title-overflows={titleOverflows} bind:this={titleEl}><span>{title}</span></h2>
         <p>{description}</p>
 
         {#if technologies.length > 0}
@@ -69,25 +101,27 @@
 
 <style>
     .glass-tile {
-        background: rgba(255, 255, 255, 0.15);
+        background: rgba(255, 255, 255, 0.05);
         width: calc(100% - 5rem);
-        border-radius: 1.5rem;
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+        border-radius: 1rem;
+        box-shadow:
+            0 8px 32px 0 rgba(31, 38, 135, 0.18),
+            0 20px 60px -40px var(--tile-color, rgba(255, 255, 255, 0.2));
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
-        border: 1px solid rgba(255, 255, 255, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.18);
         padding: 2rem 2.5rem;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         position: relative;
         overflow: hidden;
-        min-height: 250px;
         text-decoration: none;
         color: rgb(219, 219, 219);
         transition:
             box-shadow 0.3s ease,
-            border-color 0.3s ease;
+            border-color 0.3s ease,
+            background 0.3s ease;
         cursor: default;
     }
 
@@ -95,13 +129,26 @@
         cursor: pointer;
     }
 
-    a.glass-tile:hover,
-    a.glass-tile:focus {
-        border-color: rgba(255, 255, 255, 0.5);
-        box-shadow:
-            0 8px 32px 0 rgba(31, 38, 135, 0.18),
-            0 0 0 3px rgba(255, 255, 255, 0.1),
-            0 0 20px rgba(255, 255, 255, 0.15);
+    /* a.glass-tile:hover, */
+    /* a.glass-tile:focus { */
+    /*     box-shadow: */
+    /*         0 10px 40px rgba(31, 38, 135, 0.35), */
+    /*         0 30px 80px -10px var(--tile-color, rgba(255, 255, 255, 0.35)), */
+    /*         0 0 0 3px rgba(255, 255, 255, 0.2), */
+    /*         0 0 24px rgba(255, 255, 255, 0.25); */
+    /* } */
+    /**/
+    @supports (color: hsl(from white h s l / 1)) {
+        a.glass-tile:hover,
+        a.glass-tile:focus {
+            background: rgba(255, 255, 255, 0.09);
+            box-shadow:
+                0 10px 40px rgba(31, 38, 135, 0.25),
+                0 0 60px 10px hsl(from var(--tile-color) h s 60% / 0.45),
+                0 0 0 2px rgba(255, 255, 255, 0.2),
+                0 0 100px 20px hsl(from var(--tile-color) h s 70% / 0.25),
+                calc(cos(var(--shimmer-angle, 0deg)) * 30px) calc(sin(var(--shimmer-angle, 0deg)) * 30px) 60px 10px hsl(from var(--tile-color) h s 75% / 0.35);
+        }
     }
 
     .glass-tile::before {
@@ -111,53 +158,20 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(
-            135deg,
-            var(--tile-color, rgba(255, 255, 255, 0.1)) 0%,
-            rgba(255, 255, 255, 0.05) 25%,
-            rgba(255, 255, 255, 0) 50%
-        );
         pointer-events: none;
         z-index: 1;
         opacity: 0;
         transition: opacity 0.3s ease;
     }
 
-    a.glass-tile::before {
-        opacity: 1;
-    }
-
     a.glass-tile:hover::before {
-        background:
-            radial-gradient(
-                circle 900px at var(--mouse-x, 50%) var(--mouse-y, 50%),
-                rgba(255, 255, 255, 0.15) 0%,
-                rgba(255, 255, 255, 0.05) 40%,
-                transparent 80%
-            ),
-            linear-gradient(
-                135deg,
-                var(--tile-color, rgba(255, 255, 255, 0.1)) 0%,
-                rgba(255, 255, 255, 0.05) 25%,
-                rgba(255, 255, 255, 0) 40%
-            );
-    }
-
-    .glass-tile::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(
-            135deg,
-            rgba(0, 0, 0, 0.05) 0%,
-            rgba(0, 0, 0, 0.02) 25%,
-            rgba(0, 0, 0, 0) 50%
+        opacity: 1;
+        background: radial-gradient(
+            circle 900px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            rgba(255, 255, 255, 0.15) 0%,
+            rgba(255, 255, 255, 0.05) 40%,
+            transparent 80%
         );
-        pointer-events: none;
-        z-index: 1;
     }
 
     .glass-tile > * {
@@ -167,13 +181,49 @@
 
     .glass-tile h2 {
         margin: 0 0 0.5rem 0;
-        font-size: 2rem;
-        line-height: 2;
+        font-size: 1.7rem;
+        line-height: 1.3;
+    }
+
+    .title-marquee {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        container-type: inline-size;
+    }
+
+    .title-marquee span {
+        display: inline-block;
+    }
+
+    .glass-tile:hover .title-marquee.title-overflows span {
+        animation: marquee 4s linear infinite;
+    }
+
+    @keyframes marquee {
+        0% {
+            transform: translateX(0);
+        }
+        10% {
+            transform: translateX(0);
+        }
+        45% {
+            transform: translateX(calc(-100% + 100cqw));
+        }
+        55% {
+            transform: translateX(calc(-100% + 100cqw));
+        }
+        90% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(0);
+        }
     }
 
     .glass-tile p {
         margin: 0;
-        font-size: 1.1rem;
+        font-size: var(--p-size);
         line-height: 2;
         flex-grow: 1;
     }
@@ -182,6 +232,10 @@
         margin-top: 1.5rem;
         padding-top: 1rem;
         border-top: 1px solid rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
     }
 
     .tech-icons {
@@ -200,6 +254,7 @@
         font-size: 1.5rem;
         color: rgba(255, 255, 255, 0.8);
         transition: color 0.2s ease;
+        line-height: 1;
     }
 
     .tech-icon-container:hover i {
@@ -248,16 +303,20 @@
 
     @media (max-width: 768px) {
         .glass-tile {
-            padding: 1.5rem;
-            min-height: 220px;
+            width: 85%;
+            max-width: 280px;
+            padding: 1.25rem;
+            margin: 0 auto;
         }
 
         .glass-tile h2 {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
+            margin-bottom: 0.4rem;
         }
 
         .glass-tile p {
-            font-size: 1rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
 
         .tech-icons {
@@ -265,8 +324,12 @@
         }
 
         .tech-icon-container i {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
+        }
+
+        .tech-footer {
+            margin-top: 1rem;
+            padding-top: 0.75rem;
         }
     }
 </style>
-
