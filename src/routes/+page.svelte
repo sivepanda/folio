@@ -3,7 +3,6 @@
     import Load from '../components/Load.svelte';
     import Footer from '../components/Footer.svelte';
     import GlassTile from '../components/GlassTile.svelte';
-    import Banner from '../components/Banner.svelte';
     import { animate, engine, onScroll, stagger, svg } from 'animejs';
     import { dev } from '$app/environment';
     import { injectAnalytics } from '@vercel/analytics/sveltekit';
@@ -214,7 +213,6 @@
 <svelte:window bind:scrollY={scrY} />
 
 <Load />
-<Banner />
 <div class="hero">
     <h1>Hey, I'm Siven!</h1>
     <p>
