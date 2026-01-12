@@ -28,7 +28,7 @@
             ]
         },
         {
-            title: 'Duke School of Medicine (B&B)',
+            title: 'Duke School of Medicine (Biostatics & Bioinformatics)',
             description:
                 'Created internal data preparation tools and data visualization pipelines to improve research workflows.',
             link: 'https://yi-zhang-compbio-lab.github.io/',
@@ -53,7 +53,7 @@
             ]
         },
         {
-            title: 'Okla. Medical Research Foundation',
+            title: 'Oklahoma Medical Research Foundation',
             description:
                 'Led evaluation and performance testing of neural networks for large-scale genomic dataset feature reduction to improve associativity detection.',
             link: 'https://omrf.org',

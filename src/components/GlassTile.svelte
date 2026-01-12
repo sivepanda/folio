@@ -13,6 +13,8 @@
     let shimmerAngle = 0;
     let isHovered = false;
     let animationFrame: number;
+    let titleEl: HTMLElement;
+    let titleOverflows = false;
 
     function handleMouseMove(e: MouseEvent) {
         const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
@@ -37,8 +39,15 @@
         cancelAnimationFrame(animationFrame);
     }
 
+    function checkTitleOverflow() {
+        if (titleEl) {
+            titleOverflows = titleEl.scrollWidth > titleEl.clientWidth;
+        }
+    }
+
     onMount(() => {
         mounted = true;
+        checkTitleOverflow();
         return () => cancelAnimationFrame(animationFrame);
     });
 </script>
@@ -54,7 +63,7 @@
         on:mouseenter={handleMouseEnter}
         on:mouseleave={handleMouseLeave}
     >
-        <h2>{title}</h2>
+        <h2 class="title-marquee" class:title-overflows={titleOverflows} bind:this={titleEl}><span>{title}</span></h2>
         <p>{description}</p>
 
         {#if technologies.length > 0}
@@ -72,7 +81,7 @@
     </a>
 {:else}
     <div class="glass-tile" style="--tile-color: {color}">
-        <h2>{title}</h2>
+        <h2 class="title-marquee" class:title-overflows={titleOverflows} bind:this={titleEl}><span>{title}</span></h2>
         <p>{description}</p>
 
         {#if technologies.length > 0}
@@ -174,6 +183,42 @@
         margin: 0 0 0.5rem 0;
         font-size: 1.7rem;
         line-height: 1.3;
+    }
+
+    .title-marquee {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        container-type: inline-size;
+    }
+
+    .title-marquee span {
+        display: inline-block;
+    }
+
+    .glass-tile:hover .title-marquee.title-overflows span {
+        animation: marquee 4s linear infinite;
+    }
+
+    @keyframes marquee {
+        0% {
+            transform: translateX(0);
+        }
+        10% {
+            transform: translateX(0);
+        }
+        45% {
+            transform: translateX(calc(-100% + 100cqw));
+        }
+        55% {
+            transform: translateX(calc(-100% + 100cqw));
+        }
+        90% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(0);
+        }
     }
 
     .glass-tile p {
