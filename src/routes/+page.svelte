@@ -214,7 +214,6 @@
 <svelte:window bind:scrollY={scrY} />
 
 <Load />
-<Banner />
 <div class="hero">
     <h1>Hey, I'm Siven!</h1>
     <p>
