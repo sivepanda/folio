@@ -4,7 +4,10 @@
     import Footer from '../components/Footer.svelte';
     import GlassTile from '../components/GlassTile.svelte';
     import { animate, engine, onScroll, stagger, svg } from 'animejs';
+    import { dev } from '$app/environment';
+    import { injectAnalytics } from '@vercel/analytics/sveltekit';
 
+    injectAnalytics({ mode: dev ? 'development' : 'production' });
     let scrY = $state(0);
 
     let defaul = 'rgba(100, 0, 200, 1)';
@@ -13,9 +16,9 @@
         {
             title: 'Duke Office of Information Technology',
             description:
-                'Deploying feature updates and bug fixes for internal university services including attendance tracking systems. Engineering and maintaining backend integrations with core university infrastructure including REST APIs, authentication systems, and databases. Implementing improvements based on user feedback to increase adoption and real-world usage.',
+                'Internal university services and maintaining backend integrations with core university infrastructure including REST APIs, authentication systems, and databases.',
             link: 'https://oit.duke.edu/',
-            color: 'rgba(0, 59, 153, 0.5)',
+            color: 'rgba(0, 59, 153, 1)',
             technologies: [
                 { name: 'Next.js', icon: 'fa-brands fa-nextjs-fill' },
                 { name: 'React', icon: 'ri-reactjs-fill' },
@@ -25,11 +28,11 @@
             ]
         },
         {
-            title: 'Duke School of Medicine (B&B)',
+            title: 'Duke School of Medicine (Biostatics & Bioinformatics)',
             description:
-                'Created internal data preparation tools and accelerated data visualization pipelines to improve research workflows. Developed documentation for remote hosting of visualization applications handling large datasets. Focused on enabling better data sharing and collaboration within the research team.',
+                'Created internal data preparation tools and data visualization pipelines to improve research workflows.',
             link: 'https://yi-zhang-compbio-lab.github.io/',
-            color: 'rgba(0, 59, 153, 0.5)',
+            color: 'rgba(0, 59, 153, 1)',
             technologies: [
                 { name: 'Python', icon: 'fa-brands fa-python' },
                 { name: 'Git', icon: 'ri-git-branch-fill' },
@@ -40,9 +43,9 @@
         {
             title: 'Red River Community Corps',
             description:
-                'Built a cloud-based platform as the founding engineer to deliver learning modules across schools, standardizing instruction. Implemented automated synchronization between the learning platform and task-management systems to streamline onboarding. Developed a centralized database system with automated pipelines to manage clients and volunteers.',
+                'Built a cloud-based platform as the founding engineer to deliver learning modules across schools, standardizing instruction, and built systems to streamline client and volunteer onboarding.',
             link: 'https://rrccok.org',
-            color: 'rgba(150, 0, 0, 0.5)',
+            color: 'rgba(150, 0, 0, 1)',
             technologies: [
                 { name: 'AWS', icon: 'ri-amazon-fill' },
                 { name: 'JavaScript', icon: 'ri-javascript-fill' },
@@ -50,11 +53,11 @@
             ]
         },
         {
-            title: 'Okla. Medical Research Foundation',
+            title: 'Oklahoma Medical Research Foundation',
             description:
-                'Led evaluation and performance testing of neural networks for genomic dataset feature reduction to improve associativity detection. Optimized large-scale genomic computations using parallel processing techniques on HPC clusters. Engineered a generalized data-processing pipeline as a Python package to streamline machine learning dataset creation.',
+                'Led evaluation and performance testing of neural networks for large-scale genomic dataset feature reduction to improve associativity detection.',
             link: 'https://omrf.org',
-            color: 'rgba(100, 0, 255, 0.5)',
+            color: 'rgba(100, 0, 255, 1)',
             technologies: [
                 { name: 'Python', icon: 'fa-brands fa-python' },
                 { name: 'Scikit-learn', icon: 'ri-bar-chart-fill' },
@@ -69,11 +72,38 @@
 
     const projects = [
         {
+            title: 'Carya',
+            description:
+                'Visual TUI to supercharge your Git experience. Includes a compenent to autodetect changes in a package manager and suggest installing these changes on pull or checkout, and a diff selection tool to compose commits.',
+            link: 'https://github.com/sivepanda/carya',
+            color: 'rgba(200, 0, 255, 1)',
+            technologies: [
+                { name: 'Go', icon: 'fa-brands fa-golang' },
+                { name: 'Bubble Tea', icon: 'ri-drinks-fill' },
+                { name: 'Git', icon: 'ri-git-branch-fill' },
+                { name: 'TUI', icon: 'ri-terminal-window-fill' }
+            ]
+        },
+
+        {
+            title: 'Teabag',
+            description:
+                'Moves Linux AppImages to a central directory and adds a symlink entry to your app drawer.',
+            link: 'https://github.com/sivepanda/teabag',
+            color: 'rgba(255, 0, 50, 1)',
+            technologies: [
+                { name: 'Go', icon: 'fa-brands fa-golang' },
+                { name: 'Bubble Tea', icon: 'ri-drinks-fill' },
+                { name: 'AppImage', icon: 'ri-apps-2-fill' },
+                { name: 'Linux', icon: 'ri-qq-fill' }
+            ]
+        },
+        {
             title: 'LARI',
             description:
                 'EHR-integrated application that automates managing patient appointment scheduling (and rescheduling). Built to scale with Go, React, and Next.js using a scalable modularized architecture.',
             link: 'https://github.com/lari-health',
-            color: 'rgba(100, 0, 255, 0.3)',
+            color: 'rgba(100, 0, 255, 1)',
             technologies: [
                 { name: 'React', icon: 'ri-reactjs-fill' },
                 { name: 'Go', icon: 'fa-brands fa-golang' },
@@ -83,11 +113,25 @@
             ]
         },
         {
+            title: 'Soundbits',
+            description:
+                'Social media application that enables users to easily make and share short sound recordings for music producers to use in their music.',
+            link: 'https://github.com/sivepanda/soundbits',
+            color: 'rgba(255, 0, 200, 1)',
+            technologies: [
+                { name: 'React', icon: 'ri-reactjs-fill' },
+                { name: 'Node.js', icon: 'ri-nodejs-fill' },
+                { name: 'MySQL', icon: 'ri-database-fill' },
+                { name: 'AWS', icon: 'ri-amazon-fill' },
+                { name: 'API', icon: 'ri-plug-fill' }
+            ]
+        },
+        {
             title: 'VeloceQuiz',
             description:
-                'Utilized Large Language Models and text classifiers (OpenAI API and LangChain) to create a web resource for students to generate practice tests from a PDF of notes. Text classification via LangChain allowed for users to select a number of questions from particular generalized concepts generated from the notes.',
+                'Web resource for students to generate practice tests from a PDF of notes with text classification to detect generalized concepts to customize generated quizzes.',
             link: 'https://github.com/sivepanda/velocequiz',
-            color: 'rgba(255, 0, 100, 0.1)',
+            color: 'rgba(255, 0, 100, 1)',
             technologies: [
                 { name: 'Python', icon: 'fa-brands fa-python' },
                 { name: 'OpenAI', icon: 'ri-brain-fill' },
@@ -98,25 +142,11 @@
             ]
         },
         {
-            title: 'Soundbits',
-            description:
-                "Architected, designed and built a social media application that allows users to share and send 'bits' of sound that they come across in their daily life, and enable other uses to use them as a library of samples for them to use in their music productions.",
-            link: 'https://github.com/sivepanda/soundbits',
-            color: 'rgba(255, 0, 200, 0.5)',
-            technologies: [
-                { name: 'React', icon: 'ri-reactjs-fill' },
-                { name: 'Node.js', icon: 'ri-nodejs-fill' },
-                { name: 'MySQL', icon: 'ri-database-fill' },
-                { name: 'AWS', icon: 'ri-amazon-fill' },
-                { name: 'API', icon: 'ri-plug-fill' }
-            ]
-        },
-        {
             title: 'Retrograde',
             description:
-                'Built and designed a fully functional and reactive website using solely HTML, CSS, and JavaScript. This includes a sales flow, auth (admittedly only saving data locally for lack of access to a more full fledged auth and databasing solution), and components using HTML injection. From my high school years!',
+                'Fully functional and reactive website using solely HTML, CSS, and JavaScript. From my high school years!',
             link: 'https://retrograde.sivenpanda.com',
-            color: 'rgba(205, 0, 250, 0.5)',
+            color: 'rgba(205, 0, 250, 1)',
             technologies: [
                 { name: 'HTML5', icon: 'ri-html5-fill' },
                 { name: 'CSS3', icon: 'ri-css3-fill' },
@@ -127,9 +157,9 @@
         {
             title: 'FIRST Robotics Match Optimizer',
             description:
-                'Built matchup optimizer utilizing Random Forest Classifiers and data pulled from official FIRST APIs to train a Random Forest Classifier alongside Binary Classification to predict wins to about an 85% accuracy rate. Included a Svelte frontend and visualization to inform match strategy.',
+                'Matchup optimizer using data pulled from official FIRST APIs to train a classifiers to predict wins to about an 85% accuracy rate. Included visualizations to inform match strategy.',
             link: 'https://github.com/2Ahmad5/scoutviz-calc',
-            color: 'rgba(0, 255, 0, 0.1)',
+            color: 'rgba(0, 255, 0, 1)',
             technologies: [
                 { name: 'Python', icon: 'ri-python-fill' },
                 { name: 'Scikit-learn', icon: 'ri-bar-chart-fill' },
@@ -143,7 +173,7 @@
             description:
                 'Customized user interface for Firefox (via userchrome.css), includes integration that modifies the default homepage with the daily Astronomy Picture of the Day.',
             link: 'https://github.com/sivepanda/roundify',
-            color: 'rgba(255, 255, 0, 0.1)',
+            color: 'rgba(255, 255, 0, 1)',
             technologies: [
                 { name: 'CSS3', icon: 'ri-css3-fill' },
                 { name: 'Firefox', icon: 'ri-firefox-fill' },
@@ -155,7 +185,7 @@
             description:
                 'CLI matrix computational tool I wrote to make doing linear algebra homework easier. Wrapped in a python package.',
             link: 'https://github.com/sivepanda/mtxmathtools',
-            color: 'rgba(255, 100, 255, 0.1)',
+            color: 'rgba(255, 100, 255, 1)',
             technologies: [
                 { name: 'Python', icon: 'fa-brands fa-python' },
                 { name: 'CLI', icon: 'ri-terminal-fill' }
@@ -598,6 +628,7 @@
         line-height: 1.5;
         font-family: 'Mozilla Text';
         font-weight: 300;
+        font-size: var(--p-size);
     }
 
     .sect {
@@ -616,7 +647,7 @@
     }
 
     .sect > p {
-        font-size: 1.2em;
+        font-size: var(--p-size);
         line-height: 1.5;
         padding-top: 0px;
         margin-top: 0;
@@ -698,7 +729,6 @@
         }
 
         .hero p {
-            font-size: 1rem;
             width: 90% !important;
             text-align: center;
         }
@@ -712,6 +742,12 @@
         .sect > h1 {
             font-size: 2.5rem;
         }
+
+        .experience-list,
+        .projects-list {
+            grid-template-columns: 1fr;
+            justify-items: center;
+        }
     }
 
     @media (max-width: 480px) {
@@ -720,7 +756,7 @@
         }
 
         .hero p {
-            font-size: 0.9rem;
+            font-size: var(--p-size);
         }
 
         .sect > h1 {
@@ -734,7 +770,6 @@
         }
 
         .hero p {
-            font-size: 1.1rem;
             width: 60% !important;
         }
 
@@ -755,7 +790,6 @@
         }
 
         .hero p {
-            font-size: 1.2rem;
             width: 40% !important;
         }
 
@@ -776,7 +810,7 @@
         }
 
         p {
-            font-size: 4vw;
+            font-size: clamp(1em, 4vw, 4vw);
         }
 
         .sect {
