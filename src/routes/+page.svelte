@@ -88,7 +88,7 @@
         {
             title: 'Teabag',
             description:
-                'Moves Linux AppImages to a central directory and adds a symlink entry to your app drawer.',
+                'Simplifies the process of using AppImages, and manages their availability via the system drawer.',
             link: 'https://github.com/sivepanda/teabag',
             color: 'rgba(255, 0, 50, 1)',
             technologies: [
