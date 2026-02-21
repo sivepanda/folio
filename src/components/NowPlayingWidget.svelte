@@ -43,7 +43,7 @@
             const response = await fetch('/api/now-playing');
             console.log(response);
             const data = await response.json();
-            
+
             if (data.error) {
                 error = data.error;
                 nowPlaying = null;
@@ -72,15 +72,15 @@
         const now = new Date();
         const then = new Date(timestamp);
         const diffInMinutes = Math.floor((now.getTime() - then.getTime()) / (1000 * 60));
-        
+
         if (diffInMinutes < 1) return 'just now';
         if (diffInMinutes === 1) return '1 min ago';
         if (diffInMinutes < 60) return `${diffInMinutes} mins ago`;
-        
+
         const diffInHours = Math.floor(diffInMinutes / 60);
         if (diffInHours === 1) return '1 hr ago';
         if (diffInHours < 24) return `${diffInHours} hrs ago`;
-        
+
         return then.toLocaleDateString();
     }
 </script>
@@ -90,7 +90,7 @@
         <button class="dismiss-btn" onclick={() => dismiss()} aria-label="Dismiss now playing">
             <i class="ri-close-line"></i>
         </button>
-        
+
         {#if isLoading}
             <div class="loading-content">
                 <div class="loading-spinner"></div>
@@ -99,34 +99,35 @@
         {:else if nowPlaying}
             <div class="track-info">
                 <div class="album-art">
-                    <img 
-                        src={nowPlaying.image} 
+                    <img
+                        src={nowPlaying.image}
                         alt="Album cover for {nowPlaying.album}"
-                        onerror={(e) => {if (e.target instanceof HTMLImageElement) e.target.src='/favicon.png'}}
+                        onerror={(e) => {
+                            if (e.target instanceof HTMLImageElement) e.target.src = '/favicon.png';
+                        }}
                     />
-                    
                 </div>
-                
+
                 <div class="track-details">
                     <div class="status">
                         {#if nowPlaying.isPlaying}
                             <i class="ri-music-2-line"></i>
-                            <span>Now Playing</span>
+                            <span>I'm Listening To:</span>
                         {:else}
                             <i class="ri-time-line"></i>
-                            <span>Recently Played {formatTimeAgo(nowPlaying.timestamp)}</span>
+                            <span>I Just Played {formatTimeAgo(nowPlaying.timestamp)}</span>
                         {/if}
                     </div>
-                    
+
                     <div class="track-title">{nowPlaying.title}</div>
                     <div class="track-artist">{nowPlaying.artist}</div>
                     {#if nowPlaying.album && nowPlaying.album !== 'Unknown Album'}
                         <div class="track-album">{nowPlaying.album}</div>
                     {/if}
-                    
-                    <a 
-                        href={nowPlaying.url} 
-                        target="_blank" 
+
+                    <a
+                        href={nowPlaying.url}
+                        target="_blank"
                         rel="noopener noreferrer"
                         class="lastfm-link"
                     >
@@ -334,7 +335,8 @@
     }
 
     @keyframes pulse {
-        0%, 100% {
+        0%,
+        100% {
             opacity: 1;
         }
         50% {
@@ -388,3 +390,4 @@
         }
     }
 </style>
+
