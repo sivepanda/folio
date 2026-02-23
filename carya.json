@@ -1,0 +1,23 @@
+{
+  "version": "1.0",
+  "post-pull": [
+    {
+      "command": "bun install",
+      "working_dir": "",
+      "description": "Install Bun dependencies",
+      "trigger_files": [
+        "bun.lock"
+      ]
+    }
+  ],
+  "post-checkout": [
+    {
+      "command": "bun install",
+      "working_dir": "",
+      "description": "Install Bun dependencies",
+      "trigger_files": [
+        "bun.lock"
+      ]
+    }
+  ]
+}
