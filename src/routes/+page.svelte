@@ -19,6 +19,7 @@
                 'Internal university services and maintaining backend integrations with core university infrastructure including REST APIs, authentication systems, and databases.',
             link: 'https://oit.duke.edu/',
             color: 'rgba(0, 59, 153, 1)',
+            icon: '/duke-wordmark-white.svg',
             technologies: [
                 { name: 'Next.js', icon: 'fa-brands fa-nextjs-fill' },
                 { name: 'React', icon: 'ri-reactjs-fill' },
@@ -33,6 +34,7 @@
                 'Created internal data preparation tools and data visualization pipelines to improve research workflows.',
             link: 'https://yi-zhang-compbio-lab.github.io/',
             color: 'rgba(0, 59, 153, 1)',
+            icon: '/duke-wordmark-white.svg',
             technologies: [
                 { name: 'Python', icon: 'fa-brands fa-python' },
                 { name: 'Git', icon: 'ri-git-branch-fill' },
@@ -46,6 +48,7 @@
                 'Built a cloud-based platform as the founding engineer to deliver learning modules across schools, standardizing instruction, and built systems to streamline client and volunteer onboarding.',
             link: 'https://rrccok.org',
             color: 'rgba(150, 0, 0, 1)',
+            icon: '/rrcc.png',
             technologies: [
                 { name: 'AWS', icon: 'ri-amazon-fill' },
                 { name: 'JavaScript', icon: 'ri-javascript-fill' },
@@ -58,6 +61,7 @@
                 'Led evaluation and performance testing of neural networks for large-scale genomic dataset feature reduction to improve associativity detection.',
             link: 'https://omrf.org',
             color: 'rgba(100, 0, 255, 1)',
+            icon: '/omrf.png',
             technologies: [
                 { name: 'Python', icon: 'fa-brands fa-python' },
                 { name: 'Scikit-learn', icon: 'ri-bar-chart-fill' },
@@ -74,9 +78,9 @@
         {
             title: 'Carya',
             description:
-                'Visual TUI to supercharge your Git experience. Includes a compenent to autodetect changes in a package manager and suggest installing these changes on pull or checkout, and a diff selection tool to compose commits.',
+                'Visual TUI to supercharge your Git experience. Keep track of changes through time before committing Google Docs style, and compose commits, and view the states of other users to catch potential merge conflicts before they happen.',
             link: 'https://github.com/sivepanda/carya',
-            color: 'rgba(200, 0, 255, 1)',
+            color: 'rgba(160, 50, 255, 1)',
             technologies: [
                 { name: 'Go', icon: 'fa-brands fa-golang' },
                 { name: 'Bubble Tea', icon: 'ri-drinks-fill' },
@@ -84,18 +88,17 @@
                 { name: 'TUI', icon: 'ri-terminal-window-fill' }
             ]
         },
-
         {
-            title: 'Teabag',
+            title: 'TreeDoc',
             description:
-                'Simplifies the process of using AppImages, and manages their availability via system directories.',
-            link: 'https://github.com/sivepanda/teabag',
-            color: 'rgba(255, 0, 50, 1)',
+                'Accessible autonomous LIDAR mapping kit using two rotating iPhones and wirelessly networked realtime wireless internal control systems for ground-level forest mapping. Data is also shared wirelessly from the autonomous vehicle to a host for observability and monitoring.',
+            link: 'https://github.com/lari-health/treedoc',
+            color: 'rgba(0, 255, 50, 1)',
             technologies: [
-                { name: 'Go', icon: 'fa-brands fa-golang' },
-                { name: 'Bubble Tea', icon: 'ri-drinks-fill' },
-                { name: 'AppImage', icon: 'ri-apps-2-fill' },
-                { name: 'Linux', icon: 'ri-qq-fill' }
+                { name: 'Swift', icon: 'fa-brands fa-swift' },
+                { name: 'Python', icon: 'fa-brands fa-python' },
+                { name: 'Integrated Circuits', icon: 'fa-solid fa-microchip' },
+                { name: 'REST API', icon: 'ri-plug-fill' }
             ]
         },
         {
@@ -110,6 +113,33 @@
                 { name: 'Next.js', icon: 'ri-nextjs-fill' },
                 { name: 'FHIR', icon: 'ri-heart-fill' },
                 { name: 'REST API', icon: 'ri-plug-fill' }
+            ]
+        },
+        {
+            title: 'Mycelia',
+            description:
+                'Detects changes in manifest files during pulls and checkouts and suggest running them automatically.',
+            link: 'https://github.com/sivepanda/mycelia',
+            color: 'rgba(0, 210, 220, 1)',
+            technologies: [
+                { name: 'Go', icon: 'fa-brands fa-golang' },
+                { name: 'Bubble Tea', icon: 'ri-drinks-fill' },
+                { name: 'Git', icon: 'ri-git-branch-fill' },
+                { name: 'TUI', icon: 'ri-terminal-window-fill' }
+            ]
+        },
+
+        {
+            title: 'Teabag',
+            description:
+                'Simplifies the process of using AppImages, and manages their availability via system directories.',
+            link: 'https://github.com/sivepanda/teabag',
+            color: 'rgba(255, 50, 50, 1)',
+            technologies: [
+                { name: 'Go', icon: 'fa-brands fa-golang' },
+                { name: 'Bubble Tea', icon: 'ri-drinks-fill' },
+                { name: 'AppImage', icon: 'ri-apps-2-fill' },
+                { name: 'Linux', icon: 'ri-qq-fill' }
             ]
         },
         {
@@ -131,7 +161,7 @@
             description:
                 'Web resource for students to generate practice tests from a PDF of notes with text classification to detect generalized concepts to customize generated quizzes.',
             link: 'https://github.com/sivepanda/velocequiz',
-            color: 'rgba(255, 0, 100, 1)',
+            color: 'rgba(255, 150, 30, 1)',
             technologies: [
                 { name: 'Python', icon: 'fa-brands fa-python' },
                 { name: 'OpenAI', icon: 'ri-brain-fill' },
@@ -146,7 +176,7 @@
             description:
                 'Fully functional and reactive website using solely HTML, CSS, and JavaScript. From my high school years!',
             link: 'https://retrograde.sivenpanda.com',
-            color: 'rgba(205, 0, 250, 1)',
+            color: 'rgba(30, 100, 255, 1)',
             technologies: [
                 { name: 'HTML5', icon: 'ri-html5-fill' },
                 { name: 'CSS3', icon: 'ri-css3-fill' },
@@ -185,7 +215,7 @@
             description:
                 'CLI matrix computational tool I wrote to make doing linear algebra homework easier. Wrapped in a python package.',
             link: 'https://github.com/sivepanda/mtxmathtools',
-            color: 'rgba(255, 100, 255, 1)',
+            color: 'rgba(140, 230, 50, 1)',
             technologies: [
                 { name: 'Python', icon: 'fa-brands fa-python' },
                 { name: 'CLI', icon: 'ri-terminal-fill' }
@@ -657,6 +687,7 @@
                 link={exp.link}
                 color={exp.color}
                 technologies={exp.technologies}
+                icon={exp.icon}
             />
         {/each}
     </div>

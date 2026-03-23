@@ -6,6 +6,7 @@
     export let link: string | null = null;
     export let color: string = 'rgba(255, 255, 255, 0.1)';
     export let technologies: Array<{ name: string; icon: string }> = [];
+    export let icon: string | null = null;
 
     let mounted = false;
     let mouseX = 50;
@@ -66,6 +67,10 @@
         <h2 class="title-marquee" class:title-overflows={titleOverflows} bind:this={titleEl}><span>{title}</span></h2>
         <p>{description}</p>
 
+        {#if icon}
+            <img class="tile-icon" src={icon} alt="" aria-hidden="true" />
+        {/if}
+
         {#if technologies.length > 0}
             <div class="tech-footer">
                 <div class="tech-icons">
@@ -83,6 +88,10 @@
     <div class="glass-tile" style="--tile-color: {color}">
         <h2 class="title-marquee" class:title-overflows={titleOverflows} bind:this={titleEl}><span>{title}</span></h2>
         <p>{description}</p>
+
+        {#if icon}
+            <img class="tile-icon" src={icon} alt="" aria-hidden="true" />
+        {/if}
 
         {#if technologies.length > 0}
             <div class="tech-footer">
@@ -177,6 +186,18 @@
     .glass-tile > * {
         position: relative;
         z-index: 2;
+    }
+
+    .tile-icon {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        max-height: 50%;
+        opacity: 0.07;
+        pointer-events: none;
+        z-index: 0;
+        filter: brightness(0) invert(1);
+        transform: translate(5%, 10%);
     }
 
     .glass-tile h2 {
