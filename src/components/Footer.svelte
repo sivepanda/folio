@@ -25,7 +25,7 @@
 </script>
 
 <div class="social">
-    <p class="name">//maybesivenpanda</p>
+    <p class="name">home is where the ~/ is</p>
     <div class="brandimgs">
         <a aria-label="Email" href="mailto:siven.panda@duke.edu" target="_blank">
             <i class="fa-solid fa-envelope"></i>
@@ -44,7 +44,8 @@
             <i class="ri-spotify-fill"></i>
         </a>
         <button onclick={toggleMusic} class="music-toggle">
-            <i class="ri-music-2-line"></i> {musicHidden ? 'show' : 'hide'} music widget
+            <i class="ri-music-2-line"></i>
+            {musicHidden ? 'show' : 'hide'} music widget
         </button>
     </div>
 </div>
