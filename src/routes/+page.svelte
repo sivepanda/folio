@@ -34,7 +34,7 @@
                 'Created internal data preparation tools and data visualization pipelines to improve research workflows.',
             link: 'https://yi-zhang-compbio-lab.github.io/',
             color: 'rgba(0, 59, 153, 1)',
-            icon: '/duke-wordmark-white.svg',
+            icon: '/duhs.png',
             technologies: [
                 { name: 'Python', icon: 'fa-brands fa-python' },
                 { name: 'Git', icon: 'ri-git-branch-fill' },
