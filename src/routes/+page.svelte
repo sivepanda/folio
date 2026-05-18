@@ -20,6 +20,7 @@
             link: 'https://oit.duke.edu/',
             color: 'rgba(0, 59, 153, 1)',
             icon: '/duke-wordmark-white.svg',
+            size: 'wide',
             technologies: [
                 { name: 'Next.js', icon: 'fa-brands fa-nextjs-fill' },
                 { name: 'React', icon: 'ri-reactjs-fill' },
@@ -35,6 +36,7 @@
             link: 'https://yi-zhang-compbio-lab.github.io/',
             color: 'rgba(0, 59, 153, 1)',
             icon: '/duhs.png',
+            size: 'medium',
             technologies: [
                 { name: 'Python', icon: 'fa-brands fa-python' },
                 { name: 'Git', icon: 'ri-git-branch-fill' },
@@ -49,6 +51,7 @@
             link: 'https://rrccok.org',
             color: 'rgba(150, 0, 0, 1)',
             icon: '/rrcc.png',
+            size: 'medium',
             technologies: [
                 { name: 'AWS', icon: 'ri-amazon-fill' },
                 { name: 'JavaScript', icon: 'ri-javascript-fill' },
@@ -62,6 +65,7 @@
             link: 'https://omrf.org',
             color: 'rgba(100, 0, 255, 1)',
             icon: '/omrf.png',
+            size: 'wide',
             technologies: [
                 { name: 'Python', icon: 'fa-brands fa-python' },
                 { name: 'Scikit-learn', icon: 'ri-bar-chart-fill' },
@@ -81,6 +85,7 @@
                 'Visual TUI to supercharge your Git experience. Keep track of changes through time before committing Google Docs style, and compose commits, and view the states of other users to catch potential merge conflicts before they happen.',
             link: 'https://github.com/sivepanda/carya',
             color: 'rgba(160, 50, 255, 1)',
+            size: 'wide',
             technologies: [
                 { name: 'Go', icon: 'fa-brands fa-golang' },
                 { name: 'Bubble Tea', icon: 'ri-drinks-fill' },
@@ -94,6 +99,7 @@
                 'Accessible autonomous LIDAR mapping kit using two rotating iPhones and wirelessly networked realtime wireless internal control systems for ground-level forest mapping. Data is also shared wirelessly from the autonomous vehicle to a host for observability and monitoring.',
             link: 'https://github.com/lari-health/treedoc',
             color: 'rgba(0, 255, 50, 1)',
+            size: 'medium',
             technologies: [
                 { name: 'Swift', icon: 'fa-brands fa-swift' },
                 { name: 'Python', icon: 'fa-brands fa-python' },
@@ -107,6 +113,7 @@
                 'EHR-integrated application that automates managing patient appointment scheduling (and rescheduling). Built to scale with Go, React, and Next.js using a scalable modularized architecture.',
             link: 'https://github.com/lari-health',
             color: 'rgba(100, 0, 255, 1)',
+            size: 'wide',
             technologies: [
                 { name: 'React', icon: 'ri-reactjs-fill' },
                 { name: 'Go', icon: 'fa-brands fa-golang' },
@@ -121,6 +128,7 @@
                 'Detects changes in manifest files during pulls and checkouts and suggest running them automatically.',
             link: 'https://github.com/sivepanda/mycelia',
             color: 'rgba(0, 210, 220, 1)',
+            size: 'medium',
             technologies: [
                 { name: 'Go', icon: 'fa-brands fa-golang' },
                 { name: 'Bubble Tea', icon: 'ri-drinks-fill' },
@@ -128,13 +136,13 @@
                 { name: 'TUI', icon: 'ri-terminal-window-fill' }
             ]
         },
-
         {
             title: 'Teabag',
             description:
                 'Simplifies the process of using AppImages, and manages their availability via system directories.',
             link: 'https://github.com/sivepanda/teabag',
             color: 'rgba(255, 50, 50, 1)',
+            size: 'medium',
             technologies: [
                 { name: 'Go', icon: 'fa-brands fa-golang' },
                 { name: 'Bubble Tea', icon: 'ri-drinks-fill' },
@@ -148,6 +156,7 @@
                 'Social media application that enables users to easily make and share short sound recordings for music producers to use in their music.',
             link: 'https://github.com/sivepanda/soundbits',
             color: 'rgba(255, 0, 200, 1)',
+            size: 'wide',
             technologies: [
                 { name: 'React', icon: 'ri-reactjs-fill' },
                 { name: 'Node.js', icon: 'ri-nodejs-fill' },
@@ -162,6 +171,7 @@
                 'Web resource for students to generate practice tests from a PDF of notes with text classification to detect generalized concepts to customize generated quizzes.',
             link: 'https://github.com/sivepanda/velocequiz',
             color: 'rgba(255, 150, 30, 1)',
+            size: 'medium',
             technologies: [
                 { name: 'Python', icon: 'fa-brands fa-python' },
                 { name: 'OpenAI', icon: 'ri-brain-fill' },
@@ -177,6 +187,7 @@
                 'Fully functional and reactive website using solely HTML, CSS, and JavaScript. From my high school years!',
             link: 'https://retrograde.sivenpanda.com',
             color: 'rgba(30, 100, 255, 1)',
+            size: 'medium',
             technologies: [
                 { name: 'HTML5', icon: 'ri-html5-fill' },
                 { name: 'CSS3', icon: 'ri-css3-fill' },
@@ -190,6 +201,7 @@
                 'Matchup optimizer using data pulled from official FIRST APIs to train a classifiers to predict wins to about an 85% accuracy rate. Included visualizations to inform match strategy.',
             link: 'https://github.com/2Ahmad5/scoutviz-calc',
             color: 'rgba(0, 255, 0, 1)',
+            size: 'wide',
             technologies: [
                 { name: 'Python', icon: 'ri-python-fill' },
                 { name: 'Scikit-learn', icon: 'ri-bar-chart-fill' },
@@ -204,6 +216,7 @@
                 'Customized user interface for Firefox (via userchrome.css), includes integration that modifies the default homepage with the daily Astronomy Picture of the Day.',
             link: 'https://github.com/sivepanda/roundify',
             color: 'rgba(255, 255, 0, 1)',
+            size: 'medium',
             technologies: [
                 { name: 'CSS3', icon: 'ri-css3-fill' },
                 { name: 'Firefox', icon: 'ri-firefox-fill' },
@@ -216,6 +229,7 @@
                 'CLI matrix computational tool I wrote to make doing linear algebra homework easier. Wrapped in a python package.',
             link: 'https://github.com/sivepanda/mtxmathtools',
             color: 'rgba(140, 230, 50, 1)',
+            size: 'medium',
             technologies: [
                 { name: 'Python', icon: 'fa-brands fa-python' },
                 { name: 'CLI', icon: 'ri-terminal-fill' }
@@ -250,7 +264,16 @@
         and create systems to help people, whether it be in health, education, or software
         development. I also take pictures sometimes. Check those out too!
     </p>
-    <div class="read-more">
+    <a href="#skills" on:click={() => {
+            event.preventDefault()
+            const link = event.currentTarget
+            const anchorId = new URL(link.href).hash.replace('#', '')
+            const anchor = document.getElementById(anchorId)
+            window.scrollTo({
+                top: anchor.offsetTop-50,
+                behavior: 'smooth'
+            })
+		}} class="read-more">
         <span>read more</span>
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -265,7 +288,7 @@
         >
             <polyline points="6 9 12 15 18 9"></polyline>
         </svg>
-    </div>
+    </a>
 </div>
 
 <div id="skills" class="sect dev">
@@ -680,7 +703,7 @@
 <div id="experience" class="sect experience">
     <h1>Experience</h1>
     <div class="experience-list">
-        {#each experiences as exp}
+        {#each experiences as exp, i}
             <GlassTile
                 title={exp.title}
                 description={exp.description}
@@ -688,6 +711,8 @@
                 color={exp.color}
                 technologies={exp.technologies}
                 icon={exp.icon}
+                loadIndex={i}
+                tileSize={exp.size}
             />
         {/each}
     </div>
@@ -696,13 +721,15 @@
 <div id="projects" class="sect proj">
     <h1>Projects</h1>
     <div class="projects-list">
-        {#each projects as proj}
+        {#each projects as proj, i}
             <GlassTile
                 title={proj.title}
                 description={proj.description}
                 link={proj.link}
                 color={proj.color}
                 technologies={proj.technologies}
+                loadIndex={i}
+                tileSize={proj.size}
             />
         {/each}
     </div>
@@ -747,6 +774,8 @@
     }
 
     .read-more {
+        text-decoration: none;
+        color: white;
         position: absolute;
         bottom: 2rem;
         display: flex;
@@ -868,14 +897,22 @@
         flex-wrap: wrap;
     }
 
-    .experience-list,
+    .experience-list {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-flow: row dense;
+        gap: 24px;
+        align-items: start;
+    }
+
     .projects-list {
         width: 100%;
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(min(500px, 100%), 1fr));
-        gap: 20px;
-        justify-content: space-around;
-        margin: 0px 0px;
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-flow: row dense;
+        gap: 24px;
+        align-items: start;
     }
 
     @media (max-width: 768px) {
@@ -902,7 +939,6 @@
         .experience-list,
         .projects-list {
             grid-template-columns: 1fr;
-            justify-items: center;
         }
     }
 
@@ -937,6 +973,10 @@
 
         .sect > h1 {
             font-size: 3rem;
+        }
+
+        .projects-list {
+            grid-template-columns: repeat(2, 1fr);
         }
     }
 

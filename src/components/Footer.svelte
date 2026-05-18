@@ -1,6 +1,7 @@
 <script>
     import { browser } from '$app/environment';
     import { onMount } from 'svelte';
+    import { animationsEnabled, toggleAnimations } from '$lib/performance';
 
     let musicHidden = $state(false);
 
@@ -46,6 +47,10 @@
         <button onclick={toggleMusic} class="music-toggle">
             <i class="ri-music-2-line"></i>
             {musicHidden ? 'show' : 'hide'} music widget
+        </button>
+        <button onclick={toggleAnimations} class="music-toggle">
+            <i class={$animationsEnabled ? 'ri-sparkling-2-fill' : 'ri-sparkling-2-line'}></i>
+            {$animationsEnabled ? 'disable' : 'enable'} animations
         </button>
     </div>
 </div>
