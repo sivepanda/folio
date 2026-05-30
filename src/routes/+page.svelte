@@ -14,6 +14,19 @@
 
     const experiences = [
         {
+            title: 'IBM',
+            description:
+                'Incoming at z/OS JES2 on the IBM Z Mainframe platform.',
+            link: 'https://www.ibm.com',
+            color: 'rgba(15, 98, 254, 1)',
+            icon: '/ibmwm.svg',
+            technologies: [
+                { name: 'Assembler', icon: 'fa-solid fa-cubes-stacked' },
+                { name: 'IBM Z', icon: 'fa-solid fa-z' },
+                { name: 'Git', icon: 'ri-git-branch-fill' }
+            ]
+        },
+        {
             title: 'Duke Office of Information Technology',
             description:
                 'Internal university services and maintaining backend integrations with core university infrastructure including REST APIs, authentication systems, and databases.',
@@ -22,6 +35,8 @@
             icon: '/duke-wordmark-white.svg',
             technologies: [
                 { name: 'Next.js', icon: 'fa-brands fa-nextjs-fill' },
+                { name: 'Python', icon: 'fa-brands fa-python' },
+                { name: 'JavaScript', icon: 'ri-javascript-fill' },
                 { name: 'React', icon: 'ri-reactjs-fill' },
                 { name: 'MongoDB', icon: 'ri-leaf-fill' },
                 { name: 'Docker', icon: 'fa-brands fa-docker' },
@@ -76,6 +91,19 @@
 
     const projects = [
         {
+            title: 'P2Poker',
+            description:
+                'Built model and implementation for playing poker in a fully decentralized peer-to-peer trustless network. Turns are verifiable and are signed to particular users to prevent cheating or spoofing. Allows for users to create their own clients using a set of protobufs.',
+            link: 'https://github.com/sivepanda/p2poker',
+            color: 'rgba(200, 0, 200, 1)',
+            technologies: [
+                { name: 'Go', icon: 'fa-brands fa-golang' },
+                { name: 'P2P Encrypted Networking', icon: 'fa-solid fa-network-wired' },
+                { name: 'React', icon: 'ri-reactjs-fill' },
+                { name: 'Bubble Tea', icon: 'ri-drinks-fill' },
+            ]
+        },
+        {
             title: 'Carya',
             description:
                 'Visual TUI to supercharge your Git experience. Keep track of changes through time before committing Google Docs style, and compose commits, and view the states of other users to catch potential merge conflicts before they happen.',
@@ -99,6 +127,16 @@
                 { name: 'Python', icon: 'fa-brands fa-python' },
                 { name: 'Integrated Circuits', icon: 'fa-solid fa-microchip' },
                 { name: 'REST API', icon: 'ri-plug-fill' }
+            ]
+        },
+        {
+            title: '2D Vector Graphics Library',
+            description:
+                'Designed and built a 2D Vector Graphics library from scratch in C++. Implements spline curves, blending, transforms, and shaders.',
+            color: 'rgba(100, 200, 150, 1)',
+            technologies: [
+                { name: 'C++', icon: 'fa-solid fa-c' },
+                { name: 'Vector Graphics', icon: 'fa-solid fa-draw-polygon' },
             ]
         },
         {
@@ -246,11 +284,21 @@
 <div class="hero">
     <h1>Hey, I'm Siven!</h1>
     <p>
-        I'm a computer engineering and computer science student at Duke University. I write software
-        and create systems to help people, whether it be in health, education, or software
-        development. I also take pictures sometimes. Check those out too!
+        I'm a computer engineering and computer science student at Duke University. 
+        I love building tools and designing systems that make hard things easier:
+        whether that is for enterprise, students, and even researchers.
+        I also take pictures sometimes. Check those out too!
     </p>
-    <div class="read-more">
+    <a href="#skills" on:click={() => {
+            event.preventDefault()
+            const link = event.currentTarget
+            const anchorId = new URL(link.href).hash.replace('#', '')
+            const anchor = document.getElementById(anchorId)
+            window.scrollTo({
+                top: anchor.offsetTop-50,
+                behavior: 'smooth'
+            })
+		}} class="read-more">
         <span>read more</span>
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -265,7 +313,7 @@
         >
             <polyline points="6 9 12 15 18 9"></polyline>
         </svg>
-    </div>
+    </a>
 </div>
 
 <div id="skills" class="sect dev">
@@ -747,6 +795,8 @@
     }
 
     .read-more {
+        text-decoration: none;
+        color: white;
         position: absolute;
         bottom: 2rem;
         display: flex;
