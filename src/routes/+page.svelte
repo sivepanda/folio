@@ -16,11 +16,13 @@
         {
             title: 'IBM',
             description:
-                'Incoming at z/OS JES2 on the IBM Z Mainframe platform.',
+                'Building full first-class Language Server support for code editors for JES2 policies written for the Z Mainframe platform, with hover documentation and diagnostics, code actions, and validation.',
             link: 'https://www.ibm.com',
             color: 'rgba(15, 98, 254, 1)',
             icon: '/ibmwm.svg',
             technologies: [
+                { name: 'Rust', icon: 'fa-brands fa-rust' },
+                { name: 'Language Server Protocol', icon: 'ri-file-edit-line' },
                 { name: 'Assembler', icon: 'fa-solid fa-cubes-stacked' },
                 { name: 'IBM Z', icon: 'fa-solid fa-z' },
                 { name: 'Git', icon: 'ri-git-branch-fill' }
