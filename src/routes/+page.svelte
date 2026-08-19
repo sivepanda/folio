@@ -10,17 +10,17 @@
     injectAnalytics({ mode: dev ? 'development' : 'production' });
     let scrY = $state(0);
 
-    let defaul = 'rgba(100, 0, 200, 1)';
-
     const experiences = [
         {
             title: 'IBM',
             description:
-                'Incoming at z/OS JES2 on the IBM Z Mainframe platform.',
+                'Building full first-class Language Server support for code editors for JES2 policies written for the Z Mainframe platform, with hover documentation and diagnostics, code actions, and validation.',
             link: 'https://www.ibm.com',
             color: 'rgba(15, 98, 254, 1)',
             icon: '/ibmwm.svg',
             technologies: [
+                { name: 'Rust', icon: 'fa-brands fa-rust' },
+                { name: 'Language Server Protocol', icon: 'ri-file-edit-line' },
                 { name: 'Assembler', icon: 'fa-solid fa-cubes-stacked' },
                 { name: 'IBM Z', icon: 'fa-solid fa-z' },
                 { name: 'Git', icon: 'ri-git-branch-fill' }
@@ -100,7 +100,7 @@
                 { name: 'Go', icon: 'fa-brands fa-golang' },
                 { name: 'P2P Encrypted Networking', icon: 'fa-solid fa-network-wired' },
                 { name: 'React', icon: 'ri-reactjs-fill' },
-                { name: 'Bubble Tea', icon: 'ri-drinks-fill' },
+                { name: 'Bubble Tea', icon: 'ri-drinks-fill' }
             ]
         },
         {
@@ -136,7 +136,7 @@
             color: 'rgba(100, 200, 150, 1)',
             technologies: [
                 { name: 'C++', icon: 'fa-solid fa-c' },
-                { name: 'Vector Graphics', icon: 'fa-solid fa-draw-polygon' },
+                { name: 'Vector Graphics', icon: 'fa-solid fa-draw-polygon' }
             ]
         },
         {
@@ -284,21 +284,24 @@
 <div class="hero">
     <h1>Hey, I'm Siven!</h1>
     <p>
-        I'm a computer engineering and computer science student at Duke University. 
-        I love building tools and designing systems that make hard things easier:
-        whether that is for enterprise, students, and even researchers.
-        I also take pictures sometimes. Check those out too!
+        I'm a computer engineering and computer science student at Duke University. I love building
+        tools and designing systems that make hard things easier: whether that is for enterprise,
+        students, and even researchers. I also take pictures sometimes. Check those out too!
     </p>
-    <a href="#skills" on:click={() => {
-            event.preventDefault()
-            const link = event.currentTarget
-            const anchorId = new URL(link.href).hash.replace('#', '')
-            const anchor = document.getElementById(anchorId)
+    <a
+        href="#skills"
+        on:click={() => {
+            event.preventDefault();
+            const link = event.currentTarget;
+            const anchorId = new URL(link.href).hash.replace('#', '');
+            const anchor = document.getElementById(anchorId);
             window.scrollTo({
-                top: anchor.offsetTop-50,
+                top: anchor.offsetTop - 50,
                 behavior: 'smooth'
-            })
-		}} class="read-more">
+            });
+        }}
+        class="read-more"
+    >
         <span>read more</span>
         <svg
             xmlns="http://www.w3.org/2000/svg"
