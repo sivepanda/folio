@@ -292,6 +292,13 @@
         text-decoration: none;
         height: 100%;
         cursor: pointer;
+        transition: 100ms ease-in;
+    }
+    
+    .logo-link:hover {
+        filter: brightness(80%);
+        transition: 100ms ease-out;
+
     }
 
     .name-text {

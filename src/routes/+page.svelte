@@ -20,9 +20,11 @@
             icon: '/ibmwm.svg',
             technologies: [
                 { name: 'Rust', icon: 'fa-brands fa-rust' },
-                { name: 'Language Server Protocol', icon: 'ri-file-edit-line' },
                 { name: 'Assembler', icon: 'fa-solid fa-cubes-stacked' },
+                { name: 'Language Server Protocol', icon: 'ri-file-edit-line' },
                 { name: 'IBM Z', icon: 'fa-solid fa-z' },
+                { name: 'Compilers', icon: 'ri-code-block' },
+                { name: 'Job Entry Subsystem 2', icon: 'ri-terminal-fill' },
                 { name: 'Git', icon: 'ri-git-branch-fill' }
             ]
         },
@@ -44,7 +46,7 @@
             ]
         },
         {
-            title: 'Duke School of Medicine (Biostatics & Bioinformatics)',
+            title: 'Duke School of Medicine (Biostatistics & Bioinformatics)',
             description:
                 'Created internal data preparation tools and data visualization pipelines to improve research workflows.',
             link: 'https://yi-zhang-compbio-lab.github.io/',
@@ -132,7 +134,7 @@
         {
             title: '2D Vector Graphics Library',
             description:
-                'Designed and built a 2D Vector Graphics library from scratch in C++. Implements spline curves, blending, transforms, and shaders.',
+                'Designed and built a 2D Vector Graphics library from scratch in C++. Implements bezier and spline curves, blending, transforms, and shaders.',
             color: 'rgba(100, 200, 150, 1)',
             technologies: [
                 { name: 'C++', icon: 'fa-solid fa-c' },
@@ -322,9 +324,9 @@
 <div id="skills" class="sect dev">
     <h1>Skills</h1>
     <p>
-        I program in a number of languages and with a broad range of principles, from frontend and
-        design to backend, to simple scripts. Most of my work is done in Java and TypeScript, but I
-        have worked extensively with Go, Python, C, and C++
+        I have worked with a number of tools and languages across both software and 
+        computer engineering principles. Most of my work is done in Go and TypeScript, 
+        but I have worked extensively with Java, Rust, Python, and C++
     </p>
     <h2>Favorite/Frequent Languages and Tools</h2>
     <div id="lan">
