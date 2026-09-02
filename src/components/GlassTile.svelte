@@ -8,7 +8,6 @@
     export let technologies: Array<{ name: string; icon: string }> = [];
     export let icon: string | null = null;
 
-    let mounted = false;
     let mouseX = 50;
     let mouseY = 50;
     let shimmerAngle = 0;
@@ -47,7 +46,6 @@
     }
 
     onMount(() => {
-        mounted = true;
         checkTitleOverflow();
         return () => cancelAnimationFrame(animationFrame);
     });
@@ -64,11 +62,20 @@
         on:mouseenter={handleMouseEnter}
         on:mouseleave={handleMouseLeave}
     >
-        <h2 class="title-marquee" class:title-overflows={titleOverflows} bind:this={titleEl}><span>{title}</span></h2>
+        <h2 class="title-marquee" class:title-overflows={titleOverflows} bind:this={titleEl}>
+            <span>{title}</span>
+        </h2>
         <p>{description}</p>
 
         {#if icon}
-            <img class="tile-icon" src={icon} alt="" aria-hidden="true" />
+            <img
+                class="tile-icon"
+                src={icon}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                aria-hidden="true"
+            />
         {/if}
 
         {#if technologies.length > 0}
@@ -86,11 +93,20 @@
     </a>
 {:else}
     <div class="glass-tile" style="--tile-color: {color}">
-        <h2 class="title-marquee" class:title-overflows={titleOverflows} bind:this={titleEl}><span>{title}</span></h2>
+        <h2 class="title-marquee" class:title-overflows={titleOverflows} bind:this={titleEl}>
+            <span>{title}</span>
+        </h2>
         <p>{description}</p>
 
         {#if icon}
-            <img class="tile-icon" src={icon} alt="" aria-hidden="true" />
+            <img
+                class="tile-icon"
+                src={icon}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                aria-hidden="true"
+            />
         {/if}
 
         {#if technologies.length > 0}
@@ -156,7 +172,9 @@
                 0 0 60px 10px hsl(from var(--tile-color) h s 60% / 0.45),
                 0 0 0 2px rgba(255, 255, 255, 0.2),
                 0 0 100px 20px hsl(from var(--tile-color) h s 70% / 0.25),
-                calc(cos(var(--shimmer-angle, 0deg)) * 30px) calc(sin(var(--shimmer-angle, 0deg)) * 30px) 60px 10px hsl(from var(--tile-color) h s 75% / 0.35);
+                calc(cos(var(--shimmer-angle, 0deg)) * 30px)
+                    calc(sin(var(--shimmer-angle, 0deg)) * 30px) 60px 10px
+                    hsl(from var(--tile-color) h s 75% / 0.35);
         }
     }
 

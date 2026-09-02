@@ -1,28 +1,24 @@
 <script>
-    // @ts-ignore
-    import Header from './Header.svelte';
-    // import anime from "animejs";
     import { createTimeline, svg, animate, stagger } from 'animejs';
     import { onMount } from 'svelte';
 
     let visible = $state(true);
 
     onMount(() => {
-        // Add no-scroll class to body when component mounts
+        let destroyed = false;
         document.body.classList.add('no-scroll');
-
-        const [drawable] = svg.createDrawable('.pth');
-        console.log(drawable);
 
         const anim = animate(svg.createDrawable('.pth'), {
             draw: ['0 0', '0 1'],
             ease: 'inOutExpo',
             duration: 1500,
-            delay: stagger(150)
+            delay: stagger(150),
+            autoplay: false
         });
 
         const tl = createTimeline({
-            duration: 2000
+            duration: 2000,
+            autoplay: false
             // @ts-ignore
         })
             .add('#svg179', {
@@ -51,6 +47,7 @@
 
         tl.play();
         tl.then(() => {
+            if (destroyed) return;
             visible = false;
             // Remove no-scroll class when loading is complete
             document.body.classList.remove('no-scroll');
@@ -64,6 +61,12 @@
                 }
             }
         });
+
+        return () => {
+            destroyed = true;
+            tl.revert();
+            document.body.classList.remove('no-scroll');
+        };
     });
 </script>
 
@@ -102,7 +105,8 @@
 {/if}
 
 <style>
-    :global(.no-scroll) {
+    :global(.no-scroll),
+    :global(body:has(#page)) {
         overflow: hidden;
         position: fixed;
         width: 100%;
@@ -111,7 +115,7 @@
 
     #page {
         position: absolute;
-        z-index: 9999;
+        z-index: 10000;
         display: flex;
         background-color: rgba(0, 0, 0, 0.5);
         height: 100vh;

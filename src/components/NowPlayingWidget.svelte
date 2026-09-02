@@ -8,6 +8,21 @@
     let isLoading = $state(true);
     /** @type {string | null} */
     let error = $state(null);
+    /** @type {ReturnType<typeof setInterval> | null} */
+    let refreshInterval = null;
+    /** @type {AbortController | null} */
+    let requestController = null;
+
+    function stopPolling() {
+        if (refreshInterval) clearInterval(refreshInterval);
+        refreshInterval = null;
+    }
+
+    function startPolling() {
+        stopPolling();
+        fetchNowPlaying();
+        refreshInterval = setInterval(fetchNowPlaying, 120000);
+    }
 
     // Check localStorage for dismiss state
     onMount(() => {
@@ -28,20 +43,33 @@
             }
 
             if (isVisible) {
-                fetchNowPlaying();
-                // Refresh every 2 minutes
-                const interval = setInterval(fetchNowPlaying, 120000);
-                return () => clearInterval(interval);
+                startPolling();
             }
+
+            const handleVisibilityChange = () => {
+                if (!isVisible) return;
+                if (document.hidden) stopPolling();
+                else startPolling();
+            };
+            document.addEventListener('visibilitychange', handleVisibilityChange);
+
+            return () => {
+                stopPolling();
+                requestController?.abort();
+                document.removeEventListener('visibilitychange', handleVisibilityChange);
+            };
         }
     });
 
     async function fetchNowPlaying() {
+        const controller = new AbortController();
+        requestController?.abort();
+        requestController = controller;
+
         try {
             isLoading = true;
             error = null;
-            const response = await fetch('/api/now-playing');
-            console.log(response);
+            const response = await fetch('/api/now-playing', { signal: controller.signal });
             const data = await response.json();
 
             if (data.error) {
@@ -51,15 +79,21 @@
                 nowPlaying = data;
             }
         } catch (err) {
+            if (err instanceof DOMException && err.name === 'AbortError') return;
             error = 'Failed to fetch now playing data';
             nowPlaying = null;
         } finally {
-            isLoading = false;
+            if (requestController === controller) {
+                requestController = null;
+                isLoading = false;
+            }
         }
     }
 
     function dismiss() {
         isVisible = false;
+        stopPolling();
+        requestController?.abort();
         if (browser) {
             localStorage.setItem('nowPlayingDismissed', 'true');
             localStorage.setItem('nowPlayingDismissedTime', Date.now().toString());
@@ -103,7 +137,9 @@
                         src={nowPlaying.image}
                         alt="Album cover for {nowPlaying.album}"
                         onerror={(e) => {
-                            if (e.target instanceof HTMLImageElement) e.target.src = '/favicon.png';
+                            if (e.target instanceof HTMLImageElement) {
+                                e.target.src = '/favicon-small.png';
+                            }
                         }}
                     />
                 </div>
@@ -390,4 +426,3 @@
         }
     }
 </style>
-

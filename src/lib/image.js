@@ -1,5 +1,10 @@
 import { dev } from '$app/environment';
 
+/**
+ * @param {string} src
+ * @param {number[]} widths
+ * @param {number} quality
+ */
 export function optimize(src, widths = [640, 828, 1200, 1920], quality = 90) {
     if (dev) return src;
 

@@ -1,26 +1,30 @@
 <script>
     import { onMount } from 'svelte';
-    import gsap from 'gsap';
+    import { createAnimatable, utils } from 'animejs';
+    import { resumeContent } from '$lib/resume-content.js';
 
     let opened = $state('closed');
     let hei = $state('0vh');
     let pdg = $state('0px');
     let { scrY = 0 } = $props();
-    let scrollY = $derived(scrY);
 
-    // Element references
     /** @type {SVGSVGElement | null} */
     let svgContainer = null;
     /** @type {HTMLSpanElement | null} */
     let nameText = null;
-    /** @type {HTMLElement | null} */
-    let headerElement = null;
 
-    // Animation state tracking
-    let animationStarted = $state(false);
-    let typingStarted = $state(false);
-    /** @type {number | null} */
+    let animationStarted = false;
+    let typingStarted = false;
+    /** @type {ReturnType<typeof setInterval> | null} */
     let typingInterval = null;
+    /** @type {import('animejs').AnimatableObject | null} */
+    let svgMotion = null;
+    /** @type {import('animejs').AnimatableObject | null} */
+    let nameMotion = null;
+    /** @type {ReturnType<typeof setTimeout> | null} */
+    let widthResetTimeout = null;
+    let expandedSvgWidth = 0;
+    let lastProgress = -1;
 
     function toggleOpened() {
         if (opened === 'closed') {
@@ -32,7 +36,6 @@
             hei = '0vh';
             pdg = '0px';
         }
-        console.log(opened);
     }
 
     function closeMenu() {
@@ -41,81 +44,87 @@
         pdg = '0px';
     }
 
-    // Reactive effect for scroll-based animations
     $effect(() => {
-        console.log(scrollY);
         if (!svgContainer || !nameText) return;
 
-        const triggerPoint = 50; // Equivalent to previous 'top -50px'
-        const endPoint = 100; // Equivalent to previous 'top -100px'
+        const triggerPoint = 50;
+        const endPoint = 100;
 
-        if (scrollY >= triggerPoint) {
-            const progress = Math.min((scrollY - triggerPoint) / (endPoint - triggerPoint), 1);
+        if (scrY >= triggerPoint) {
+            const progress = Math.min((scrY - triggerPoint) / (endPoint - triggerPoint), 1);
+            if (progress === lastProgress) return;
+            lastProgress = progress;
 
-            // Start animation if not already started
             if (!animationStarted) {
                 animationStarted = true;
+                if (widthResetTimeout) {
+                    clearTimeout(widthResetTimeout);
+                    widthResetTimeout = null;
+                }
 
-                // Initial setup
-                gsap.set(nameText, {
+                svgMotion?.revert();
+                nameMotion?.revert();
+                expandedSvgWidth = svgContainer.getBoundingClientRect().width;
+                utils.set(svgContainer, {
+                    '--svg-width': `${expandedSvgWidth}px`
+                });
+                utils.set(nameText, {
                     opacity: 0,
                     width: '0vw',
                     overflow: 'hidden'
                 });
+
+                svgMotion = createAnimatable(svgContainer, {
+                    translateX: { unit: 'vw', duration: 300, ease: 'outCubic' },
+                    opacity: { duration: 300, ease: 'outCubic' },
+                    '--svg-width': { unit: 'px', duration: 300, ease: 'outCubic' }
+                });
+                nameMotion = createAnimatable(nameText, {
+                    opacity: { duration: 300, ease: 'outCubic' },
+                    width: { unit: 'vw', duration: 300, ease: 'outCubic' }
+                });
             }
 
-            // Animate SVG container
-            gsap.to(svgContainer, {
-                x: `${-progress}vw`,
-                duration: 0.3,
-                opacity: 0,
-                width: '0vw',
-                ease: 'power2.out'
-            });
+            svgMotion?.translateX(-progress);
+            svgMotion?.opacity(0);
+            svgMotion?.['--svg-width'](0);
 
-            // Animate name text after SVG starts moving
             if (progress > 0.3) {
-                gsap.to(nameText, {
-                    opacity: 1,
-                    width: '25vw',
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
+                nameMotion?.opacity(1);
+                nameMotion?.width(25);
+            }
 
-                // Start typing effect
-                if (!typingStarted && progress > 0.5) {
-                    typingStarted = true;
-                    startTypingEffect();
-                }
+            if (!typingStarted && progress > 0.5) {
+                typingStarted = true;
+                startTypingEffect();
             }
         } else {
-            // Reset animation when scrolled back up
+            if (lastProgress === 0) return;
+            lastProgress = 0;
+
             if (animationStarted) {
                 animationStarted = false;
                 typingStarted = false;
 
-                // Clear typing interval if running
                 if (typingInterval) {
                     clearInterval(typingInterval);
                     typingInterval = null;
                 }
 
-                gsap.to(svgContainer, {
-                    x: 0,
-                    duration: 0.3,
-                    opacity: 1,
-                    width: 'auto',
-                    ease: 'power2.out'
-                });
+                svgMotion?.opacity(1);
+                svgMotion?.['--svg-width'](expandedSvgWidth);
+                nameMotion?.opacity(0);
+                nameMotion?.width(0);
 
-                gsap.to(nameText, {
-                    opacity: 0,
-                    width: 0,
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
+                // Restore the logo's size before settling it horizontally, matching the old GSAP/CSS handoff.
+                widthResetTimeout = setTimeout(() => {
+                    if (svgContainer && !animationStarted) {
+                        svgContainer.style.removeProperty('--svg-width');
+                        svgMotion?.translateX(0);
+                    }
+                    widthResetTimeout = null;
+                }, 300);
 
-                // Reset text content
                 nameText.textContent = '';
                 nameText.classList.remove('typing-complete');
             }
@@ -123,20 +132,18 @@
     });
 
     function startTypingEffect() {
-        // Clear any existing interval first
         if (typingInterval) {
             clearInterval(typingInterval);
             typingInterval = null;
         }
 
-        const text = 'Siven Panda';
+        const text = resumeContent.name;
         let i = 0;
         if (nameText) {
             nameText.textContent = '';
 
             typingInterval = setInterval(() => {
                 if (i < text.length && nameText) {
-                    // @ts-ignore
                     nameText.textContent += text.charAt(i);
                     i++;
                 } else {
@@ -144,24 +151,19 @@
                         clearInterval(typingInterval);
                         typingInterval = null;
                     }
-                    // @ts-ignore
-                    if (nameText) {
-                        nameText.classList.add('typing-complete');
-                    }
+                    if (nameText) nameText.classList.add('typing-complete');
                 }
             }, 80);
         }
     }
 
     onMount(() => {
-        // Set initial states for elements
-        if (nameText) {
-            gsap.set(nameText, {
-                opacity: 0,
-                width: 0,
-                overflow: 'hidden'
-            });
-        }
+        return () => {
+            if (typingInterval) clearInterval(typingInterval);
+            if (widthResetTimeout) clearTimeout(widthResetTimeout);
+            svgMotion?.revert();
+            nameMotion?.revert();
+        };
     });
 </script>
 
@@ -173,7 +175,7 @@
     <a href="/photography" onclick={closeMenu}>/photography</a>
 </div>
 
-<div class="header" bind:this={headerElement}>
+<div class="header">
     <div class="logo-container">
         <a href="/" class="logo-link">
             <svg
@@ -294,11 +296,10 @@
         cursor: pointer;
         transition: 100ms ease-in;
     }
-    
+
     .logo-link:hover {
         filter: brightness(80%);
         transition: 100ms ease-out;
-
     }
 
     .name-text {
@@ -308,6 +309,8 @@
         color: white;
         margin-left: 1vw;
         white-space: nowrap;
+        width: 0;
+        opacity: 0;
         overflow: hidden;
         will-change: opacity, width;
     }
@@ -391,10 +394,9 @@
 
     #svgcontain {
         /* scale: 0.8; */
-        width: auto;
+        width: var(--svg-width, auto);
         height: 100%;
         padding: 0px;
-        transition: transform 0.3s ease;
         will-change: transform;
     }
 

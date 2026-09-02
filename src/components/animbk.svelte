@@ -59,7 +59,4 @@
 </div>
 
 <style>
-    .cntnt {
-        /* height: 20%; */
-    }
 </style>
