@@ -1,10 +1,12 @@
 <script lang="ts">
-    import { dev } from '$app/environment';
     import { optimize } from '$lib/image';
+    import { onDestroy } from 'svelte';
 
     interface Image {
         src: string;
         alt: string;
+        width: number;
+        height: number;
     }
 
     let {
@@ -19,17 +21,21 @@
 
     let selectedImage = $state<Image | null>(null);
     let isLightboxOpen = $state(false);
+    let closeTimer: ReturnType<typeof setTimeout> | undefined;
+    let previousBodyOverflow = '';
 
     function openLightbox(image: Image) {
         selectedImage = image;
         isLightboxOpen = true;
+        previousBodyOverflow = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
     }
 
     function closeLightbox() {
         isLightboxOpen = false;
-        document.body.style.overflow = '';
-        setTimeout(() => {
+        document.body.style.overflow = previousBodyOverflow;
+        clearTimeout(closeTimer);
+        closeTimer = setTimeout(() => {
             selectedImage = null;
         }, 300); // Wait for fade out animation
     }
@@ -37,15 +43,25 @@
     function handleContentClick(event: MouseEvent) {
         event.stopPropagation();
     }
+
+    onDestroy(() => {
+        clearTimeout(closeTimer);
+        if (selectedImage) document.body.style.overflow = previousBodyOverflow;
+    });
 </script>
 
 <div class="masonry" style="--columns: {columns};">
-    {#each images as image}
+    {#each images as image, index}
         <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
         <img
             srcset={optimize(image.src)}
+            sizes="(max-width: 480px) 90vw, (max-width: 768px) 45vw, 30vw"
             alt={image.alt}
-            loading="lazy"
+            width={image.width}
+            height={image.height}
+            loading={index === 0 ? 'eager' : 'lazy'}
+            fetchpriority={index === 0 ? 'high' : 'auto'}
+            decoding="async"
             tabindex="0"
             onclick={() => openLightbox(image)}
             onkeydown={(e) => e.key === 'Enter' && openLightbox(image)}
@@ -57,7 +73,12 @@
 {#if selectedImage}
     <div class="lightbox-backdrop" class:open={isLightboxOpen} onclick={closeLightbox}>
         <div class="lightbox-content" onclick={handleContentClick}>
-            <img src={selectedImage.src} alt={selectedImage.alt} />
+            <img
+                src={selectedImage.src}
+                width={selectedImage.width}
+                height={selectedImage.height}
+                alt={selectedImage.alt}
+            />
         </div>
     </div>
 {/if}
@@ -136,6 +157,8 @@
     }
 
     .lightbox-content img {
+        width: auto;
+        height: auto;
         max-width: 90vw;
         max-height: 90vh;
         border-radius: 8px;

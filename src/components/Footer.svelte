@@ -1,39 +1,17 @@
 <script>
-    import { browser } from '$app/environment';
-    import { onMount } from 'svelte';
-
-    let musicHidden = $state(false);
-
-    onMount(() => {
-        if (browser) {
-            musicHidden = localStorage.getItem('nowPlayingDismissed') === 'true';
-        }
-    });
-
-    function toggleMusic() {
-        if (browser) {
-            if (musicHidden) {
-                localStorage.removeItem('nowPlayingDismissed');
-                localStorage.removeItem('nowPlayingDismissedTime');
-            } else {
-                localStorage.setItem('nowPlayingDismissed', 'true');
-                localStorage.setItem('nowPlayingDismissedTime', Date.now().toString());
-            }
-            window.location.reload();
-        }
-    }
+    import { resumeContent } from '$lib/resume-content.js';
 </script>
 
 <div class="social">
-    <p class="name">home is where the ~/ is</p>
+    <p class="name">/~ is where the <i class="ri-heart-line"></i> is</p>
     <div class="brandimgs">
-        <a aria-label="Email" href="mailto:siven.panda@duke.edu" target="_blank">
+        <a aria-label="Email" href={`mailto:${resumeContent.contact.email}`} target="_blank">
             <i class="fa-solid fa-envelope"></i>
         </a>
-        <a aria-label="GitHub" href="https://github.com/sivepanda" target="_blank">
+        <a aria-label="GitHub" href={resumeContent.contact.github} target="_blank">
             <i class="ri-github-fill"></i>
         </a>
-        <a aria-label="LinkedIn" href="https://www.linkedin.com/in/sivenp" target="_blank">
+        <a aria-label="LinkedIn" href={resumeContent.contact.linkedin} target="_blank">
             <i class="ri-linkedin-fill"></i>
         </a>
         <a
@@ -43,10 +21,6 @@
         >
             <i class="ri-spotify-fill"></i>
         </a>
-        <button onclick={toggleMusic} class="music-toggle">
-            <i class="ri-music-2-line"></i>
-            {musicHidden ? 'show' : 'hide'} music widget
-        </button>
     </div>
 </div>
 
@@ -96,24 +70,5 @@
 
     .brandimgs > a:hover {
         color: gray;
-    }
-
-    .music-toggle {
-        background: none;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 4px;
-        color: rgba(255, 255, 255, 0.7);
-        cursor: pointer;
-        font-size: 0.75rem;
-        padding: 0.3em 0.6em;
-        display: flex;
-        align-items: center;
-        gap: 0.4em;
-        transition: all 0.2s ease;
-    }
-
-    .music-toggle:hover {
-        border-color: rgba(255, 255, 255, 0.6);
-        color: white;
     }
 </style>

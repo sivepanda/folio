@@ -1,66 +1,23 @@
 <script>
     import Load from '../../components/Load.svelte';
-    import Header from '../../components/Header.svelte';
     import Footer from '../../components/Footer.svelte';
     import MasonryGallery from '../../components/MasonryGallery.svelte';
-    import exifr from 'exifr';
-    import { onMount } from 'svelte';
+    import galleryImages from '$lib/gallery-images.json';
 
-    // Dynamically import all images from the imgfolio directory
-    const imageModules = import.meta.glob(
-        '/static/images/imgfolio/*.(jpg|jpeg|png|gif|webp|JPG|JPEG|PNG|GIF|WEBP)',
-        { eager: true, as: 'url' }
-    );
-
-    let images = $state([]);
-    let allImages = [];
-    let cameras = $state([]);
+    const allImages = galleryImages;
+    let images = $state(allImages);
+    const cameras = [...new Set(allImages.map((image) => image.camera))]
+        .filter((camera) => camera !== 'Unknown')
+        .sort();
     let selectedCamera = $state('all');
 
-    onMount(async () => {
-        const imagePromises = Object.entries(imageModules).map(async ([path, url]) => {
-            const filename =
-                path
-                    .split('/')
-                    .pop()
-                    ?.replace(/\.[^/.]+$/, '') || '';
-            const publicPath = path.replace('/static', '');
-
-            let camera = 'Unknown';
-            try {
-                const exifData = await exifr.parse(publicPath, ['Make', 'Model']);
-                if (exifData?.Make && exifData?.Model) {
-                    camera = `${exifData.Model}`;
-                } else if (exifData?.Model) {
-                    camera = exifData.Model;
-                }
-            } catch (e) {
-                console.log(`No EXIF data for ${filename}`);
-            }
-
-            return {
-                src: publicPath,
-                alt: filename.replace(/[_-]/g, ' '),
-                camera: camera
-            };
-        });
-
-        allImages = await Promise.all(imagePromises);
-        images = allImages;
-
-        // Extract unique cameras, excluding 'Unknown'
-        const uniqueCameras = [...new Set(allImages.map(img => img.camera))]
-            .filter(camera => camera !== 'Unknown')
-            .sort();
-        cameras = uniqueCameras;
-    });
-
+    /** @param {string} camera */
     function filterByCamera(camera) {
         selectedCamera = camera;
         if (camera === 'all') {
             images = allImages;
         } else {
-            images = allImages.filter(img => img.camera === camera);
+            images = allImages.filter((image) => image.camera === camera);
         }
     }
 </script>
