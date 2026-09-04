@@ -23,6 +23,15 @@
     let isLightboxOpen = $state(false);
     let closeTimer: ReturnType<typeof setTimeout> | undefined;
     let previousBodyOverflow = '';
+    const preloadedImages = new Map<string, HTMLImageElement>();
+
+    function preloadFullSize(image: Image) {
+        if (!lightbox || preloadedImages.has(image.src)) return;
+
+        const preload = new window.Image();
+        preload.src = image.src;
+        preloadedImages.set(image.src, preload);
+    }
 
     function openLightbox(image: Image) {
         selectedImage = image;
@@ -53,6 +62,7 @@
 <div class="masonry" style="--columns: {columns};">
     {#each images as image, index}
         <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+        <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
         <img
             srcset={optimize(image.src)}
             sizes="(max-width: 480px) 90vw, (max-width: 768px) 45vw, 30vw"
@@ -63,6 +73,8 @@
             fetchpriority={index === 0 ? 'high' : 'auto'}
             decoding="async"
             tabindex="0"
+            onmouseenter={() => preloadFullSize(image)}
+            onfocus={() => preloadFullSize(image)}
             onclick={() => openLightbox(image)}
             onkeydown={(e) => e.key === 'Enter' && openLightbox(image)}
             class="gallery-image"

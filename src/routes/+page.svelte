@@ -12,6 +12,7 @@
     injectAnalytics({ mode: dev ? 'development' : 'production' });
     const viewMode = getContext('view-mode');
     let simpleMode = $derived(viewMode.simpleMode);
+    let projectsExpanded = $state(false);
 
     const experiences = [
         {
@@ -122,6 +123,20 @@
             ]
         },
         {
+            title: 'LARI',
+            description:
+                'EHR-integrated application that automates managing patient appointment scheduling (and rescheduling). Built to scale with Go, React, and Next.js using a scalable modularized architecture.',
+            link: 'https://github.com/lari-health',
+            color: 'rgba(100, 0, 255, 1)',
+            technologies: [
+                { name: 'React', icon: 'ri-reactjs-fill' },
+                { name: 'Go', icon: 'fa-brands fa-golang' },
+                { name: 'Next.js', icon: 'ri-nextjs-fill' },
+                { name: 'FHIR', icon: 'ri-heart-fill' },
+                { name: 'REST API', icon: 'ri-plug-fill' }
+            ]
+        },
+        {
             title: 'TreeDoc',
             description:
                 'Accessible autonomous LIDAR mapping kit using two rotating iPhones and wirelessly networked realtime wireless internal control systems for ground-level forest mapping. Data is also shared wirelessly from the autonomous vehicle to a host for observability and monitoring.',
@@ -142,20 +157,6 @@
             technologies: [
                 { name: 'C++', icon: 'fa-solid fa-c' },
                 { name: 'Vector Graphics', icon: 'fa-solid fa-draw-polygon' }
-            ]
-        },
-        {
-            title: 'LARI',
-            description:
-                'EHR-integrated application that automates managing patient appointment scheduling (and rescheduling). Built to scale with Go, React, and Next.js using a scalable modularized architecture.',
-            link: 'https://github.com/lari-health',
-            color: 'rgba(100, 0, 255, 1)',
-            technologies: [
-                { name: 'React', icon: 'ri-reactjs-fill' },
-                { name: 'Go', icon: 'fa-brands fa-golang' },
-                { name: 'Next.js', icon: 'ri-nextjs-fill' },
-                { name: 'FHIR', icon: 'ri-heart-fill' },
-                { name: 'REST API', icon: 'ri-plug-fill' }
             ]
         },
         {
@@ -438,19 +439,7 @@
         class="read-more"
     >
         <span>read more</span>
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-        >
-            <polyline points="6 9 12 15 18 9"></polyline>
-        </svg>
+        <i class="ri-arrow-down-s-line"></i>
     </a>
 </div>
 
@@ -503,7 +492,7 @@
 <div id="projects" class="sect proj">
     <h1>{resumeContent.sections.projects}</h1>
     <div class="projects-list">
-        {#each projects as proj}
+        {#each projects.slice(0, projectsExpanded ? projects.length : 4) as proj}
             <GlassTile
                 title={proj.title}
                 description={proj.description}
@@ -513,6 +502,21 @@
             />
         {/each}
     </div>
+    {#if projects.length > 3}
+        <button
+            class="projects-toggle"
+            type="button"
+            aria-expanded={projectsExpanded}
+            onclick={() => (projectsExpanded = !projectsExpanded)}
+        >
+            show
+            {#if projectsExpanded}
+                less <i class="ri-arrow-up-s-line" aria-hidden="true"></i>
+            {:else}
+                more <i class="ri-arrow-down-s-line" aria-hidden="true"></i>
+            {/if}
+        </button>
+    {/if}
 </div>
 <Footer />
 {/if}
@@ -625,8 +629,8 @@
     }
 
     .svg_lgo {
-        height: 6vh;
-        width: 5vw;
+        width: clamp(2.5rem, 5vw, 4rem);
+        height: clamp(2.5rem, 5vw, 4rem);
     }
 
     .tooltip {
@@ -690,6 +694,21 @@
         gap: 20px;
         justify-content: space-around;
         margin: 0px 0px;
+    }
+
+    .projects-toggle {
+        align-self: center;
+        margin-top: 2rem;
+        padding: 0.7rem 1.25rem;
+        border: none;
+        background: transparent;
+        color: white;
+        font: inherit;
+        cursor: pointer;
+    }
+
+    .projects-toggle:hover {
+        color: rgba(255, 255, 255, 0.82);
     }
 
     @media (max-width: 768px) {
