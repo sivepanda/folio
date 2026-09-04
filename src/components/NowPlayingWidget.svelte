@@ -151,7 +151,7 @@
                             <span>I'm Listening To:</span>
                         {:else}
                             <i class="ri-time-line"></i>
-                            <span>I Just Played {formatTimeAgo(nowPlaying.timestamp)}</span>
+                            <span>I just played {formatTimeAgo(nowPlaying.timestamp)}</span>
                         {/if}
                     </div>
 

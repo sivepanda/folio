@@ -3,6 +3,7 @@
 
     let { experiences = [], projects = [], skillGroups = [] } = $props();
     let emailCopied = $state(false);
+    let projectsExpanded = $state(false);
 
     /** @param {Array<{ name: string }>} technologies */
     function technologyNames(technologies) {
@@ -102,7 +103,7 @@
         <section id="projects" aria-labelledby="projects-title">
             <h2 id="projects-title">{resumeContent.sections.projects}</h2>
             <div class="entry-list">
-                {#each projects as project}
+                {#each projects.slice(0, projectsExpanded ? projects.length : 3) as project}
                     <article>
                         <h3>
                             {#if project.link}
@@ -119,6 +120,16 @@
                     </article>
                 {/each}
             </div>
+            {#if projects.length > 3}
+                <button
+                    class="projects-toggle"
+                    type="button"
+                    aria-expanded={projectsExpanded}
+                    onclick={() => (projectsExpanded = !projectsExpanded)}
+                >
+                    {projectsExpanded ? 'Show less' : 'Show more'}
+                </button>
+            {/if}
         </section>
 
         <section id="contact" aria-labelledby="contact-title">
@@ -334,6 +345,22 @@
 
     .entry-list article > p {
         margin: 0.65rem 0 0;
+    }
+
+    .projects-toggle {
+        margin-top: 1.25rem;
+        padding: 0.55rem 0.9rem;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        font: inherit;
+    }
+
+    .projects-toggle:focus-visible {
+        outline: 2px solid #171511;
+        outline-offset: 3px;
     }
 
     .tools {
