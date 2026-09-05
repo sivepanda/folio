@@ -9,3 +9,4 @@ node_modules
 .carya
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+.vercel

@@ -88,13 +88,13 @@
 >
     <button type="button" onclick={onmodechange}>
         <i class={simpleMode ? 'ri-brush-4-line' : 'ri-file-text-line'} aria-hidden="true"></i>
-        <span class="label">{simpleMode ? 'Full view' : 'Simple view'}</span>
+        <span class="label">{simpleMode ? 'full view' : 'simple view'}</span>
     </button>
     {#if !simpleMode}
         <button type="button" onclick={toggleMusic}>
             <i class={musicHidden ? 'ri-music-2-line' : 'ri-volume-mute-line'} aria-hidden="true"
             ></i>
-            <span class="label">{musicHidden ? 'Show music' : 'Hide music'}</span>
+            <span class="label">{musicHidden ? 'show music' : 'hide music'}</span>
         </button>
     {/if}
 </aside>
@@ -104,6 +104,7 @@
         --settings-bg: rgba(11, 11, 26, 0.38);
         --settings-highlight: rgba(116, 78, 210, 0.16);
         --settings-border: rgba(255, 255, 255, 0.18);
+        --settings-outline: rgba(255, 255, 255, 0.28);
         --settings-color: white;
         position: fixed;
         top: 22vh;
@@ -124,7 +125,11 @@
         backdrop-filter: blur(8px) saturate(140%);
         -webkit-backdrop-filter: blur(8px) saturate(140%);
         box-shadow: inset 1px 0 rgba(255, 255, 255, 0.18);
-        filter: drop-shadow(-8px 10px 18px rgba(31, 38, 135, 0.2));
+        filter:
+            drop-shadow(-2px 0 var(--settings-outline))
+            drop-shadow(0 -2px var(--settings-outline))
+            drop-shadow(0 2px var(--settings-outline))
+            drop-shadow(-8px 10px 18px rgba(31, 38, 135, 0.2));
         color: var(--settings-color);
         font-family: 'Mozilla Text', sans-serif;
         overflow: hidden;
@@ -137,6 +142,7 @@
         --settings-bg: rgba(245, 243, 237, 0.82);
         --settings-highlight: rgba(255, 255, 255, 0.35);
         --settings-border: #b9b1a6;
+        --settings-outline: rgba(23, 21, 17, 0.45);
         --settings-color: #171511;
         height: 5rem;
     }

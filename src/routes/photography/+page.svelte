@@ -2,9 +2,13 @@
     import Load from '../../components/Load.svelte';
     import Footer from '../../components/Footer.svelte';
     import MasonryGallery from '../../components/MasonryGallery.svelte';
+    import SimplePhotography from '../../components/SimplePhotography.svelte';
     import galleryImages from '$lib/gallery-images.json';
+    import { getContext } from 'svelte';
 
     const allImages = galleryImages;
+    const viewMode = getContext('view-mode');
+    let simpleMode = $derived(viewMode.simpleMode);
     let images = $state(allImages);
     const cameras = [...new Set(allImages.map((image) => image.camera))]
         .filter((camera) => camera !== 'Unknown')
@@ -22,37 +26,41 @@
     }
 </script>
 
-<Load />
-<div class="top sect">
-    <h1>Photography</h1>
+{#if simpleMode}
+    <SimplePhotography images={allImages} />
+{:else}
+    <Load />
+    <div class="top sect">
+        <h1>Photography</h1>
 
-    {#if cameras.length > 0}
-        <div class="filter-buttons">
-            <button
-                class="filter-btn"
-                class:active={selectedCamera === 'all'}
-                onclick={() => filterByCamera('all')}
-            >
-                All
-            </button>
-            {#each cameras as camera}
+        {#if cameras.length > 0}
+            <div class="filter-buttons">
                 <button
                     class="filter-btn"
-                    class:active={selectedCamera === camera}
-                    onclick={() => filterByCamera(camera)}
+                    class:active={selectedCamera === 'all'}
+                    onclick={() => filterByCamera('all')}
                 >
-                    {camera}
+                    All
                 </button>
-            {/each}
+                {#each cameras as camera}
+                    <button
+                        class="filter-btn"
+                        class:active={selectedCamera === camera}
+                        onclick={() => filterByCamera(camera)}
+                    >
+                        {camera}
+                    </button>
+                {/each}
+            </div>
+        {/if}
+
+        <div class="im sect">
+            <MasonryGallery {images} />
         </div>
-    {/if}
-
-    <div class="im sect">
-        <MasonryGallery {images} />
     </div>
-</div>
 
-<Footer />
+    <Footer />
+{/if}
 
 <style>
     .im {

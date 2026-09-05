@@ -127,7 +127,7 @@
                     aria-expanded={projectsExpanded}
                     onclick={() => (projectsExpanded = !projectsExpanded)}
                 >
-                    {projectsExpanded ? 'Show less' : 'Show more'}
+                    {projectsExpanded ? 'less' : 'more'}
                 </button>
             {/if}
         </section>
@@ -348,14 +348,12 @@
     }
 
     .projects-toggle {
-        margin-top: 1.25rem;
-        padding: 0.55rem 0.9rem;
-        border: 1px solid var(--border);
-        border-radius: 4px;
+        border: none;
         background: transparent;
         color: inherit;
         cursor: pointer;
         font: inherit;
+        text-decoration: underline wavy;
     }
 
     .projects-toggle:focus-visible {
