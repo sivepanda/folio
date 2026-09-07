@@ -29,7 +29,7 @@
 <style>
     html,
     body {
-        font-family: "Mozilla Text";
+        font-family: 'Mozilla Text';
         max-width: 100vw;
         margin: 0;
         padding: 0;
@@ -37,6 +37,17 @@
         background: rgb(11, 11, 26);
         color: white;
         min-height: 100vh;
+    }
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    img,
+    svg {
+        max-width: 100%;
     }
 
     @-moz-document url-prefix() {
@@ -63,6 +74,12 @@
 
     :root {
         --p-size: clamp(1em, 0.7vw + 0.4rem, 1.1em);
+    }
+
+    @media (max-width: 480px) {
+        :root {
+            --p-size: 0.95rem;
+        }
     }
 
     h1,

@@ -71,4 +71,21 @@
     .brandimgs > a:hover {
         color: gray;
     }
+
+    @media (max-width: 480px) {
+        .social {
+            padding: 1.5rem 1rem;
+            gap: 0.85rem;
+        }
+
+        .name {
+            font-size: clamp(1.35rem, 7vw, 1.75rem);
+            line-height: 1.15;
+        }
+
+        .social > .brandimgs {
+            gap: 1.25rem;
+            font-size: 1.25rem;
+        }
+    }
 </style>

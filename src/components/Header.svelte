@@ -243,7 +243,7 @@
         font-weight: 650;
         background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0));
         backdrop-filter: blur(20px);
-        width: 100vw;
+        width: 100%;
         height: 0vh;
         display: flex;
         flex-direction: column;
@@ -268,7 +268,7 @@
         background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0));
         backdrop-filter: blur(20px);
         height: 6vh;
-        width: 100vw;
+        width: 100%;
         position: fixed;
         display: flex;
         flex-direction: row;
@@ -351,10 +351,10 @@
 
     @media (max-aspect-ratio: 1) {
         .header {
-            width: 100vw;
+            width: 100%;
             height: 60px;
-            padding-left: 20px;
-            padding-right: 20px;
+            padding-left: 12px;
+            padding-right: 8px;
         }
 
         .logo-container {
@@ -374,12 +374,25 @@
         }
 
         .mnuicon {
-            scale: 0.6;
+            width: 48px;
+            height: 48px;
+            flex: 0 0 48px;
+        }
+
+        .menu {
+            width: 48px;
+            height: 48px;
+            scale: 1;
+        }
+
+        .menu svg {
+            width: 48px;
+            height: 48px;
         }
 
         .fullmnu {
-            padding-left: 20px;
-            padding-right: 20px;
+            padding-left: clamp(1rem, 6vw, 2rem);
+            padding-right: clamp(1rem, 6vw, 2rem);
         }
 
         .fullmnu > a {
