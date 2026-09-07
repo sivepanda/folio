@@ -127,7 +127,7 @@
 <style>
     .glass-tile {
         background: rgba(255, 255, 255, 0.05);
-        width: calc(100% - 5rem);
+        width: 100%;
         border-radius: 1rem;
         box-shadow:
             0 8px 32px 0 rgba(31, 38, 135, 0.18),
@@ -342,10 +342,9 @@
 
     @media (max-width: 768px) {
         .glass-tile {
-            width: 85%;
-            max-width: 280px;
+            width: 100%;
+            max-width: none;
             padding: 1.25rem;
-            margin: 0 auto;
         }
 
         .glass-tile h2 {

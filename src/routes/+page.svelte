@@ -529,12 +529,14 @@
             url('/images/bkg.png') type('image/png')
         );
         background-size: cover;
-        height: 100vh;
+        min-height: 100vh;
+        min-height: 100svh;
         display: flex;
         flex-direction: column;
         padding-bottom: 0px;
         justify-content: center;
         align-items: center;
+        padding-inline: clamp(1rem, 5vw, 3rem);
         animation: hue-backdrop 5s linear infinite;
     }
 
@@ -598,9 +600,9 @@
     .sect {
         display: flex;
         flex-direction: column;
-        width: 90vw;
-        padding-left: 5vw;
-        padding-right: 5vw;
+        width: 100%;
+        padding-left: clamp(1rem, 5vw, 5rem);
+        padding-right: clamp(1rem, 5vw, 5rem);
         min-height: 70vh;
     }
 
@@ -678,7 +680,7 @@
     .lb {
         display: flex;
         flex-direction: column;
-        width: 80vw;
+        width: 100%;
     }
     .lb > .svgs {
         display: flex;
@@ -723,9 +725,8 @@
         }
 
         .sect {
-            width: 95vw;
-            padding-left: 2.5vw;
-            padding-right: 2.5vw;
+            padding-left: clamp(1rem, 4vw, 2rem);
+            padding-right: clamp(1rem, 4vw, 2rem);
         }
 
         .sect > h1 {
@@ -740,8 +741,14 @@
     }
 
     @media (max-width: 480px) {
+        .hero {
+            justify-content: center;
+            padding-bottom: 5rem;
+        }
+
         .hero h1 {
             font-size: 2rem;
+            line-height: 1.05;
         }
 
         .hero p {
@@ -750,6 +757,17 @@
 
         .sect > h1 {
             font-size: 2rem;
+        }
+
+        .sect {
+            min-height: auto;
+            padding-top: 2rem;
+            padding-bottom: 3rem;
+        }
+
+        .experience-list,
+        .projects-list {
+            gap: 0.9rem;
         }
     }
 
@@ -763,7 +781,6 @@
         }
 
         .sect {
-            width: 85vw;
             padding-left: 7.5vw;
             padding-right: 7.5vw;
         }
@@ -783,7 +800,6 @@
         }
 
         .sect {
-            width: 80vw;
             padding-left: 10vw;
             padding-right: 10vw;
         }
@@ -804,12 +820,11 @@
 
         .sect {
             height: auto !important;
-            padding-right: 5px;
         }
 
         .lb > .svgs {
-            width: 70vw !important;
-            margin-left: 5vw !important;
+            width: 100% !important;
+            margin-left: 0 !important;
         }
     }
 

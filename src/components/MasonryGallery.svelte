@@ -149,7 +149,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        z-index: 999;
+        z-index: 10001;
         opacity: 0;
         transition: opacity 0.3s ease;
     }
@@ -160,7 +160,7 @@
 
     .lightbox-content {
         transform: scale(0.9);
-        padding-top: 5vh;
+        padding: 1rem;
         transition: transform 0.3s ease;
     }
 
@@ -171,8 +171,8 @@
     .lightbox-content img {
         width: auto;
         height: auto;
-        max-width: 90vw;
-        max-height: 90vh;
+        max-width: calc(100vw - 2rem);
+        max-height: calc(100dvh - 2rem);
         border-radius: 8px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
