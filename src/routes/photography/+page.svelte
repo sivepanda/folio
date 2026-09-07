@@ -16,7 +16,7 @@
     /** @type {Record<string, string>} */
     const cameraIcons = {
         'NIKON D50': '/cams/d50.svg',
-        'X-T5': '/cams/xt5.svg',
+        'FUJIFILM X-T5': '/cams/xt5.svg',
         'iPhone 16 Pro': '/cams/16pro.svg'
     };
     let selectedCamera = $state('all');

@@ -30,63 +30,63 @@
     {
         "src": "/images/imgfolio/DSC_7777_FINAL.png",
         "alt": "DSC 7777 FINAL",
-        "camera": "Unknown",
+        "camera": "NIKON D50",
         "width": 3008,
         "height": 2000
     },
     {
         "src": "/images/imgfolio/DSC_7778_FINAL.png",
         "alt": "DSC 7778 FINAL",
-        "camera": "Unknown",
+        "camera": "NIKON D50",
         "width": 3008,
         "height": 2000
     },
     {
         "src": "/images/imgfolio/DSC_7782_FIN.png",
         "alt": "DSC 7782 FIN",
-        "camera": "Unknown",
+        "camera": "NIKON D50",
         "width": 3008,
         "height": 2000
     },
     {
         "src": "/images/imgfolio/DSCF0071_n.jpg",
         "alt": "DSCF0071 n",
-        "camera": "X-T5",
+        "camera": "FUJIFILM X-T5",
         "width": 5152,
         "height": 7728
     },
     {
         "src": "/images/imgfolio/DSCF0096_n.jpg",
         "alt": "DSCF0096 n",
-        "camera": "X-T5",
+        "camera": "FUJIFILM X-T5",
         "width": 7728,
         "height": 5152
     },
     {
         "src": "/images/imgfolio/DSCF0128_n.jpg",
         "alt": "DSCF0128 n",
-        "camera": "X-T5",
+        "camera": "FUJIFILM X-T5",
         "width": 4958,
         "height": 7437
     },
     {
         "src": "/images/imgfolio/DSCF0413.JPG",
         "alt": "DSCF0413",
-        "camera": "X-T5",
+        "camera": "FUJIFILM X-T5",
         "width": 5152,
         "height": 7728
     },
     {
         "src": "/images/imgfolio/DSCF0415e.jpg",
         "alt": "DSCF0415e",
-        "camera": "X-T5",
+        "camera": "FUJIFILM X-T5",
         "width": 7728,
         "height": 5152
     },
     {
         "src": "/images/imgfolio/DSCF0880.jpg",
         "alt": "DSCF0880",
-        "camera": "X-T5",
+        "camera": "FUJIFILM X-T5",
         "width": 5075,
         "height": 7613
     },
@@ -121,7 +121,7 @@
     {
         "src": "/images/imgfolio/nyc.jpg",
         "alt": "nyc",
-        "camera": "X-T5",
+        "camera": "FUJIFILM X-T5",
         "width": 7728,
         "height": 5152
     }
