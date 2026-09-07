@@ -8,6 +8,10 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const galleryDirectory = path.join(root, 'static/images/imgfolio');
 const manifestPath = path.join(root, 'src/lib/gallery-images.json');
 const supportedImage = /\.(?:gif|jpe?g|png|webp)$/i;
+/** @type {Record<string, string>} */
+const cameraNames = {
+    'X-T5': 'FUJIFILM X-T5'
+};
 
 export async function generateGalleryManifest() {
     const filenames = (await fs.readdir(galleryDirectory))
@@ -29,7 +33,7 @@ export async function generateGalleryManifest() {
             return {
                 src: `/images/imgfolio/${encodeURIComponent(filename)}`,
                 alt: filename.replace(/\.[^/.]+$/, '').replace(/[_-]/g, ' '),
-                camera: metadata?.Model || 'Unknown',
+                camera: cameraNames[metadata?.Model] || metadata?.Model || 'Unknown',
                 width: dimensions.width,
                 height: dimensions.height
             };
