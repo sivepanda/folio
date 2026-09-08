@@ -126,7 +126,7 @@
             title: 'LARI',
             description:
                 'EHR-integrated application that automates managing patient appointment scheduling (and rescheduling). Built to scale with Go, React, and Next.js using a scalable modularized architecture.',
-            link: 'https://github.com/lari-health',
+            link: 'https://github.com/toberdev/lari-go',
             color: 'rgba(100, 0, 255, 1)',
             technologies: [
                 { name: 'React', icon: 'ri-reactjs-fill' },
