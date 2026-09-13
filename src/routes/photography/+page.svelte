@@ -35,6 +35,13 @@
     }
 </script>
 
+<svelte:head>
+    <meta
+        name="robots"
+        content="noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai"
+    />
+</svelte:head>
+
 {#if simpleMode}
     <SimplePhotography images={allImages} />
 {:else}
