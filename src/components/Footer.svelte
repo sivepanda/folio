@@ -3,7 +3,7 @@
 </script>
 
 <div class="social">
-    <p class="name">/~ is where the <i class="ri-heart-line"></i> is</p>
+    <p class="name">~/ is where the <i class="ri-heart-line"></i> is</p>
     <div class="brandimgs">
         <a aria-label="Email" href={`mailto:${resumeContent.contact.email}`} target="_blank">
             <i class="fa-solid fa-envelope"></i>
