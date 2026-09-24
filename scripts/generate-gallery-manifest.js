@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import exifr from 'exifr';
-import { imageSizeFromFile } from 'image-size/fromFile';
+import { imageSize } from 'image-size';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const galleryDirectory = path.join(root, 'static/images/imgfolio');
@@ -21,10 +21,9 @@ export async function generateGalleryManifest() {
     const images = await Promise.all(
         filenames.map(async (filename) => {
             const filePath = path.join(galleryDirectory, filename);
-            const [metadata, dimensions] = await Promise.all([
-                exifr.parse(filePath, ['Model']).catch(() => undefined),
-                imageSizeFromFile(filePath)
-            ]);
+            const file = await fs.readFile(filePath);
+            const metadata = await exifr.parse(file, ['Model']).catch(() => undefined);
+            const dimensions = imageSize(file);
 
             if (!dimensions.width || !dimensions.height) {
                 throw new Error(`Could not determine dimensions for ${filename}`);
