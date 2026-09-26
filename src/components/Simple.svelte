@@ -1,4 +1,5 @@
 <script>
+    import SimpleHeader from './SimpleHeader.svelte';
     import { resumeContent } from '$lib/resume-content.js';
 
     let { experiences = [], projects = [], skillGroups = [] } = $props();
@@ -24,18 +25,7 @@
 </svelte:head>
 
 <div class="simple-page">
-    <a class="skip-link" href="#main">Skip to content</a>
-
-    <header class="site-header">
-        <a class="wordmark" href="#main" aria-label="Home TL;DR">{resumeContent.name}</a>
-        <nav aria-label="Resume sections">
-            <a href="#about">{resumeContent.sections.about}</a>
-            <a href="#skills">{resumeContent.sections.skills}</a>
-            <a href="#experience">{resumeContent.sections.experience}</a>
-            <a href="#projects">{resumeContent.sections.projects}</a>
-            <a href="#contact">{resumeContent.sections.contact}</a>
-        </nav>
-    </header>
+    <SimpleHeader />
 
     <main id="main">
         <section class="intro" id="about" aria-labelledby="intro-title">
@@ -173,48 +163,6 @@
         font-family: 'Mozilla Text', sans-serif;
         font-size: 1rem;
         line-height: 1.65;
-    }
-
-    .skip-link {
-        position: absolute;
-        top: 0.5rem;
-        left: 0.5rem;
-        padding: 0.45rem 0.7rem;
-        background: #181816;
-        color: #fff;
-        transform: translateY(-200%);
-        z-index: 2;
-    }
-
-    .skip-link:focus {
-        transform: none;
-    }
-
-    .site-header {
-        width: min(70rem, calc(100% - 3rem));
-        margin: 0 auto;
-        padding: 1.2rem 0;
-        border-bottom: 1px solid var(--border);
-        display: grid;
-        grid-template-columns: auto 1fr;
-        align-items: center;
-        gap: 2rem;
-    }
-
-    .wordmark {
-        color: inherit;
-        font-weight: 700;
-        text-decoration: none;
-    }
-
-    nav {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.35rem 1.25rem;
-    }
-
-    nav a {
-        color: var(--muted);
     }
 
     main,
@@ -378,17 +326,6 @@
     }
 
     @media (max-width: 700px) {
-        .site-header {
-            width: min(100% - 2rem, 52rem);
-            grid-template-columns: 1fr auto;
-            gap: 0.75rem 1rem;
-        }
-
-        nav {
-            grid-column: 1 / -1;
-            grid-row: 2;
-        }
-
         main,
         footer {
             width: min(100% - 2rem, 52rem);
@@ -409,8 +346,6 @@
     }
 
     @media print {
-        .site-header,
-        .skip-link,
         footer {
             display: none;
         }

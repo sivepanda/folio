@@ -352,6 +352,15 @@
             margin-bottom: 0.4rem;
         }
 
+        /* No hover on phones to trigger the marquee, so let long titles wrap. */
+        .title-marquee {
+            white-space: normal;
+        }
+
+        .glass-tile:hover .title-marquee.title-overflows span {
+            animation: none;
+        }
+
         .glass-tile p {
             font-size: 0.9rem;
             line-height: 1.5;

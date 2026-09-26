@@ -3,7 +3,8 @@
     import NowPlayingWidget from '../components/NowPlayingWidget.svelte';
     import SettingsMenu from '../components/SettingsMenu.svelte';
     import { page } from '$app/state';
-    import { setContext } from 'svelte';
+    import { browser } from '$app/environment';
+    import { onMount, setContext } from 'svelte';
     import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
 
     injectSpeedInsights();
@@ -12,6 +13,30 @@
     let scrY = $state(0);
     let simpleMode = $state(page.url.searchParams.get('simple') === 'true');
     let musicVersion = $state(0);
+    let musicHidden = $state(false);
+
+    onMount(() => {
+        musicHidden = localStorage.getItem('nowPlayingDismissed') === 'true';
+    });
+
+    function toggleMode() {
+        simpleMode = !simpleMode;
+    }
+
+    function toggleMusic() {
+        if (!browser) return;
+
+        if (musicHidden) {
+            localStorage.removeItem('nowPlayingDismissed');
+            localStorage.removeItem('nowPlayingDismissedTime');
+        } else {
+            localStorage.setItem('nowPlayingDismissed', 'true');
+            localStorage.setItem('nowPlayingDismissedTime', Date.now().toString());
+        }
+
+        musicHidden = !musicHidden;
+        musicVersion += 1;
+    }
 
     $effect(() => {
         if (page.url.searchParams.get('simple') === 'true') simpleMode = true;
@@ -32,14 +57,10 @@
 
 {@render children?.()}
 
-<SettingsMenu
-    {simpleMode}
-    onmodechange={() => (simpleMode = !simpleMode)}
-    onmusicchange={() => (musicVersion += 1)}
-/>
+<SettingsMenu {simpleMode} {musicHidden} onmodechange={toggleMode} onmusicchange={toggleMusic} />
 
 {#if !simpleMode}
     {#key musicVersion}
-        <NowPlayingWidget />
+        <NowPlayingWidget ondismiss={() => (musicHidden = true)} />
     {/key}
 {/if}

@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import { createAnimatable, utils } from 'animejs';
+    import { animate, createAnimatable, stagger, svg, utils } from 'animejs';
     import { resumeContent } from '$lib/resume-content.js';
 
     let opened = $state('closed');
@@ -21,6 +21,8 @@
     let svgMotion = null;
     /** @type {import('animejs').AnimatableObject | null} */
     let nameMotion = null;
+    /** @type {import('animejs').JSAnimation | null} */
+    let logoDraw = null;
     /** @type {ReturnType<typeof setTimeout> | null} */
     let widthResetTimeout = null;
     let expandedSvgWidth = 0;
@@ -157,12 +159,31 @@
         }
     }
 
+    // Redraw the logo strokes on hover, like the loadscreen does on first visit.
+    function drawLogo() {
+        if (!svgContainer || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        if (logoDraw && !logoDraw.completed) return;
+
+        if (logoDraw) {
+            logoDraw.restart();
+            return;
+        }
+
+        logoDraw = animate(svg.createDrawable(svgContainer.querySelectorAll('.logopath'), 0, 1), {
+            draw: ['0 0', '0 1'],
+            ease: 'inOutExpo',
+            duration: 1000,
+            delay: stagger(120)
+        });
+    }
+
     onMount(() => {
         return () => {
             if (typingInterval) clearInterval(typingInterval);
             if (widthResetTimeout) clearTimeout(widthResetTimeout);
             svgMotion?.revert();
             nameMotion?.revert();
+            logoDraw?.revert();
         };
     });
 </script>
@@ -177,7 +198,7 @@
 
 <div class="header">
     <div class="logo-container">
-        <a href="/" class="logo-link">
+        <a href="/" class="logo-link" onmouseenter={drawLogo}>
             <svg
                 bind:this={svgContainer}
                 version="1.1"
@@ -219,7 +240,7 @@
     </div>
 
     <div class="mnuicon">
-        <button class="menu {opened}" onmousedown={() => toggleOpened()} aria-label="Main Menu">
+        <button class="menu {opened}" onclick={() => toggleOpened()} aria-label="Main Menu">
             <svg width="100" height="100" viewBox="0 0 100 100">
                 <path
                     class="line line1"

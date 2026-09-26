@@ -1,4 +1,5 @@
 <script>
+    import SimpleHeader from './SimpleHeader.svelte';
     import { optimize } from '$lib/image';
     import { resumeContent } from '$lib/resume-content.js';
 
@@ -13,17 +14,9 @@
 </svelte:head>
 
 <div class="simple-page">
-    <a class="skip-link" href="#photographs">Skip to photographs</a>
+    <SimpleHeader />
 
-    <header class="site-header">
-        <a class="wordmark" href="/">{resumeContent.name}</a>
-        <nav aria-label="Primary navigation">
-            <a href="/">Home</a>
-            <a href="#photographs" aria-current="page">Photography</a>
-        </nav>
-    </header>
-
-    <main>
+    <main id="main">
         <section class="intro" aria-labelledby="page-title">
             <h1 id="page-title">Photography</h1>
             <p class="summary">{images.length} photographs</p>
@@ -85,52 +78,6 @@
         font-family: 'Mozilla Text', sans-serif;
         font-size: 1rem;
         line-height: 1.65;
-    }
-
-    .skip-link {
-        position: absolute;
-        top: 0.5rem;
-        left: 0.5rem;
-        z-index: 2;
-        padding: 0.45rem 0.7rem;
-        background: #181816;
-        color: #fff;
-        transform: translateY(-200%);
-    }
-
-    .skip-link:focus {
-        transform: none;
-    }
-
-    .site-header {
-        width: min(70rem, calc(100% - 3rem));
-        margin: 0 auto;
-        padding: 1.2rem 0;
-        border-bottom: 1px solid var(--border);
-        display: grid;
-        grid-template-columns: auto 1fr;
-        align-items: center;
-        gap: 2rem;
-    }
-
-    .wordmark {
-        color: inherit;
-        font-weight: 700;
-        text-decoration: none;
-    }
-
-    nav {
-        display: flex;
-        gap: 1.25rem;
-    }
-
-    nav a {
-        color: var(--muted);
-    }
-
-    nav a[aria-current='page'] {
-        color: inherit;
-        text-decoration-thickness: 2px;
     }
 
     main,
@@ -221,15 +168,9 @@
     }
 
     @media (max-width: 700px) {
-        .site-header,
         main,
         footer {
             width: min(100% - 2rem, 52rem);
-        }
-
-        .site-header {
-            grid-template-columns: 1fr auto;
-            gap: 1rem;
         }
 
         .intro {
