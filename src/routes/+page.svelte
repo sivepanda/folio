@@ -2,10 +2,11 @@
     import Load from '../components/Load.svelte';
     import Footer from '../components/Footer.svelte';
     import GlassTile from '../components/GlassTile.svelte';
+    import AsciiHero from '../components/AsciiHero.svelte';
     import { animate, onScroll, stagger, svg } from 'animejs';
     import { dev } from '$app/environment';
     import { injectAnalytics } from '@vercel/analytics/sveltekit';
-    import { getContext } from 'svelte';
+    import { getContext, tick } from 'svelte';
     import Simple from '../components/Simple.svelte';
     import { resumeContent } from '$lib/resume-content.js';
 
@@ -13,6 +14,10 @@
     const viewMode = getContext('view-mode');
     let simpleMode = $derived(viewMode.simpleMode);
     let projectsExpanded = $state(false);
+    /** @type {HTMLElement | undefined} */
+    let projectsList = $state();
+    let projectsAnimating = false;
+    const COLLAPSED_PROJECTS = 4;
 
     const experiences = [
         {
@@ -273,6 +278,8 @@
             items: [
                 {
                     name: 'Java',
+                    // This path sits high in its 24x24 box, so shift the frame to center it.
+                    viewBox: '-5 -9.5 35 35',
                     d: 'M 9.8886147,-1.7743202 A 0.8470035,0.8470035 0 0 0 9.0416112,-0.92400865 V 5.8851017 A 0.8470035,0.8470035 0 0 0 9.8886147,6.7321048 0.8470035,0.8470035 0 0 0 10.735617,5.8851017 V -0.92400865 A 0.8470035,0.8470035 0 0 0 9.8886147,-1.7743202 Z M 6.5568483,0.71375121 A 0.8470035,0.8470035 0 0 0 5.7098453,1.5607543 V 5.8851017 A 0.8470035,0.8470035 0 0 0 6.5568483,6.7321048 0.8470035,0.8470035 0 0 0 7.4038518,5.8851017 V 1.5607543 A 0.8470035,0.8470035 0 0 0 6.5568483,0.71375121 Z M 13.22038,1.0413032 A 0.8470035,0.8470035 0 0 0 12.373376,1.8883061 V 5.8851017 A 0.8470035,0.8470035 0 0 0 13.22038,6.7321048 0.8470035,0.8470035 0 0 0 14.067383,5.8851017 V 1.8883061 A 0.8470035,0.8470035 0 0 0 13.22038,1.0413032 Z M 2.8975306,7.6452799 A 0.8470035,0.8470035 0 0 0 2.047219,8.4922829 0.8470035,0.8470035 0 0 0 2.8975306,9.3359774 H 16.284149 a 0.8470035,0.8470035 0 0 0 0.843694,-0.8436945 0.8470035,0.8470035 0 0 0 -0.843694,-0.847003 z m 17.8333844,0 c -0.05989,0.00154 -0.09264,0.00331 -0.09264,0.00331 h -1.773414 a 0.8470035,0.8470035 0 0 0 -0.847002,0.8470031 0.8470035,0.8470035 0 0 0 0.847002,0.8470031 h 1.862745 l 0.03309,-0.00331 c 0,0 0.250861,-0.00299 0.443353,0.066173 0.09624,0.034579 0.147323,0.075632 0.172048,0.1058745 0.02473,0.030243 0.05625,0.056422 0.05625,0.2349111 0,0.1675594 -0.02445,0.1857071 -0.05294,0.2183687 -0.02849,0.032662 -0.09792,0.080778 -0.21175,0.1191096 -0.227667,0.07667 -0.519451,0.07279 -0.519451,0.07279 l -0.02646,-0.0034 h -4.330964 a 0.8470035,0.8470035 0 0 0 -0.847004,0.847003 0.8470035,0.8470035 0 0 0 0.847004,0.847002 h 4.241633 c 0,0 0.557717,0.04892 1.174554,-0.158812 0.308418,-0.103864 0.661369,-0.281676 0.94957,-0.612092 0.2882,-0.330415 0.47313,-0.813815 0.47313,-1.3300594 0,-0.5053157 -0.167932,-0.9740642 -0.440043,-1.3068988 C 22.417497,8.1065574 22.075972,7.91833 21.776434,7.8107102 21.327129,7.6492805 20.910549,7.6406443 20.730915,7.6452799 Z M 5.4716257,10.133352 a 0.8470035,0.8470035 0 0 0 -0.847003,0.847003 0.8470035,0.8470035 0 0 0 0.847003,0.850311 h 8.2384283 a 0.8470035,0.8470035 0 0 0 0.847003,-0.850311 0.8470035,0.8470035 0 0 0 -0.847003,-0.847003 z m 1.4326263,2.676661 a 0.72556578,0.98876052 0 0 0 -0.7245847,0.985965 0.72556578,0.98876052 0 0 0 0.7245847,0.989274 h 5.369867 a 0.72556578,0.98876052 0 0 0 0.724584,-0.989274 0.72556578,0.98876052 0 0 0 -0.724584,-0.985965 z m -4.6022704,2.749451 a 0.8470035,0.8470035 0 0 0 -0.847003,0.847004 0.8470035,0.8470035 0 0 0 0.847003,0.847002 H 20.47946 a 0.8470035,0.8470035 0 0 0 0.847004,-0.847002 0.8470035,0.8470035 0 0 0 -0.847004,-0.847004 z'
                 },
                 {
@@ -400,18 +407,68 @@
         return () => animation.revert();
     });
 
-    /** @param {HTMLElement} node */
-    function pauseAnimationWhenOffscreen(node) {
-        const observer = new IntersectionObserver(([entry]) => {
-            node.style.animationPlayState = entry.isIntersecting ? 'running' : 'paused';
-        });
-        observer.observe(node);
+    // Animates the list's height between collapsed/expanded (ease-out) so the
+    // extra tiles are revealed/clipped by the growing box. Tiles only leave
+    // the DOM once the collapse finishes, so they don't vanish early.
+    async function toggleProjects() {
+        if (projectsAnimating || !projectsList) return;
+        const list = projectsList;
+        projectsAnimating = true;
 
-        return {
-            destroy() {
-                observer.disconnect();
-            }
-        };
+        const collapsing = projectsExpanded;
+        const scroller = /** @type {HTMLElement} */ (
+            document.scrollingElement ?? document.documentElement
+        );
+        const startScroll = scroller.scrollTop;
+        const from = list.offsetHeight;
+        let to;
+
+        // Lock the height before any tiles are added so nothing jumps, and keep the
+        // browser's scroll anchoring from shifting the page while the list resizes.
+        list.style.height = `${from}px`;
+        list.style.overflow = 'hidden';
+        scroller.style.overflowAnchor = 'none';
+
+        if (collapsing) {
+            const listTop = list.getBoundingClientRect().top;
+            const kept = [...list.children].slice(0, COLLAPSED_PROJECTS);
+            to = Math.max(...kept.map((el) => el.getBoundingClientRect().bottom - listTop));
+        } else {
+            projectsExpanded = true;
+            await tick();
+            to = list.scrollHeight;
+        }
+
+        // When collapsing, scroll up by however much the list has shrunk so the
+        // button stays put under the reader's finger instead of flying up the page.
+        /** @param {number} height */
+        function setHeight(height) {
+            list.style.height = `${height}px`;
+            if (collapsing) scroller.scrollTop = startScroll - (from - height);
+        }
+
+        function finish() {
+            if (collapsing) projectsExpanded = false;
+            list.style.removeProperty('height');
+            list.style.removeProperty('overflow');
+            scroller.style.removeProperty('overflow-anchor');
+            projectsAnimating = false;
+        }
+
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            setHeight(to);
+            finish();
+            return;
+        }
+
+        const box = { height: from };
+        animate(box, {
+            height: to,
+            duration: collapsing ? 550 : 750,
+            ease: 'outExpo',
+            onUpdate: () => setHeight(box.height),
+            onComplete: finish
+        });
     }
 </script>
 
@@ -420,7 +477,8 @@
     <Simple {experiences} {projects} {skillGroups} />
 {:else}
 <Load />
-<div class="hero" use:pauseAnimationWhenOffscreen>
+<div class="hero">
+    <AsciiHero />
     <h1>{resumeContent.heading}</h1>
     <p>{resumeContent.summary}</p>
     <a
@@ -459,7 +517,7 @@
                                 class="svg_lgo"
                                 width="20"
                                 height="20"
-                                viewBox="-5 -5 35 35"
+                                viewBox={item.viewBox ?? '-5 -5 35 35'}
                             >
                                 <path fill="black" stroke="currentColor" d={item.d} />
                             </svg>
@@ -491,8 +549,8 @@
 
 <div id="projects" class="sect proj">
     <h1>{resumeContent.sections.projects}</h1>
-    <div class="projects-list">
-        {#each projects.slice(0, projectsExpanded ? projects.length : 4) as proj}
+    <div class="projects-list" bind:this={projectsList}>
+        {#each projects.slice(0, projectsExpanded ? projects.length : COLLAPSED_PROJECTS) as proj}
             <GlassTile
                 title={proj.title}
                 description={proj.description}
@@ -502,19 +560,15 @@
             />
         {/each}
     </div>
-    {#if projects.length > 3}
+    {#if projects.length > COLLAPSED_PROJECTS}
         <button
             class="projects-toggle"
             type="button"
             aria-expanded={projectsExpanded}
-            onclick={() => (projectsExpanded = !projectsExpanded)}
+            onclick={toggleProjects}
         >
-            show
-            {#if projectsExpanded}
-                less <i class="ri-arrow-up-s-line" aria-hidden="true"></i>
-            {:else}
-                more <i class="ri-arrow-down-s-line" aria-hidden="true"></i>
-            {/if}
+            show {projectsExpanded ? 'less' : 'more'}
+            <i class="ri-arrow-down-s-line" aria-hidden="true"></i>
         </button>
     {/if}
 </div>
@@ -523,12 +577,8 @@
 
 <style>
     .hero {
-        background: url('/images/bkg.png');
-        background-image: image-set(
-            url('/images/bkg.webp') type('image/webp'),
-            url('/images/bkg.png') type('image/png')
-        );
-        background-size: cover;
+        position: relative;
+        overflow: hidden;
         min-height: 100vh;
         min-height: 100svh;
         display: flex;
@@ -537,19 +587,12 @@
         justify-content: center;
         align-items: center;
         padding-inline: clamp(1rem, 5vw, 3rem);
-        animation: hue-backdrop 5s linear infinite;
     }
 
-    @keyframes hue-backdrop {
-        0% {
-            filter: hue-rotate(0deg);
-        }
-        50% {
-            filter: hue-rotate(40deg);
-        }
-        100% {
-            filter: hue-rotate(0deg);
-        }
+    .hero > h1,
+    .hero > p {
+        position: relative;
+        z-index: 1;
     }
 
     .hero > h1 {
@@ -575,6 +618,7 @@
         gap: 0.2rem;
         opacity: 0.6;
         animation: bounce 2s ease-in-out infinite;
+        z-index: 1;
         cursor: pointer;
         user-select: none;
     }
@@ -692,10 +736,38 @@
     .projects-list {
         width: 100%;
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(min(500px, 100%), 1fr));
+        grid-template-columns: 1fr;
         gap: 20px;
-        justify-content: space-around;
         margin: 0px 0px;
+    }
+
+    /* Tiles clip their overflow, so plain auto rows would squash them whenever the
+       list's height is pinned during the show more/less animation. */
+    .projects-list {
+        grid-auto-rows: max-content;
+    }
+
+    /* Two across once each tile still has a comfortable line length;
+       an odd last tile spans both columns so rows stay even. */
+    @media (min-width: 900px) {
+        .experience-list,
+        .projects-list {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .experience-list > :global(:last-child:nth-child(odd)),
+        .projects-list > :global(:last-child:nth-child(odd)) {
+            grid-column: 1 / -1;
+        }
+    }
+
+    .projects-toggle i {
+        display: inline-block;
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .projects-toggle[aria-expanded='true'] i {
+        transform: rotate(180deg);
     }
 
     .projects-toggle {
@@ -737,6 +809,13 @@
         .projects-list {
             grid-template-columns: 1fr;
             justify-items: center;
+        }
+    }
+
+    /* Keep the hint above the now playing widget pinned to the bottom on phones. */
+    @media (max-width: 640px) {
+        .read-more {
+            bottom: 6rem;
         }
     }
 

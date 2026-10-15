@@ -212,7 +212,7 @@
         }
 
         .camera-selector {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+            grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: 0.35rem;
             margin: 1.5rem auto 2.5rem;
         }
@@ -222,13 +222,16 @@
         }
 
         .camera-option {
-            gap: 8px;
-            min-height: 7.25rem;
-            padding: 0.75rem 0.5rem;
+            grid-template-rows: 40px auto;
+            gap: 6px;
+            min-height: 5.5rem;
+            padding: 0.6rem 0.35rem;
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 0.75rem;
             background: rgba(255, 255, 255, 0.035);
-            font-size: 0.75rem;
+            font-size: 0.68rem;
+            line-height: 1.2;
+            text-align: center;
         }
 
         .camera-option.active {
@@ -237,11 +240,12 @@
         }
 
         .camera-option img {
-            height: 62px;
+            height: 40px;
         }
 
         .all-option {
-            min-height: 7.25rem;
+            grid-template-rows: 1fr;
+            min-height: 5.5rem;
         }
     }
 

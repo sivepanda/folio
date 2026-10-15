@@ -72,9 +72,16 @@
         color: gray;
     }
 
+    /* Leave room for the now playing widget pinned to the bottom on phones. */
+    @media (max-width: 640px) {
+        .social {
+            padding-bottom: 6rem;
+        }
+    }
+
     @media (max-width: 480px) {
         .social {
-            padding: 1.5rem 1rem;
+            padding: 1.5rem 1rem 6rem;
             gap: 0.85rem;
         }
 
