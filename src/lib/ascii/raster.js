@@ -10,6 +10,14 @@ const LIGHT = [-0.45, 0.65, 0.62].map((v, _, a) => v / Math.hypot(...a));
 // Mild perspective: points nearer the viewer get up to ~20% larger.
 const FOCAL = 6;
 
+/**
+ * @typedef {object} Glitch
+ * @property {number[]} [bands] rows to shove sideways, as [fromRow, toRow, shiftCells, ...]
+ * @property {number} [scramble] share of cells, 0..1, that get a random glyph
+ * @property {number} [seed] picks which cells scramble
+ * @property {number} [tone] palette slot that replaces every colour
+ */
+
 export class Raster {
     cols = 0;
     rows = 0;
@@ -46,10 +54,15 @@ export class Raster {
      * @param {number} scale screen size of the unit sphere
      * @param {number} layer depth offset so whole objects stack cleanly
      * @param {number} palette first palette slot of this object
+     * @param {Glitch | null} [glitch] corrupts this draw
      */
-    draw(cloud, m, x, y, scale, layer, palette) {
+    draw(cloud, m, x, y, scale, layer, palette, glitch = null) {
         const { pos, nrm, mat, count } = cloud;
         const { cells, depth, cols, rows, invW, invH } = this;
+        const bands = glitch?.bands;
+        const scramble = glitch?.scramble ?? 0;
+        const seed = glitch?.seed ?? 0;
+        const tone = glitch?.tone ?? -1;
         const [m00, m01, m02, m10, m11, m12, m20, m21, m22] = m;
         // Light direction and view direction in the object's own frame, so the
         // normals never need rotating.
@@ -62,7 +75,8 @@ export class Raster {
             const ny = nrm[j + 1];
             const nz = nrm[j + 2];
             // Back faces only fill in silhouettes; the depth test hides the rest.
-            if (m20 * nx + m21 * ny + m22 * nz < -0.2) continue;
+            const facing = m20 * nx + m21 * ny + m22 * nz;
+            if (facing < -0.2) continue;
 
             const px = pos[j];
             const py = pos[j + 1];
@@ -73,15 +87,33 @@ export class Raster {
             const sy = (y - (m10 * px + m11 * py + m12 * pz) * k) * invH;
             if (sx < 0 || sy < 0 || sx >= cols || sy >= rows) continue;
 
-            const cell = (sy | 0) * cols + (sx | 0);
-            const d = layer + z;
+            const row = sy | 0;
+            let col = sx | 0;
+            if (bands) {
+                for (let b = 0; b < bands.length; b += 3) {
+                    if (row >= bands[b] && row < bands[b + 1]) {
+                        col += bands[b + 2];
+                        break;
+                    }
+                }
+                if (col < 0 || col >= cols) continue;
+            }
+
+            const cell = row * cols + col;
+            // Where an edge and a face meet at the same depth, the face wins.
+            const d = layer + z + facing * 0.01;
             if (d <= depth[cell]) continue;
             depth[cell] = d;
 
             const lit = 0.2 + 0.8 * Math.max(0, lx * nx + ly * ny + lz * nz);
             const o = cell * 4;
-            cells[o] = 1 + Math.min(LEVELS - 1, (lit * LEVELS) | 0);
-            cells[o + 1] = palette + mat[i];
+            let glyph = 1 + Math.min(LEVELS - 1, (lit * LEVELS) | 0);
+            if (scramble) {
+                const h = Math.imul(cell ^ seed, 2654435761) >>> 0;
+                if ((h & 1023) < scramble * 1024) glyph = 1 + ((h >>> 10) % LEVELS);
+            }
+            cells[o] = glyph;
+            cells[o + 1] = tone >= 0 ? tone : palette + mat[i];
             cells[o + 2] = (lit * 255) | 0;
         }
     }

@@ -3,22 +3,27 @@
 // only ever rotates and projects these points, which is what keeps it cheap.
 //
 // Model format:
-//   { colors: { material: tone, ... }, parts: [[shape, material, [x, y, z], size, opts?], ...] }
-// where tone is a key of TONES in palette.js.
+//   { colors: { material: tone, ... }, parts: [[shape, material, [x, y, z], size, opts?], ...], scale? }
+// where tone is a key of TONES in palette.js, and scale (default 1) draws the model
+// larger than the rest.
 // Models sit roughly inside the unit sphere, y up, facing +z (toward the viewer).
 // Shapes and their sizes:
 //   ellipsoid [rx, ry, rz]       box [hx, hy, hz] (half extents)
 //   cylinder  [r, hy] (y axis)   cone [rBottom, rTop, hy] (y axis)
 //   capsule   [r, hy] (y axis)   torus [R, r] (ring around the z axis)
-// opts: { rot: [x, y, z] degrees, cap: material for the +y cap, arc: [from, to] degrees for torus }
+//   extrude   [hz]: a flat outline in the xy plane given depth 2·hz (for logos)
+// opts: { rot: [x, y, z] degrees, cap: material for the +y cap (the front face of
+//   an extrude), arc: [from, to] degrees for torus, rings: outlines for extrude as
+//   lists of [x, y] points; rings inside rings make holes }
 
 const D2R = Math.PI / 180;
 const TAU = Math.PI * 2;
 const GOLDEN = Math.PI * (3 - Math.sqrt(5));
 
 /** @typedef {(x: number, y: number, z: number, nx: number, ny: number, nz: number, mat?: number) => void} Emit */
-/** @typedef {(size: number[], s: number, emit: Emit, cap?: number, arc?: number[]) => void} Sampler */
-/** @typedef {(size: number[], x: number, y: number, z: number, e: number, arc?: number[]) => boolean} Inside */
+/** @typedef {{ rot?: number[], cap?: string, arc?: number[], rings?: number[][][] }} PartOpts */
+/** @typedef {(size: number[], s: number, emit: Emit, cap?: number, opts?: PartOpts) => void} Sampler */
+/** @typedef {(size: number[], x: number, y: number, z: number, e: number, opts?: PartOpts) => boolean} Inside */
 
 /** @param {number[]} [r] */
 function rotation([rx = 0, ry = 0, rz = 0] = []) {
@@ -120,7 +125,7 @@ const samplers = {
             emit(r * x, r * y + Math.sign(y) * hy, r * z, x, y, z)
         );
     },
-    torus([R, r], s, emit, _cap, [a0, a1] = [0, 360]) {
+    torus([R, r], s, emit, _cap, { arc: [a0, a1] = [0, 360] } = {}) {
         const nt = Math.max(3, Math.ceil(((a1 - a0) * D2R * (R + r)) / s));
         const np = Math.max(6, Math.ceil((TAU * r) / s));
         for (let i = 0; i <= nt; i++) {
@@ -133,8 +138,56 @@ const samplers = {
                 emit(R * Math.cos(t) + r * nx, R * Math.sin(t) + r * ny, r * nz, nx, ny, nz);
             }
         }
+    },
+    extrude([hz], s, emit, cap, { rings = [] } = {}) {
+        // Front and back faces: a staggered grid clipped to the outline.
+        const all = rings.flat();
+        const [x0, x1] = [Math.min(...all.map((p) => p[0])), Math.max(...all.map((p) => p[0]))];
+        const [y0, y1] = [Math.min(...all.map((p) => p[1])), Math.max(...all.map((p) => p[1]))];
+        for (let y = y0, row = 0; y <= y1; y += s * 0.87, row++) {
+            for (let x = x0 + (row & 1 ? s / 2 : 0); x <= x1; x += s) {
+                if (!inOutline(rings, x, y)) continue;
+                emit(x, y, hz, 0, 0, 1, cap);
+                emit(x, y, -hz, 0, 0, -1);
+            }
+        }
+        // Side walls along every edge, facing out of the solid.
+        const nz = Math.max(1, Math.ceil((2 * hz) / s));
+        for (const ring of rings) {
+            ring.forEach(([ax, ay], i) => {
+                const [bx, by] = ring[(i + 1) % ring.length];
+                const len = Math.hypot(bx - ax, by - ay);
+                if (!len) return;
+                let [nx, ny] = [(by - ay) / len, -(bx - ax) / len];
+                if (inOutline(rings, (ax + bx) / 2 + nx * 1e-3, (ay + by) / 2 + ny * 1e-3)) {
+                    [nx, ny] = [-nx, -ny];
+                }
+                for (let k = 0, n = Math.max(1, Math.ceil(len / s)); k < n; k++) {
+                    const [x, y] = [ax + ((bx - ax) * k) / n, ay + ((by - ay) * k) / n];
+                    for (let j = 0; j <= nz; j++) emit(x, y, -hz + (2 * hz * j) / nz, nx, ny, 0);
+                }
+            });
+        }
     }
 };
+
+/**
+ * Even-odd test, so rings inside other rings cut holes.
+ * @param {number[][][]} rings
+ * @param {number} x
+ * @param {number} y
+ */
+function inOutline(rings, x, y) {
+    let inside = false;
+    for (const ring of rings) {
+        for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+            const [xi, yi] = ring[i];
+            const [xj, yj] = ring[j];
+            if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) inside = !inside;
+        }
+    }
+    return inside;
+}
 
 // Whether a local point is inside a shape, shrunk by e so touching surfaces survive.
 /** @type {Record<string, Inside>} */
@@ -150,22 +203,26 @@ const inside = {
         const dy = y - Math.max(-hy, Math.min(hy, y));
         return x * x + dy * dy + z * z < (r - e) ** 2;
     },
-    torus: ([R, r], x, y, z, e, [a0, a1] = [0, 360]) => {
+    torus: ([R, r], x, y, z, e, { arc: [a0, a1] = [0, 360] } = {}) => {
         let t = Math.atan2(y, x) / D2R;
         if (t < a0) t += 360;
         return t >= a0 && t <= a1 && (Math.hypot(x, y) - R) ** 2 + z * z < (r - e) ** 2;
-    }
+    },
+    extrude: ([hz], x, y, z, e, { rings = [] } = {}) =>
+        Math.abs(z) < hz - e && inOutline(rings, x, y)
 };
 
 // Radius of a sphere around each shape's centre that contains all of it.
-/** @type {Record<string, (size: number[]) => number>} */
+/** @type {Record<string, (size: number[], opts: PartOpts) => number>} */
 const bounds = {
     ellipsoid: (s) => Math.max(...s),
     box: (s) => Math.hypot(...s),
     cylinder: ([r, hy]) => Math.hypot(r, hy),
     cone: ([r0, r1, hy]) => Math.hypot(Math.max(r0, r1), hy),
     capsule: ([r, hy]) => r + hy,
-    torus: ([R, r]) => R + r
+    torus: ([R, r]) => R + r,
+    extrude: ([hz], { rings = [] }) =>
+        Math.hypot(Math.max(...rings.flat().map(([x, y]) => Math.hypot(x, y))), hz)
 };
 
 /**
@@ -178,11 +235,11 @@ export function buildCloud(model, spacing) {
         shape,
         size,
         t,
-        arc: opts.arc,
+        opts,
         m: rotation(opts.rot),
         mat: names.indexOf(mat),
         cap: opts.cap ? names.indexOf(opts.cap) : undefined,
-        bound: bounds[shape](size) ** 2
+        bound: bounds[shape](size, opts) ** 2
     }));
 
     /** @type {number[]} */
@@ -215,7 +272,7 @@ export function buildCloud(model, spacing) {
                     const qx = qm[0] * dx + qm[3] * dy + qm[6] * dz;
                     const qy = qm[1] * dx + qm[4] * dy + qm[7] * dz;
                     const qz = qm[2] * dx + qm[5] * dy + qm[8] * dz;
-                    if (inside[q.shape](q.size, qx, qy, qz, eps, q.arc)) return;
+                    if (inside[q.shape](q.size, qx, qy, qz, eps, q.opts)) return;
                 }
                 const wx = m[0] * nx + m[1] * ny + m[2] * nz;
                 const wy = m[3] * nx + m[4] * ny + m[5] * nz;
@@ -226,7 +283,7 @@ export function buildCloud(model, spacing) {
                 mats.push(mat);
             },
             part.cap,
-            part.arc
+            part.opts
         );
     });
 
@@ -250,8 +307,19 @@ export function buildCloud(model, spacing) {
     const out = new Float32Array(pos.length);
     for (let i = 0; i < pos.length; i++) out[i] = (pos[i] - c[i % 3]) / radius;
 
+    // How far the object can reach on screen while it spins about y and wobbles a
+    // little, so walls can keep all of it in view.
+    let reachX = 0;
+    let reachY = 0;
+    for (let i = 0; i < out.length; i += 3) {
+        const flat = Math.hypot(out[i], out[i + 2]);
+        reachX = Math.max(reachX, flat);
+        reachY = Math.max(reachY, Math.abs(out[i + 1]) + flat * 0.25);
+    }
+
     return {
         count,
+        reach: [reachX, Math.min(1, reachY)],
         pos: out,
         nrm: new Float32Array(nrm),
         mat: new Uint8Array(mats),

@@ -15,6 +15,14 @@ const SLOTS = 8; // palette entries per object
 const FPS = 30; // idle frame rate; dragging runs at the display's rate
 const SLOW_FRAME_MS = 8; // stop adding objects past this much work per frame
 const TAU = Math.PI * 2;
+// Walls sit this far beyond an object's reach so perspective never pushes it off screen.
+const REACH_PAD = 1.15;
+// Each object glitches on its own about this often (ms), plus on hits and taps.
+const GLITCH_EVERY = 5000;
+const GLITCH_TONES = ['magenta', 'blue', 'pink', 'sky'];
+const GLITCH_SLOT = PALETTE_SIZE - GLITCH_TONES.length;
+// Every object needs its own palette slice below the glitch tones.
+const MAX_OBJECTS = Math.floor(GLITCH_SLOT / SLOTS);
 
 /** @param {string} hex */
 const rgb = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
@@ -37,10 +45,11 @@ const idle = (fn, delay = 0) => {
 
 /**
  * @param {HTMLCanvasElement} canvas
- * @param {{ host: HTMLElement, text: HTMLElement[] }} opts
+ * @param {{ host: HTMLElement, text: HTMLElement[], header?: HTMLElement | null }} opts
+ *   header: a fixed bar over the top of the hero that objects should stay below
  * @returns {() => void} stops the scene and frees the GPU context
  */
-export function startScene(canvas, { host, text }) {
+export function startScene(canvas, { host, text, header }) {
     const queue = [
         ...FIRST,
         ...NAMES.filter((n) => !FIRST.includes(n)).sort(() => Math.random() - 0.5)
@@ -63,6 +72,7 @@ export function startScene(canvas, { host, text }) {
 
     const raster = new Raster();
     const palette = new Uint8Array(PALETTE_SIZE * 4);
+    GLITCH_TONES.forEach((tone, i) => palette.set(rgb(TONES[tone]), (GLITCH_SLOT + i) * 4));
     const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
     /** @type {any[]} */
     const objects = [];
@@ -71,6 +81,8 @@ export function startScene(canvas, { host, text }) {
     let height = 0;
     let radius = 0; // object radius, CSS px
     let cellW = 0; // CSS px
+    let cellH = 0;
+    let top = 0; // height of the fixed header over the hero, CSS px
     let ready = false;
     let loading = false;
     let visible = true;
@@ -86,11 +98,14 @@ export function startScene(canvas, { host, text }) {
     /** @type {any} */
     let press = null;
 
-    // Point spacing that leaves no gaps at the current cell and object size.
-    const spacing = () => cellW / radius / 1.6;
+    // Point spacing that leaves no gaps at the current cell and object size. A
+    // model can ask to be drawn larger (`scale`), e.g. a logo with fine detail.
+    /** @param {any} model */
+    const spacing = (model) => cellW / (radius * (model.scale ?? 1)) / 1.6;
     const cruise = () => Math.min(90, Math.max(30, Math.min(width, height) * 0.08));
     const target = () => {
         if (still) return Math.min(budget, 2);
+        budget = Math.min(budget, MAX_OBJECTS);
         const [x0, y0, x1, y1] = dimRect;
         const open = width * height - Math.max(0, x1 - x0) * Math.max(0, y1 - y0);
         return Math.min(budget, areaBudget(open, radius));
@@ -107,6 +122,8 @@ export function startScene(canvas, { host, text }) {
         const [w, h] = [Math.round(width * dpr), Math.round(height * dpr)];
         const [cols, rows] = [Math.ceil(w / cw), Math.ceil(h / ch)];
         cellW = cw / dpr;
+        cellH = ch / dpr;
+        top = header ? header.getBoundingClientRect().height : 0;
         radius = Math.min(110, Math.max(46, Math.min(width, height) * 0.12));
         display.resize(w, h, cw, ch, cols, rows);
         raster.resize(cols, rows, cw / dpr, ch / dpr);
@@ -125,9 +142,11 @@ export function startScene(canvas, { host, text }) {
         }
 
         for (const o of objects) {
-            o.r = radius * 0.9;
-            o.x = Math.min(Math.max(o.x, o.r), width - o.r);
-            o.y = Math.min(Math.max(o.y, o.r), height - o.r);
+            fit(o);
+            if (o.entering) continue;
+            const [x0, x1, y0, y1] = bounds(o);
+            o.x = Math.min(Math.max(o.x, x0), x1);
+            o.y = Math.min(Math.max(o.y, y0), y1);
         }
         clearTimeout(rebuildTimer);
         rebuildTimer = setTimeout(rebuild, 250);
@@ -138,30 +157,61 @@ export function startScene(canvas, { host, text }) {
     // Once a resize settles, resample any cloud whose spacing drifted enough to
     // leave holes, one object per idle slot so a window drag never hitches.
     function rebuild() {
-        const o = objects.find((o) => Math.abs(o.built / spacing() - 1) > 0.15);
+        const o = objects.find((o) => Math.abs(o.built / spacing(o.model) - 1) > 0.15);
         if (!o || destroyed) return;
-        o.cloud = buildCloud(o.model, spacing());
-        o.built = spacing();
+        o.cloud = buildCloud(o.model, spacing(o.model));
+        o.built = spacing(o.model);
+        fit(o);
         if (still) render(0);
         rebuildTimer = idle(rebuild);
     }
 
     /**
-     * A spot clear of the headline and the other objects.
-     * @param {number} r
+     * Sizes an object's walls from how far its points reach, and its collision
+     * circle from the same.
+     * @param {any} o
      */
-    function freeSpot(r) {
-        let best = [width / 2, height / 2];
+    function fit(o) {
+        const [rx, ry] = o.cloud.reach;
+        o.size = radius * (o.model.scale ?? 1);
+        o.rx = o.size * rx * REACH_PAD;
+        o.ry = o.size * ry * REACH_PAD;
+        o.r = o.size * Math.max(rx, ry) * 0.9;
+    }
+
+    /**
+     * Where an object's centre may go, [x0, x1, y0, y1], keeping all of it on
+     * screen and below the header. Squeezes to the middle if the hero is too small.
+     * @param {any} o
+     */
+    function bounds(o) {
+        const [mx, my] = [width / 2, (top + height) / 2];
+        return [
+            Math.min(o.rx, mx),
+            Math.max(width - o.rx, mx),
+            Math.min(top + o.ry, my),
+            Math.max(height - o.ry, my)
+        ];
+    }
+
+    /**
+     * A spot clear of the headline and the other objects.
+     * @param {any} o
+     */
+    function freeSpot(o) {
+        const [x0, x1, y0, y1] = bounds(o);
+        const r = o.r;
+        let best = [(x0 + x1) / 2, (y0 + y1) / 2];
         let bestScore = -Infinity;
         for (let i = 0; i < 40; i++) {
-            const x = rand(r, width - r);
-            const y = rand(r, height - r);
+            const x = rand(x0, x1);
+            const y = rand(y0, y1);
             let score = Math.min(
                 ...objects.map((o) => Math.hypot(o.x - x, o.y - y) - o.r - r),
                 width
             );
-            const [x0, y0, x1, y1] = dimRect;
-            if (x + r > x0 && x - r < x1 && y + r > y0 && y - r < y1) score -= width;
+            const [dx0, dy0, dx1, dy1] = dimRect;
+            if (x + r > dx0 && x - r < dx1 && y + r > dy0 && y - r < dy1) score -= width;
             if (score > bestScore) [best, bestScore] = [[x, y], score];
         }
         return best;
@@ -173,46 +223,49 @@ export function startScene(canvas, { host, text }) {
      */
     function add(model, enter) {
         const slot = objects.length;
-        const r = radius * 0.9;
         const speed = cruise();
+        const o = /** @type {any} */ ({ model, cloud: buildCloud(model, spacing(model)) });
+        fit(o);
+        const [x0, x1, y0, y1] = bounds(o);
         let x, y, angle;
         if (enter) {
             // Slide in from a random edge, heading inwards.
             const edge = (Math.random() * 4) | 0;
             const inward = [0, Math.PI / 2, Math.PI, -Math.PI / 2][edge];
             angle = inward + rand(-0.8, 0.8);
-            x = edge === 0 ? -r : edge === 2 ? width + r : rand(r, width - r);
-            y = edge === 1 ? -r : edge === 3 ? height + r : rand(r, height - r);
+            x = edge === 0 ? -o.rx : edge === 2 ? width + o.rx : rand(x0, x1);
+            y = edge === 1 ? -o.ry : edge === 3 ? height + o.ry : rand(y0, y1);
         } else {
-            [x, y] = freeSpot(r);
+            [x, y] = freeSpot(o);
             angle = rand(0, Math.PI * 2);
         }
-        objects.push({
-            model,
-            cloud: buildCloud(model, spacing()),
-            built: spacing(),
-            colors: Object.values(model.colors).map((/** @type {string} */ tone) =>
-                rgb(TONES[tone])
-            ),
-            pal: slot * SLOTS,
-            layer: slot * 4,
-            r,
-            x,
-            y,
-            vx: Math.cos(angle) * speed,
-            vy: Math.sin(angle) * speed,
-            // Each object sways around a mostly front-on angle; taps and corner hits
-            // add full spins that settle back home.
-            facing: rand(-0.4, 0.4),
-            sway: [rand(0, 7), rand(0.4, 0.7) * pick([-1, 1])],
-            wobble: [rand(0, 7), rand(0, 7)],
-            turn: 0,
-            kick: 0,
-            flash: 0,
-            flashColor: rgb(pick(FLASH)),
-            entering: enter,
-            grab: null
-        });
+        objects.push(
+            Object.assign(o, {
+                model,
+                built: spacing(model),
+                colors: Object.values(model.colors).map((/** @type {string} */ tone) =>
+                    rgb(TONES[tone])
+                ),
+                pal: slot * SLOTS,
+                layer: slot * 4,
+                x,
+                y,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                // Each object sways around a mostly front-on angle; taps and corner hits
+                // add full spins that settle back home.
+                facing: rand(-0.4, 0.4),
+                sway: [rand(0, 7), rand(0.4, 0.7) * pick([-1, 1])],
+                wobble: [rand(0, 7), rand(0, 7)],
+                turn: 0,
+                kick: 0,
+                flash: 0,
+                flashColor: rgb(pick(FLASH)),
+                entering: enter,
+                grab: null,
+                glitch: null
+            })
+        );
     }
 
     // The first batch places its objects straight away; how long it took to arrive
@@ -257,6 +310,44 @@ export function startScene(canvas, { host, text }) {
         o.flashColor = c;
     }
 
+    // Glitches: for a moment a few of the object's rows get shoved sideways, some
+    // glyphs scramble, and a ghost copy flickers behind it in a palette colour.
+    // They re-roll every few frames while they last, so they stutter.
+
+    /**
+     * @param {any} o
+     * @param {number} t ms timestamp
+     * @param {number} k strength 0..1
+     */
+    function glitchOut(o, t, k) {
+        if (still) return;
+        o.glitch = { until: t + rand(150, 400) * (0.6 + k), k, next: 0 };
+    }
+
+    /**
+     * @param {any} o
+     * @param {number} t
+     */
+    function rollGlitch(o, t) {
+        const g = o.glitch;
+        const first = Math.floor((o.y - o.ry) / cellH);
+        const last = Math.ceil((o.y + o.ry) / cellH);
+        const bands = [];
+        for (let i = 0, n = 1 + Math.round(rand(0, 2) * g.k); i < n; i++) {
+            const from = Math.round(rand(first, last));
+            const shift = Math.round(rand(1, 2 + 6 * g.k)) * pick([-1, 1]);
+            bands.push(from, from + Math.round(rand(1, 3)), shift);
+        }
+        g.draw = {
+            bands,
+            scramble: Math.random() < 0.5 ? rand(0.05, 0.3) * g.k : 0,
+            seed: (Math.random() * 1e9) | 0
+        };
+        g.ghost = Math.random() < 0.6 ? pick([-2, -1, 1, 2]) * cellW : 0;
+        g.ghostDraw = { tone: GLITCH_SLOT + ((Math.random() * GLITCH_TONES.length) | 0) };
+        g.next = t + rand(40, 90);
+    }
+
     /**
      * @param {number} dt seconds since the last step
      * @param {number} t ms timestamp
@@ -265,8 +356,9 @@ export function startScene(canvas, { host, text }) {
         const speed = cruise();
         for (const o of objects) {
             if (o.grab) {
-                const nx = Math.min(Math.max(o.grab.x - o.grab.dx, o.r), width - o.r);
-                const ny = Math.min(Math.max(o.grab.y - o.grab.dy, o.r), height - o.r);
+                const [x0, x1, y0, y1] = bounds(o);
+                const nx = Math.min(Math.max(o.grab.x - o.grab.dx, x0), x1);
+                const ny = Math.min(Math.max(o.grab.y - o.grab.dy, y0), y1);
                 o.vx += ((nx - o.x) / dt - o.vx) * 0.5;
                 o.vy += ((ny - o.y) / dt - o.vy) * 0.5;
                 [o.x, o.y] = [nx, ny];
@@ -288,17 +380,26 @@ export function startScene(canvas, { host, text }) {
                 o.turn += (home - o.turn) * Math.min(1, dt * 1.6);
             }
             o.flash = Math.max(0, o.flash - dt * 1.2);
+            if (o.glitch && t > o.glitch.until) o.glitch = null;
+            if (!o.glitch && Math.random() < (dt * 1000) / GLITCH_EVERY)
+                glitchOut(o, t, rand(0.3, 0.8));
 
+            const [x0, x1, y0, y1] = bounds(o);
             if (o.entering) {
-                o.entering = !(o.x > o.r && o.x < width - o.r && o.y > o.r && o.y < height - o.r);
+                o.entering = !(o.x >= x0 && o.x <= x1 && o.y >= y0 && o.y <= y1);
+                // Never drift away: an entering object always heads back in.
+                if (o.x < x0) o.vx = Math.abs(o.vx);
+                if (o.x > x1) o.vx = -Math.abs(o.vx);
+                if (o.y < y0) o.vy = Math.abs(o.vy);
+                if (o.y > y1) o.vy = -Math.abs(o.vy);
                 continue;
             }
-            const hitX = o.x < o.r || o.x > width - o.r;
-            const hitY = o.y < o.r || o.y > height - o.r;
-            if (hitX) o.vx = (o.x < o.r ? 1 : -1) * Math.abs(o.vx);
-            if (hitY) o.vy = (o.y < o.r ? 1 : -1) * Math.abs(o.vy);
-            o.x = Math.min(Math.max(o.x, o.r), width - o.r);
-            o.y = Math.min(Math.max(o.y, o.r), height - o.r);
+            const hitX = o.x < x0 || o.x > x1;
+            const hitY = o.y < y0 || o.y > y1;
+            if (hitX) o.vx = (o.x < x0 ? 1 : -1) * Math.abs(o.vx);
+            if (hitY) o.vy = (o.y < y0 ? 1 : -1) * Math.abs(o.vy);
+            o.x = Math.min(Math.max(o.x, x0), x1);
+            o.y = Math.min(Math.max(o.y, y0), y1);
             if (o.grab || !(hitX || hitY)) continue;
 
             // Hitting the second wall within a moment of the first counts as a corner.
@@ -307,9 +408,15 @@ export function startScene(canvas, { host, text }) {
             if (hitX) o.lastX = now;
             if (hitY) o.lastY = now;
             if (corner) {
-                for (const other of objects) flash(other);
+                for (const other of objects) {
+                    flash(other);
+                    glitchOut(other, t, 1);
+                }
                 o.kick += 16 * (Math.sign(o.kick) || 1);
-            } else flash(o);
+            } else {
+                flash(o);
+                if (Math.random() < 0.35) glitchOut(o, t, 0.5);
+            }
         }
 
         // Objects bounce off each other like equal-mass billiard balls.
@@ -346,7 +453,13 @@ export function startScene(canvas, { host, text }) {
             const yaw = o.facing + o.turn + Math.sin(t * 0.001 * o.sway[1] + o.sway[0]) * 0.7;
             const pitch = Math.sin(t * 0.0007 + o.wobble[0]) * 0.22;
             const roll = Math.sin(t * 0.0005 + o.wobble[1]) * 0.12;
-            raster.draw(o.cloud, orientation(yaw, pitch, roll), o.x, o.y, radius, o.layer, o.pal);
+            const m = orientation(yaw, pitch, roll);
+            const g = o.glitch;
+            if (g && t >= g.next) rollGlitch(o, t);
+            // The ghost sits just behind the object, so it only shows as a fringe.
+            if (g?.ghost)
+                raster.draw(o.cloud, m, o.x + g.ghost, o.y, o.size, o.layer - 2, 0, g.ghostDraw);
+            raster.draw(o.cloud, m, o.x, o.y, o.size, o.layer, o.pal, g?.draw);
             const f = o.flash * 0.85;
             o.colors.forEach((/** @type {number[]} */ c, /** @type {number} */ i) => {
                 const p = (o.pal + i) * 4;
@@ -451,6 +564,7 @@ export function startScene(canvas, { host, text }) {
         o.vy += ((o.y - y) / d) * push;
         o.kick += 10 * (Math.sign(x - o.x) || 1);
         flash(o);
+        glitchOut(o, performance.now(), 0.9);
     }
 
     const resizer = new ResizeObserver(resize);

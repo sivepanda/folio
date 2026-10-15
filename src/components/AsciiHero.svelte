@@ -1,8 +1,12 @@
 <script>
     import { onMount } from 'svelte';
 
-    /** @type {{ text?: string }} selector for the copy inside the hero to keep readable */
-    let { text = 'h1, p' } = $props();
+    /**
+     * @type {{ text?: string, header?: string }}
+     *   text: the copy inside the hero to keep readable
+     *   header: the fixed bar over the hero that objects stay below
+     */
+    let { text = 'h1, p', header = '.header' } = $props();
 
     /** @type {HTMLCanvasElement} */
     let canvas;
@@ -22,7 +26,8 @@
                         host,
                         text: [...host.querySelectorAll(text)].map(
                             (el) => /** @type {HTMLElement} */ (el)
-                        )
+                        ),
+                        header: /** @type {HTMLElement | null} */ (document.querySelector(header))
                     });
                 })
                 .catch(() => {});
