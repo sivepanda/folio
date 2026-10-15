@@ -2,6 +2,8 @@
     import { onMount } from 'svelte';
     import { browser } from '$app/environment';
 
+    let { ondismiss } = $props();
+
     /** @type {any} */
     let nowPlaying = $state(null);
     let isVisible = $state(true);
@@ -98,6 +100,7 @@
             localStorage.setItem('nowPlayingDismissed', 'true');
             localStorage.setItem('nowPlayingDismissedTime', Date.now().toString());
         }
+        ondismiss?.();
     }
 
     /** @param {string | number | Date} timestamp */
@@ -381,6 +384,7 @@
     }
 
     /* Mobile responsiveness */
+    /* On phones, shrink to a single compact row so it doesn't cover the page. */
     @media (max-width: 640px) {
         .now-playing-widget {
             bottom: 10px;
@@ -388,15 +392,50 @@
             left: 10px;
             max-width: none;
             min-width: auto;
+            padding: 8px 10px;
+        }
+
+        .now-playing-widget.loading {
+            min-height: 56px;
+        }
+
+        .dismiss-btn {
+            top: 50%;
+            right: 6px;
+            width: 36px;
+            height: 36px;
+            transform: translateY(-50%);
+            background: transparent;
         }
 
         .track-info {
             gap: 10px;
+            padding-right: 36px;
+            align-items: center;
         }
 
         .album-art img {
-            width: 56px;
-            height: 56px;
+            width: 44px;
+            height: 44px;
+            border-radius: 6px;
+        }
+
+        .status {
+            font-size: 11px;
+            margin-bottom: 2px;
+        }
+
+        .status i {
+            font-size: 12px;
+        }
+
+        .track-album,
+        .lastfm-link {
+            display: none;
+        }
+
+        .track-artist {
+            margin-bottom: 0;
         }
 
         .track-title {
@@ -409,10 +448,6 @@
     }
 
     @media (max-width: 480px) {
-        .now-playing-widget {
-            padding: 12px;
-        }
-
         .track-details {
             font-size: 14px;
         }

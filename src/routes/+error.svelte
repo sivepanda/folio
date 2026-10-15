@@ -4,6 +4,7 @@
     import { onMount } from 'svelte';
     import galleryImages from '$lib/gallery-images.json';
     import { optimize } from '$lib/image';
+    import SimpleHeader from '../components/SimpleHeader.svelte';
 
     const viewMode = getContext('view-mode');
     let simpleMode = $derived(viewMode.simpleMode);
@@ -57,36 +58,43 @@
     />
 </svelte:head>
 
-<main class:simple={simpleMode} class="error-page">
-    {#if isNotFound && backgroundImage && !simpleMode}
-        <img
-            class="background-image"
-            src={backgroundImage.src}
-            srcset={optimize(backgroundImage.src)}
-            sizes="100vw"
-            width={backgroundImage.width}
-            height={backgroundImage.height}
-            alt=""
-            aria-hidden="true"
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-        />
+<div class="error-shell" class:simple={simpleMode}>
+    {#if simpleMode}
+        <SimpleHeader />
     {/if}
-    <div class="content">
-        <h1>{isNotFound ? 'You seem lost.' : 'Something went wrong.'}</h1>
-        <p>
-            {isNotFound
-                ? "That page isn't here, but there's plenty to find back home."
-                : 'This page could not be loaded. Try heading back home.'}
-        </p>
-        <nav aria-label="Helpful links">
-            <a href="/">Go home <span aria-hidden="true">↗</span></a>
-            <a href="/photography">Browse photography <span aria-hidden="true">↗</span></a>
-        </nav>
-    </div>
-    <p class="status" aria-hidden="true">{page.status}</p>
-</main>
+    <main id="main" class:simple={simpleMode} class="error-page">
+        {#if isNotFound && backgroundImage && !simpleMode}
+            <img
+                class="background-image"
+                src={backgroundImage.src}
+                srcset={optimize(backgroundImage.src)}
+                sizes="100vw"
+                width={backgroundImage.width}
+                height={backgroundImage.height}
+                alt=""
+                aria-hidden="true"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+            />
+        {/if}
+        <div class="content">
+            <h1>{isNotFound ? 'You seem lost.' : 'Something went wrong.'}</h1>
+            <p>
+                {isNotFound
+                    ? "That page isn't here, but there's plenty to find back home."
+                    : 'This page could not be loaded. Try heading back home.'}
+            </p>
+            <nav aria-label="Helpful links">
+                <a href="/">Go home <i class="ri-arrow-right-up-line" aria-hidden="true"></i></a>
+                <a href="/photography"
+                    >Browse photography <i class="ri-arrow-right-up-line" aria-hidden="true"></i></a
+                >
+            </nav>
+        </div>
+        <p class="status" aria-hidden="true">{page.status}</p>
+    </main>
+</div>
 
 <style>
     :global(html:has(.error-page.simple)),
@@ -179,13 +187,14 @@
         outline-offset: 5px;
     }
 
-    a span {
+    a i {
         display: inline-block;
-        margin-left: 0.2em;
+        margin-left: 0.1em;
+        vertical-align: -0.1em;
         transition: transform 180ms ease;
     }
 
-    a:hover span {
+    a:hover i {
         transform: translate(0.15em, -0.15em);
     }
 
@@ -205,9 +214,18 @@
         user-select: none;
     }
 
+    .error-shell.simple {
+        min-height: 100vh;
+        min-height: 100svh;
+        display: flex;
+        flex-direction: column;
+    }
+
     .error-page.simple {
+        flex: 1;
+        min-height: 0;
         align-items: flex-start;
-        padding-top: clamp(7rem, 18vh, 12rem);
+        padding: 5.5rem 1.5rem 5rem;
         background: #f5f3ed;
         color: #171511;
         animation: none;
@@ -256,6 +274,10 @@
             padding-top: 28vh;
         }
 
+        .error-page.simple {
+            padding: 4rem 1rem 5rem;
+        }
+
         .content > p {
             margin-block: 1.5rem 2rem;
         }
@@ -282,7 +304,7 @@
         }
 
         a,
-        a span {
+        a i {
             transition: none;
         }
     }
