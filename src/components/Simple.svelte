@@ -101,6 +101,9 @@
                             {:else}
                                 {project.title}
                             {/if}
+                            {#if project.demo}
+                                <a class="demo-link" href={project.demo}>demo</a>
+                            {/if}
                         </h3>
                         <p>{project.description}</p>
                         <p class="tools">
@@ -223,6 +226,20 @@
     a:focus-visible {
         outline: 2px solid #171511;
         outline-offset: 3px;
+    }
+
+    .demo-link {
+        margin-left: 0.6rem;
+        color: #626158;
+        font-size: 0.9em;
+        font-weight: 400;
+    }
+
+    /* Demos are desktop only. */
+    @media not all and (hover: hover) and (pointer: fine) {
+        .demo-link {
+            display: none;
+        }
     }
 
     .summary {
