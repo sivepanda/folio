@@ -339,7 +339,7 @@ export const SCENES = {
 
     artwork: {
         label: 'Artwork',
-        blurb: 'A piece I made for the course, drawn by calling GDrawSomething(canvas, dim), the same entry point the grading harness called, compiled from the same source. "Native 256²" renders it at the size it was graded at, one engine pixel per square.',
+        blurb: 'A piece I made, drawn by calling GDrawSomething(canvas, dim), the same entry point the grading harness called, compiled from the same source. "Native 256²" renders it at the size it was graded at, one engine pixel per square.',
         needsImage: true,
         transparent: false,
         logical: 256,
