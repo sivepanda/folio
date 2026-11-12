@@ -346,7 +346,7 @@ export const SCENES = {
 
     artwork: {
         label: 'Artwork',
-        blurb: 'A piece I made, drawn by calling GDrawSomething(canvas, dim). "Native 256²" renders it at the size it was graded at, one engine pixel per square.',
+        blurb: 'A piece I made, drawn by calling GDrawSomething(canvas, dim). "Native 256²" renders it at the size it was created to render at, one engine pixel per square.',
         needsImage: true,
         transparent: false,
         logical: 256,
