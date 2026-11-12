@@ -3,6 +3,7 @@
     import Footer from '../../components/Footer.svelte';
     import MasonryGallery from '../../components/MasonryGallery.svelte';
     import SimplePhotography from '../../components/SimplePhotography.svelte';
+    import PageMeta from '../../components/PageMeta.svelte';
     import galleryImages from '$lib/gallery-images.json';
     import { getContext } from 'svelte';
 
@@ -34,6 +35,11 @@
         }
     }
 </script>
+
+<PageMeta
+    title="Photography | Siven Panda"
+    description="A collection of photographs by Siven Panda."
+/>
 
 {#if simpleMode}
     <SimplePhotography images={allImages} />

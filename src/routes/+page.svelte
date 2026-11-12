@@ -8,6 +8,7 @@
     import { injectAnalytics } from '@vercel/analytics/sveltekit';
     import { getContext, tick } from 'svelte';
     import Simple from '../components/Simple.svelte';
+    import PageMeta from '../components/PageMeta.svelte';
     import { resumeContent } from '$lib/resume-content.js';
 
     injectAnalytics({ mode: dev ? 'development' : 'production' });
@@ -474,6 +475,8 @@
         });
     }
 </script>
+
+<PageMeta title={resumeContent.name} description={resumeContent.description} />
 
 <!-- prettier-ignore -->
 {#if simpleMode}

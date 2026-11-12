@@ -6,13 +6,6 @@
     let { images = [] } = $props();
 </script>
 
-<svelte:head>
-    <meta
-        name="description"
-        content={`A simple collection of photographs by ${resumeContent.name}.`}
-    />
-</svelte:head>
-
 <div class="simple-page">
     <SimpleHeader />
 
@@ -89,15 +82,6 @@
     .intro {
         padding: 5.5rem 0 3.5rem;
         border-bottom: 1px solid var(--border);
-    }
-
-    .eyebrow {
-        margin: 0 0 0.75rem;
-        color: var(--muted);
-        font-size: 0.8rem;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
     }
 
     h1 {

@@ -5,6 +5,7 @@
     import galleryImages from '$lib/gallery-images.json';
     import { optimize } from '$lib/image';
     import SimpleHeader from '../components/SimpleHeader.svelte';
+    import PageMeta from '../components/PageMeta.svelte';
 
     const viewMode = getContext('view-mode');
     let simpleMode = $derived(viewMode.simpleMode);
@@ -48,15 +49,12 @@
     });
 </script>
 
-<svelte:head>
-    <title>{isNotFound ? 'You seem lost' : 'Something went wrong'} | Siven Panda</title>
-    <meta
-        name="description"
-        content={isNotFound
-            ? 'The page you were looking for could not be found.'
-            : 'Something went wrong while loading this page.'}
-    />
-</svelte:head>
+<PageMeta
+    title={`${isNotFound ? 'You seem lost' : 'Something went wrong'} | Siven Panda`}
+    description={isNotFound
+        ? 'The page you were looking for could not be found.'
+        : 'Something went wrong while loading this page.'}
+/>
 
 <div class="error-shell" class:simple={simpleMode}>
     {#if simpleMode}

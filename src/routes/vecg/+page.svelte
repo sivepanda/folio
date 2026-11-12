@@ -2,6 +2,8 @@
     import { getContext, onMount } from 'svelte';
     import Footer from '../../components/Footer.svelte';
     import SimpleHeader from '../../components/SimpleHeader.svelte';
+    import PageMeta from '../../components/PageMeta.svelte';
+    import DesktopNotice from '../../components/DesktopNotice.svelte';
     import {
         BLEND_MODES,
         TILE_MODES,
@@ -416,18 +418,19 @@
 
 <svelte:window onpointerup={endSlide} onpointercancel={endSlide} />
 
+<PageMeta
+    title="2D Vector Graphics Library · Siven Panda"
+    description="An interactive demo of a 2D vector graphics engine I wrote in C++, compiled to WebAssembly and running in the browser."
+/>
+
 <svelte:head>
-    <title>2D Vector Graphics Library · Siven Panda</title>
-    <meta
-        name="description"
-        content="An interactive demo of a 2D vector graphics engine I wrote in C++, compiled to WebAssembly and running in the browser."
-    />
     <link rel="preload" href={wasmUrl} as="fetch" type="application/wasm" crossorigin="anonymous" />
 </svelte:head>
 
 <div class="page" class:simple-page={simpleMode}>
     {#if simpleMode}<SimpleHeader />{/if}
     <main id="main" class="vecg">
+        <DesktopNotice />
         <header class="intro">
             <h1>2D Vector Graphics Library</h1>
             <p>
@@ -1179,10 +1182,6 @@
     @media (max-width: 480px) {
         .vecg {
             padding-inline: 1rem;
-        }
-
-        .simple-page .vecg {
-            width: auto;
         }
 
         .tabs {

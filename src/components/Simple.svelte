@@ -17,13 +17,6 @@
     }
 </script>
 
-<svelte:head>
-    <meta
-        name="description"
-        content={`A simple, text-first overview of ${resumeContent.name}'s experience, skills, and projects.`}
-    />
-</svelte:head>
-
 <div class="simple-page">
     <SimpleHeader />
 

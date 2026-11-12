@@ -9,7 +9,8 @@
         "check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
         "check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
         "lint": "prettier --check . && eslint .",
-        "format": "prettier --write ."
+        "format": "prettier --write .",
+        "og": "node scripts/generate-og-cards.js"
     },
     "devDependencies": {
         "@sveltejs/kit": "^2.5.27",

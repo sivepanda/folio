@@ -2,6 +2,8 @@
     import Load from '../../components/Load.svelte';
     import Footer from '../../components/Footer.svelte';
     import SimpleHeader from '../../components/SimpleHeader.svelte';
+    import PageMeta from '../../components/PageMeta.svelte';
+    import DesktopNotice from '../../components/DesktopNotice.svelte';
     import Client from '$lib/p2poker/Client.svelte';
     import Console from '$lib/p2poker/Console.svelte';
     import Timeline from '$lib/p2poker/Timeline.svelte';
@@ -209,15 +211,13 @@
     });
 </script>
 
-<svelte:head>
-    <title>P2Poker | Siven Panda</title>
-    <meta
-        name="description"
-        content="Play both seats of a peer-to-peer poker hand. Two real nodes run in this tab and shuffle, deal, and sign every move with no server in between."
-    />
-</svelte:head>
+<PageMeta
+    title="P2Poker | Siven Panda"
+    description="Play both seats of a peer-to-peer poker hand. Two real nodes run in this tab and shuffle, deal, and sign every move with no server in between."
+/>
 
 {#snippet lead()}
+    <DesktopNotice />
     <header class="lead">
         <div class="title">
             <h1>P2Poker</h1>

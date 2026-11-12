@@ -1,6 +1,9 @@
 export const resumeContent = {
     name: 'Siven Panda',
     heading: "Hey, I'm Siven!",
+    // Shown in search results and link previews (keep it under ~160 characters).
+    description:
+        'Computer engineering and computer science student at Duke University. I build tools, design systems, and take pictures sometimes.',
     summary:
         "I'm a computer engineering and computer science student at Duke University. I love building tools and designing systems that make hard things easier: whether that is for enterprise, students, and even researchers. I also take pictures sometimes. Check those out too!",
     sections: {
