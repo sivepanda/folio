@@ -18,6 +18,6 @@ export default [
         }
     },
     {
-        ignores: ['build/', '.svelte-kit/', 'package/']
+        ignores: ['build/', '.svelte-kit/', 'package/', 'src/lib/vecg/vecg.mjs']
     }
 ];

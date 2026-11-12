@@ -8,6 +8,9 @@
     export let technologies: Array<{ name: string; icon: string }> = [];
     export let icon: string | null = null;
 
+    // Internal routes (e.g. /vecg) open in the same tab.
+    $: external = !!link && !link.startsWith('/');
+
     let mouseX = 50;
     let mouseY = 50;
     let shimmerAngle = 0;
@@ -56,8 +59,8 @@
         class="glass-tile"
         style="--tile-color: {color}; --mouse-x: {mouseX}%; --mouse-y: {mouseY}%; --shimmer-angle: {shimmerAngle}deg;"
         href={link}
-        target="_blank"
-        rel="noopener noreferrer"
+        target={external ? '_blank' : undefined}
+        rel={external ? 'noopener noreferrer' : undefined}
         on:mousemove={handleMouseMove}
         on:mouseenter={handleMouseEnter}
         on:mouseleave={handleMouseLeave}

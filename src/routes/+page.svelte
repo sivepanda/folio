@@ -158,6 +158,7 @@
             title: '2D Vector Graphics Library',
             description:
                 'Designed and built a 2D Vector Graphics library from scratch in C++. Implements bezier and spline curves, blending, transforms, and shaders.',
+            link: '/vecg',
             color: 'rgba(100, 200, 150, 1)',
             technologies: [
                 { name: 'C++', icon: 'fa-solid fa-c' },
