@@ -106,6 +106,8 @@
             description:
                 'Built model and implementation for playing poker in a fully decentralized peer-to-peer trustless network. Turns are verifiable and are signed to particular users to prevent cheating or spoofing. Allows for users to create their own clients using a set of protobufs.',
             link: 'https://github.com/sivepanda/p2poker',
+            demo: '/p2poker',
+            demoIcon: 'chip',
             color: 'rgba(200, 0, 200, 1)',
             technologies: [
                 { name: 'Go', icon: 'fa-brands fa-golang' },
@@ -158,7 +160,7 @@
             title: '2D Vector Graphics Library',
             description:
                 'Designed and built a 2D Vector Graphics library from scratch in C++. Implements bezier and spline curves, blending, transforms, and shaders.',
-            link: '/vecg',
+            demo: '/vecg',
             color: 'rgba(100, 200, 150, 1)',
             technologies: [
                 { name: 'C++', icon: 'fa-solid fa-c' },
@@ -556,6 +558,8 @@
                 title={proj.title}
                 description={proj.description}
                 link={proj.link}
+                demo={proj.demo}
+                demoIcon={proj.demoIcon}
                 color={proj.color}
                 technologies={proj.technologies}
             />

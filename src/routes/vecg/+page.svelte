@@ -1,6 +1,7 @@
 <script>
-    import { onMount } from 'svelte';
+    import { getContext, onMount } from 'svelte';
     import Footer from '../../components/Footer.svelte';
+    import SimpleHeader from '../../components/SimpleHeader.svelte';
     import {
         BLEND_MODES,
         TILE_MODES,
@@ -11,6 +12,11 @@
     import { L, PALETTES, SCENES, SCENE_ORDER } from '$lib/vecg/scenes.js';
 
     /** @typedef {import('$lib/vecg/scenes.js').SceneId} SceneId */
+
+    // The simple view is the light, quiet one: easy to read, no motion. It's the same page in a
+    // different skin, so the canvas (and the engine's context on it) never re-mounts.
+    const viewMode = getContext('view-mode');
+    let simpleMode = $derived(!!viewMode?.simpleMode);
 
     const IMAGE_URL = '/vecg/galaga-game-card.png';
     const IMAGE_NAME = 'galaga-game-card.png';
@@ -419,325 +425,380 @@
     <link rel="preload" href={wasmUrl} as="fetch" type="application/wasm" crossorigin="anonymous" />
 </svelte:head>
 
-<main class="vecg">
-    <header class="intro">
-        <a class="back" href="/projects"
-            ><i class="ri-arrow-left-line" aria-hidden="true"></i> projects</a
-        >
-        <h1>2D Vector Graphics Library</h1>
-        <p>
-            A software rasterizer I wrote from scratch in C++: paths and Bézier curves, Porter-Duff
-            blending, gradient and bitmap shaders, transforms, and textured triangle meshes.
-        </p>
-        <p>
-            The canvas below is running that C++. It's compiled to WebAssembly, unchanged, and every
-            pixel you see was written by my engine into its own framebuffer. There's no Canvas2D or
-            WebGL drawing here: JavaScript only copies the finished frame onto the page.
-        </p>
-    </header>
+<div class="page" class:simple-page={simpleMode}>
+    {#if simpleMode}<SimpleHeader />{/if}
+    <main id="main" class="vecg">
+        <header class="intro">
+            <h1>2D Vector Graphics Library</h1>
+            <p>
+                A software rasterizer I wrote from scratch in C++: paths and Bézier curves,
+                Porter-Duff blending, gradient and bitmap shaders, transforms, and textured triangle
+                meshes.
+            </p>
+            <p>
+                The canvas below is running that C++. It's compiled to WebAssembly, unchanged, and
+                every pixel you see was written by my engine into its own framebuffer. There's no
+                Canvas2D or WebGL drawing here: JavaScript only copies the finished frame onto the
+                page.
+            </p>
+        </header>
 
-    <div class="tabs" role="tablist" aria-label="Demos">
-        {#each SCENE_ORDER as id}
-            <button
-                type="button"
-                role="tab"
-                aria-selected={sceneId === id}
-                class:active={sceneId === id}
-                onclick={() => select(id)}
-            >
-                {SCENES[id].label}
-            </button>
-        {/each}
-    </div>
-
-    <section class="stage">
-        <div class="canvas-wrap" class:checker={scene.transparent}>
-            <canvas
-                bind:this={canvas}
-                width="512"
-                height="512"
-                class:pixelated={sceneId === 'artwork' && states.artwork.native}
-                aria-label={`${scene.label} demo rendered by the C++ engine. ${s.pts?.length ? 'Drag the round handles to edit it.' : ''}`}
-                {onpointerdown}
-                {onpointermove}
-                {onpointerup}
-                onpointercancel={onpointerup}
-                {onpointerleave}
-            ></canvas>
-            {#if status !== 'ready' || artworkLoading}
-                <div class="overlay" aria-live="polite">
-                    {#if status === 'error'}
-                        Couldn't start the engine in this browser.
-                    {:else if status === 'recovering'}
-                        Restarting the engine…
-                    {:else if artworkLoading}
-                        Loading the artwork's bitmap…
-                    {:else}
-                        Loading the engine…
-                    {/if}
-                </div>
-            {/if}
-        </div>
-
-        <aside class="panel" onpointerdown={onpanelpointerdown}>
-            <h2>{scene.label}</h2>
-            <p class="blurb">{scene.blurb}</p>
-            {#if notice}<p class="notice">{notice}</p>{/if}
-
-            {#if sceneId === 'curves'}
-                <fieldset>
-                    <legend>Fill</legend>
-                    <div class="seg">
-                        {#each [['gradient', 'Gradient shader'], ['solid', 'Solid color']] as [v, label]}
-                            <button
-                                type="button"
-                                class:on={s.fill === v}
-                                onclick={() => (s.fill = v)}>{label}</button
-                            >
-                        {/each}
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <legend>Circle contour</legend>
-                    <div class="seg">
-                        {#each [['ccw', 'Opposite winding'], ['cw', 'Same winding'], ['none', 'None']] as [v, label]}
-                            <button
-                                type="button"
-                                class:on={s.hole === v}
-                                onclick={() => (s.hole = v)}>{label}</button
-                            >
-                        {/each}
-                    </div>
-                </fieldset>
-                <label class="check"
-                    ><input type="checkbox" bind:checked={s.controls} /> Show control points</label
+        <div class="tabs" role="tablist" aria-label="Demos">
+            {#each SCENE_ORDER as id}
+                <button
+                    type="button"
+                    role="tab"
+                    aria-selected={sceneId === id}
+                    class:active={sceneId === id}
+                    onclick={() => select(id)}
                 >
-            {:else if sceneId === 'blend'}
-                <fieldset>
-                    <legend>Blend mode</legend>
-                    <div class="modes">
-                        {#each BLEND_MODES as [name], i}
-                            <button
-                                type="button"
-                                class:on={s.mode === i}
-                                onclick={() => (s.mode = i)}>{name.slice(1)}</button
-                            >
-                        {/each}
-                    </div>
-                    <p class="formula">
-                        <code>GBlendMode::{BLEND_MODES[s.mode][0]}</code> = {BLEND_MODES[s.mode][1]}
-                    </p>
-                </fieldset>
-                <label class="range"
-                    >Source alpha <span>{s.srcAlpha.toFixed(2)}</span>
-                    <input type="range" min="0" max="1" step="0.01" bind:value={s.srcAlpha} />
-                </label>
-                <label class="range"
-                    >Destination alpha <span>{s.dstAlpha.toFixed(2)}</span>
-                    <input type="range" min="0" max="1" step="0.01" bind:value={s.dstAlpha} />
-                </label>
-            {:else if sceneId === 'gradient'}
-                <fieldset>
-                    <legend>Tile mode</legend>
-                    <div class="seg">
-                        {#each TILE_MODES as name, i}
-                            <button
-                                type="button"
-                                class:on={s.tile === i}
-                                onclick={() => (s.tile = i)}>{name.slice(1)}</button
-                            >
-                        {/each}
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <legend>Colors</legend>
-                    <div class="seg">
-                        {#each PALETTES as p, i}
-                            <button
-                                type="button"
-                                class:on={s.palette === i}
-                                onclick={() => (s.palette = i)}>{p.name}</button
-                            >
-                        {/each}
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <legend>Shape</legend>
-                    <div class="seg">
-                        {#each [['star', 'Star path'], ['ring', 'Ring'], ['full', 'Whole canvas']] as [v, label]}
-                            <button
-                                type="button"
-                                class:on={s.shape === v}
-                                onclick={() => (s.shape = v)}>{label}</button
-                            >
-                        {/each}
-                    </div>
-                </fieldset>
-                <label class="range"
-                    >Opacity (ModAlpha) <span>{s.opacity.toFixed(2)}</span>
-                    <input type="range" min="0" max="1" step="0.01" bind:value={s.opacity} />
-                </label>
-            {:else if sceneId === 'quad'}
-                <label class="range"
-                    >Tessellation level <span>{s.level} → {2 * (s.level + 1) ** 2} triangles</span>
-                    <input type="range" min="0" max="24" step="1" bind:value={s.level} />
-                </label>
-                <label class="check"
-                    ><input type="checkbox" bind:checked={s.texture} /> Bitmap texture</label
-                >
-                <label class="check"
-                    ><input type="checkbox" bind:checked={s.colors} /> Vertex colors</label
-                >
-                <label class="check"
-                    ><input type="checkbox" bind:checked={s.wire} /> Show triangles</label
-                >
-                <label class="range"
-                    >Texture repeats <span>{s.repeat}×</span>
-                    <input
-                        type="range"
-                        min="1"
-                        max="4"
-                        step="1"
-                        bind:value={s.repeat}
-                        disabled={!s.texture}
-                    />
-                </label>
-                <div class="upload">
-                    <label class="file">
-                        <i class="ri-image-add-line" aria-hidden="true"></i>
-                        {uploadName ? 'Use a different image' : 'Use your own image'}
-                        <input type="file" accept="image/*" onchange={onUpload} />
-                    </label>
-                    {#if uploadName}
-                        <button type="button" class="link" onclick={clearUpload}
-                            >Back to Galaga</button
-                        >
-                    {/if}
-                </div>
-                <fieldset disabled={!s.texture}>
-                    <legend>Texture tile mode</legend>
-                    <div class="seg">
-                        {#each TILE_MODES as name, i}
-                            <button
-                                type="button"
-                                class:on={s.tile === i}
-                                onclick={() => (s.tile = i)}>{name.slice(1)}</button
-                            >
-                        {/each}
-                    </div>
-                </fieldset>
-            {:else if sceneId === 'artwork'}
-                {#if stats.title}<p class="title">“{stats.title}”</p>{/if}
-                <fieldset>
-                    <legend>Resolution</legend>
-                    <div class="seg">
-                        <button
-                            type="button"
-                            class:on={!s.native}
-                            onclick={() => (s.native = false)}>Scaled to screen</button
-                        >
-                        <button type="button" class:on={s.native} onclick={() => (s.native = true)}
-                            >Native 256²</button
-                        >
-                    </div>
-                </fieldset>
-                {#if s.native && stats.frameHash}
-                    <p class="hashline">
-                        This frame: <code>{stats.frameHash}</code><br />
-                        Native g++ build: <code>{NATIVE_ARTWORK_HASH}</code>
-                        {#if stats.frameHash === NATIVE_ARTWORK_HASH}<span class="ok"
-                                >identical</span
-                            >{/if}
-                    </p>
-                {/if}
-            {/if}
-
-            {#if s.pts?.length}
-                <button type="button" class="reset" onclick={resetScene}>
-                    <i class="ri-refresh-line" aria-hidden="true"></i> Reset
+                    {SCENES[id].label}
                 </button>
-            {/if}
-        </aside>
-    </section>
-
-    <section class="proof" aria-label="What the engine did this frame">
-        <div class="stat-row">
-            <span><b>{ms(stats.raster)} ms</b> in the C++ engine</span>
-            <span><b>{ms(stats.copy)} ms</b> to copy to screen</span>
-            <span><b>{stats.w}×{stats.h}</b> px framebuffer</span>
-            <span><b>{stats.draws}</b> engine call{stats.draws === 1 ? '' : 's'}</span>
-            {#if wasmKB}<span><b>{wasmKB} KB</b> of WebAssembly</span>{/if}
+            {/each}
         </div>
-        {#if stats.counts.length}
-            <p class="counts">
-                {#each stats.counts as [name, n], i}{i ? ' · ' : ''}<code>{name}</code> ×{n}{/each}
-            </p>
-        {/if}
-        {#if parity}
-            <p class="parity">
-                {#if parity.ok}
-                    <i class="ri-checkbox-circle-line" aria-hidden="true"></i>
-                    Checked in your browser: this build's <code>GDrawSomething</code> output hashes
-                    to
-                    <code>{parity.hash}</code>, bit-for-bit the same as a native x86-64 build of the
-                    same source.
-                {:else}
-                    This build's <code>GDrawSomething</code> output hashes to
-                    <code>{parity.hash}</code>
-                    (native build: <code>{NATIVE_ARTWORK_HASH}</code>).
-                {/if}
-            </p>
-        {/if}
-        <details>
-            <summary>Calls made this frame ({stats.trace.length})</summary>
-            <ol class="trace">
-                {#each stats.trace as line}<li><code>{line}</code></li>{/each}
-            </ol>
-        </details>
-    </section>
-</main>
 
-<Footer />
+        <section class="stage">
+            <div class="canvas-wrap" class:checker={scene.transparent}>
+                <canvas
+                    bind:this={canvas}
+                    width="512"
+                    height="512"
+                    class:pixelated={sceneId === 'artwork' && states.artwork.native}
+                    aria-label={`${scene.label} demo rendered by the C++ engine. ${s.pts?.length ? 'Drag the round handles to edit it.' : ''}`}
+                    {onpointerdown}
+                    {onpointermove}
+                    {onpointerup}
+                    onpointercancel={onpointerup}
+                    {onpointerleave}
+                ></canvas>
+                {#if status !== 'ready' || artworkLoading}
+                    <div class="overlay" aria-live="polite">
+                        {#if status === 'error'}
+                            Couldn't start the engine in this browser.
+                        {:else if status === 'recovering'}
+                            Restarting the engine…
+                        {:else if artworkLoading}
+                            Loading the artwork's bitmap…
+                        {:else}
+                            Loading the engine…
+                        {/if}
+                    </div>
+                {/if}
+            </div>
+
+            <aside class="panel" onpointerdown={onpanelpointerdown}>
+                <h2>{scene.label}</h2>
+                <p class="blurb">{scene.blurb}</p>
+                {#if notice}<p class="notice">{notice}</p>{/if}
+
+                {#if sceneId === 'curves'}
+                    <fieldset>
+                        <legend>Fill</legend>
+                        <div class="seg">
+                            {#each [['gradient', 'Gradient shader'], ['solid', 'Solid color']] as [v, label]}
+                                <button
+                                    type="button"
+                                    class:on={s.fill === v}
+                                    onclick={() => (s.fill = v)}>{label}</button
+                                >
+                            {/each}
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Circle contour</legend>
+                        <div class="seg">
+                            {#each [['ccw', 'Opposite winding'], ['cw', 'Same winding'], ['none', 'None']] as [v, label]}
+                                <button
+                                    type="button"
+                                    class:on={s.hole === v}
+                                    onclick={() => (s.hole = v)}>{label}</button
+                                >
+                            {/each}
+                        </div>
+                    </fieldset>
+                    <label class="check"
+                        ><input type="checkbox" bind:checked={s.controls} /> Show control points</label
+                    >
+                {:else if sceneId === 'blend'}
+                    <div>
+                        <label class="pick">
+                            <span class="caption">Blend mode</span>
+                            <span class="picker">
+                                <select bind:value={s.mode}>
+                                    {#each BLEND_MODES as [name], i}
+                                        <option value={i}>{name.slice(1)}</option>
+                                    {/each}
+                                </select>
+                            </span>
+                        </label>
+                        <p class="formula">
+                            <code>GBlendMode::{BLEND_MODES[s.mode][0]}</code> = {BLEND_MODES[
+                                s.mode
+                            ][1]}
+                        </p>
+                    </div>
+                    <label class="range"
+                        >Source alpha <span>{s.srcAlpha.toFixed(2)}</span>
+                        <input type="range" min="0" max="1" step="0.01" bind:value={s.srcAlpha} />
+                    </label>
+                    <label class="range"
+                        >Destination alpha <span>{s.dstAlpha.toFixed(2)}</span>
+                        <input type="range" min="0" max="1" step="0.01" bind:value={s.dstAlpha} />
+                    </label>
+                {:else if sceneId === 'gradient'}
+                    <fieldset>
+                        <legend>Tile mode</legend>
+                        <div class="seg">
+                            {#each TILE_MODES as name, i}
+                                <button
+                                    type="button"
+                                    class:on={s.tile === i}
+                                    onclick={() => (s.tile = i)}>{name.slice(1)}</button
+                                >
+                            {/each}
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Colors</legend>
+                        <div class="seg">
+                            {#each PALETTES as p, i}
+                                <button
+                                    type="button"
+                                    class:on={s.palette === i}
+                                    onclick={() => (s.palette = i)}>{p.name}</button
+                                >
+                            {/each}
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Shape</legend>
+                        <div class="seg">
+                            {#each [['star', 'Star path'], ['ring', 'Ring'], ['full', 'Whole canvas']] as [v, label]}
+                                <button
+                                    type="button"
+                                    class:on={s.shape === v}
+                                    onclick={() => (s.shape = v)}>{label}</button
+                                >
+                            {/each}
+                        </div>
+                    </fieldset>
+                    <label class="range"
+                        >Opacity (ModAlpha) <span>{s.opacity.toFixed(2)}</span>
+                        <input type="range" min="0" max="1" step="0.01" bind:value={s.opacity} />
+                    </label>
+                {:else if sceneId === 'quad'}
+                    <label class="range"
+                        >Tessellation level <span
+                            >{s.level} → {2 * (s.level + 1) ** 2} triangles</span
+                        >
+                        <input type="range" min="0" max="24" step="1" bind:value={s.level} />
+                    </label>
+                    <label class="check"
+                        ><input type="checkbox" bind:checked={s.texture} /> Bitmap texture</label
+                    >
+                    <label class="check"
+                        ><input type="checkbox" bind:checked={s.colors} /> Vertex colors</label
+                    >
+                    <label class="check"
+                        ><input type="checkbox" bind:checked={s.wire} /> Show triangles</label
+                    >
+                    <label class="range"
+                        >Texture repeats <span>{s.repeat}×</span>
+                        <input
+                            type="range"
+                            min="1"
+                            max="4"
+                            step="1"
+                            bind:value={s.repeat}
+                            disabled={!s.texture}
+                        />
+                    </label>
+                    <div class="upload">
+                        <label class="file">
+                            <i class="ri-image-add-line" aria-hidden="true"></i>
+                            {uploadName ? 'Use a different image' : 'Use your own image'}
+                            <input type="file" accept="image/*" onchange={onUpload} />
+                        </label>
+                        {#if uploadName}
+                            <button type="button" class="link" onclick={clearUpload}
+                                >Back to Galaga</button
+                            >
+                        {/if}
+                    </div>
+                    <fieldset disabled={!s.texture}>
+                        <legend>Texture tile mode</legend>
+                        <div class="seg">
+                            {#each TILE_MODES as name, i}
+                                <button
+                                    type="button"
+                                    class:on={s.tile === i}
+                                    onclick={() => (s.tile = i)}>{name.slice(1)}</button
+                                >
+                            {/each}
+                        </div>
+                    </fieldset>
+                {:else if sceneId === 'artwork'}
+                    {#if stats.title}<p class="title">“{stats.title}”</p>{/if}
+                    <fieldset>
+                        <legend>Resolution</legend>
+                        <div class="seg">
+                            <button
+                                type="button"
+                                class:on={!s.native}
+                                onclick={() => (s.native = false)}>Scaled to screen</button
+                            >
+                            <button
+                                type="button"
+                                class:on={s.native}
+                                onclick={() => (s.native = true)}>Native 256²</button
+                            >
+                        </div>
+                    </fieldset>
+                    {#if s.native && stats.frameHash}
+                        <p class="hashline">
+                            This frame: <code>{stats.frameHash}</code><br />
+                            Native g++ build: <code>{NATIVE_ARTWORK_HASH}</code>
+                            {#if stats.frameHash === NATIVE_ARTWORK_HASH}<span class="ok"
+                                    >identical</span
+                                >{/if}
+                        </p>
+                    {/if}
+                {/if}
+
+                {#if s.pts?.length}
+                    <button type="button" class="reset" onclick={resetScene}>
+                        <i class="ri-refresh-line" aria-hidden="true"></i> Reset
+                    </button>
+                {/if}
+            </aside>
+        </section>
+
+        <section class="proof" aria-label="What the engine did this frame">
+            <div class="stat-row">
+                <span><b>{ms(stats.raster)} ms</b> in the C++ engine</span>
+                <span><b>{ms(stats.copy)} ms</b> to copy to screen</span>
+                <span><b>{stats.w}×{stats.h}</b> px framebuffer</span>
+                <span><b>{stats.draws}</b> engine call{stats.draws === 1 ? '' : 's'}</span>
+                {#if wasmKB}<span><b>{wasmKB} KB</b> of WebAssembly</span>{/if}
+            </div>
+            {#if stats.counts.length}
+                <p class="counts">
+                    {#each stats.counts as [name, n], i}{i ? ' · ' : ''}<code>{name}</code>
+                        ×{n}{/each}
+                </p>
+            {/if}
+            {#if parity}
+                <p class="parity">
+                    {#if parity.ok}
+                        <i class="ri-checkbox-circle-line" aria-hidden="true"></i>
+                        Checked in your browser: this build's <code>GDrawSomething</code> output
+                        hashes to
+                        <code>{parity.hash}</code>, bit-for-bit the same as a native x86-64 build of
+                        the same source.
+                    {:else}
+                        This build's <code>GDrawSomething</code> output hashes to
+                        <code>{parity.hash}</code>
+                        (native build: <code>{NATIVE_ARTWORK_HASH}</code>).
+                    {/if}
+                </p>
+            {/if}
+            <details>
+                <summary>Calls made this frame ({stats.trace.length})</summary>
+                <ol class="trace">
+                    {#each stats.trace as line}<li><code>{line}</code></li>{/each}
+                </ol>
+            </details>
+        </section>
+    </main>
+</div>
+
+{#if !simpleMode}
+    <Footer />
+{/if}
 
 <style>
-    .vecg {
-        --accent: rgb(100, 200, 150);
+    /* Colours are tokens so the simple view can swap the whole skin. */
+    .page {
+        --fg: #fff;
+        --body: rgba(255, 255, 255, 0.82);
+        --muted: rgba(255, 255, 255, 0.6);
         --line: rgba(255, 255, 255, 0.12);
         --glass: rgba(255, 255, 255, 0.035);
+        --hover: rgba(255, 255, 255, 0.08);
+        --pill-line: rgba(255, 255, 255, 0.08);
+        --dash: rgba(255, 255, 255, 0.25);
+        --well: rgba(0, 0, 0, 0.25);
+        --menu: rgb(20, 20, 38);
+        --accent: rgb(100, 200, 150);
+        --tint: rgba(100, 200, 150, 0.14);
+        --notice: rgb(255, 200, 120);
+        --scheme: dark;
+        /* Squircle-ish corners: rounded rectangles, not full pills. */
+        --round: 0.6rem;
+        color-scheme: var(--scheme);
+    }
+
+    /* Simple: the site's light reading view. Cream, ink, deeper accent, no motion. */
+    :global(html:has(.page.simple-page)),
+    :global(body:has(.page.simple-page)) {
+        background: #f5f3ed;
+    }
+
+    .page.simple-page {
+        --fg: #171511;
+        --body: #3a3832;
+        --muted: #626158;
+        --line: #cbc8be;
+        --glass: #fbfaf6;
+        --hover: #efece3;
+        --pill-line: #dcd9cf;
+        --dash: #b3b0a6;
+        --well: #efece3;
+        --menu: #fbfaf6;
+        --accent: #17694a;
+        --tint: rgba(23, 105, 74, 0.1);
+        --notice: #8a5a00;
+        --scheme: light;
+        min-height: 100vh;
+        background: #f5f3ed;
+        color: var(--fg);
+        font-family: 'Mozilla Text', sans-serif;
+        line-height: 1.65;
+    }
+
+    .simple-page .vecg,
+    .simple-page .vecg :global(*) {
+        transition: none !important;
+    }
+
+    .vecg {
         width: 100%;
         max-width: 1240px;
         margin: 60px auto 0;
         padding: clamp(1.5rem, 5vw, 4rem) clamp(1rem, 5vw, 5rem) 6vh;
     }
 
+    .simple-page .vecg {
+        width: min(70rem, calc(100% - 3rem));
+        max-width: none;
+        margin: 0 auto;
+        padding: 3.5rem 0 5rem;
+    }
+
     .intro {
         max-width: 760px;
-    }
-
-    .back {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        color: rgba(255, 255, 255, 0.65);
-        text-decoration: none;
-        font-size: 0.9rem;
-    }
-
-    .back:hover,
-    .back:focus-visible {
-        color: white;
     }
 
     .intro h1 {
         font-size: clamp(2rem, 5vw, 3.5rem);
         line-height: 1.05;
-        margin: 0.6rem 0 1rem;
+        margin: 0 0 1rem;
     }
 
     .intro p {
         line-height: 1.55;
         margin: 0 0 0.8rem;
-        color: rgba(255, 255, 255, 0.85);
+        color: var(--body);
     }
 
     .tabs {
@@ -753,36 +814,40 @@
         cursor: pointer;
     }
 
+    /* Choices are faded until they're hovered or picked. */
     .tabs button,
     .seg button,
-    .modes button,
     .reset {
-        border: 1px solid var(--line);
-        background: var(--glass);
-        border-radius: 999px;
+        border: 1px solid var(--pill-line);
+        background: transparent;
+        border-radius: var(--round);
         padding: 0.45rem 0.95rem;
+        color: var(--muted);
         font-size: 0.9rem;
         transition:
             background 0.15s,
-            border-color 0.15s;
+            border-color 0.15s,
+            color 0.15s;
     }
 
     .tabs button:hover,
     .seg button:hover,
-    .modes button:hover,
     .reset:hover {
-        background: rgba(255, 255, 255, 0.08);
+        border-color: var(--line);
+        background: var(--hover);
+        color: var(--fg);
     }
 
     .tabs button.active,
-    .seg button.on,
-    .modes button.on {
-        border-color: var(--accent);
-        background: rgba(100, 200, 150, 0.16);
+    .seg button.on {
+        border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+        background: var(--tint);
+        color: var(--fg);
     }
 
     button:focus-visible,
-    input:focus-visible {
+    input:focus-visible,
+    select:focus-visible {
         outline: 2px solid var(--accent);
         outline-offset: 2px;
     }
@@ -826,6 +891,7 @@
         image-rendering: pixelated;
     }
 
+    /* Sits on the canvas, which stays dark in both views. */
     .overlay {
         position: absolute;
         inset: 0;
@@ -859,11 +925,11 @@
     }
 
     .blurb {
-        color: rgba(255, 255, 255, 0.78);
+        color: var(--body);
     }
 
     .notice {
-        color: rgb(255, 200, 120);
+        color: var(--notice);
     }
 
     fieldset {
@@ -877,37 +943,78 @@
         opacity: 0.45;
     }
 
-    legend {
+    legend,
+    .caption {
+        display: block;
         font-size: 0.8rem;
         letter-spacing: 0.04em;
         text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.55);
+        color: var(--muted);
         margin-bottom: 0.45rem;
         padding: 0;
     }
 
-    .seg,
-    .modes {
+    .seg {
         display: flex;
         flex-wrap: wrap;
         gap: 0.35rem;
     }
 
-    .seg button,
-    .modes button {
+    .seg button {
         padding: 0.35rem 0.75rem;
         font-size: 0.85rem;
     }
 
-    .modes button {
+    .pick {
+        display: block;
+    }
+
+    /* A native select, dressed like the rest of the panel, with a drawn chevron. */
+    .picker {
+        position: relative;
+        display: block;
+    }
+
+    .picker::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 0.95rem;
+        width: 0.4rem;
+        height: 0.4rem;
+        border: solid var(--muted);
+        border-width: 0 1.5px 1.5px 0;
+        transform: translateY(-70%) rotate(45deg);
+        pointer-events: none;
+    }
+
+    select {
+        appearance: none;
+        width: 100%;
+        padding: 0.5rem 2.4rem 0.5rem 0.8rem;
+        border: 1px solid var(--line);
+        border-radius: var(--round);
+        background: var(--glass);
+        color: var(--fg);
         font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        font-size: 0.78rem;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: border-color 0.15s;
+    }
+
+    select:hover {
+        border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
+    }
+
+    option {
+        background: var(--menu);
+        color: var(--fg);
     }
 
     .formula {
         margin-top: 0.6rem !important;
         font-size: 0.9rem;
-        color: rgba(255, 255, 255, 0.8);
+        color: var(--body);
     }
 
     .check {
@@ -934,7 +1041,7 @@
     .range span {
         font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
         font-size: 0.82rem;
-        color: rgba(255, 255, 255, 0.7);
+        color: var(--muted);
     }
 
     .range input {
@@ -970,9 +1077,10 @@
         display: inline-flex;
         align-items: center;
         gap: 0.4rem;
-        border: 1px dashed rgba(255, 255, 255, 0.3);
-        border-radius: 999px;
+        border: 1px dashed var(--dash);
+        border-radius: var(--round);
         padding: 0.4rem 0.9rem;
+        color: var(--muted);
         font-size: 0.85rem;
         cursor: pointer;
     }
@@ -980,6 +1088,7 @@
     .file:hover,
     .file:focus-within {
         border-color: var(--accent);
+        color: var(--fg);
     }
 
     .file input {
@@ -994,7 +1103,7 @@
         background: none;
         padding: 0;
         font-size: 0.85rem;
-        color: rgba(255, 255, 255, 0.7);
+        color: var(--muted);
         text-decoration: underline;
     }
 
@@ -1014,7 +1123,7 @@
     .proof {
         margin-top: 1.25rem;
         font-size: 0.92rem;
-        color: rgba(255, 255, 255, 0.78);
+        color: var(--body);
     }
 
     .stat-row {
@@ -1024,7 +1133,7 @@
     }
 
     .stat-row b {
-        color: white;
+        color: var(--fg);
         font-weight: 600;
         font-variant-numeric: tabular-nums;
     }
@@ -1045,7 +1154,7 @@
 
     summary {
         cursor: pointer;
-        color: rgba(255, 255, 255, 0.65);
+        color: var(--muted);
     }
 
     .trace {
@@ -1055,10 +1164,10 @@
         overflow: auto;
         border: 1px solid var(--line);
         border-radius: 0.6rem;
-        background: rgba(0, 0, 0, 0.25);
+        background: var(--well);
         font-size: 0.82rem;
         line-height: 1.55;
-        color: rgba(255, 255, 255, 0.75);
+        color: var(--body);
     }
 
     @media (max-width: 860px) {
@@ -1070,6 +1179,10 @@
     @media (max-width: 480px) {
         .vecg {
             padding-inline: 1rem;
+        }
+
+        .simple-page .vecg {
+            width: auto;
         }
 
         .tabs {
@@ -1088,8 +1201,8 @@
     @media (prefers-reduced-motion: reduce) {
         .tabs button,
         .seg button,
-        .modes button,
-        .reset {
+        .reset,
+        select {
             transition: none;
         }
     }

@@ -38,6 +38,11 @@
     onMount(() => {
         let destroyed = false;
         document.body.classList.add('no-scroll');
+        // The splash opens a page at its top. Arriving from a scrolled page (say the project
+        // list), some browsers keep that offset under the frozen body and the page comes back
+        // scrolled down once the splash lifts. A section path still scrolls itself into view
+        // at the end.
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
         const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
         const el = /** @type {HTMLCanvasElement} */ (canvas);
@@ -145,11 +150,12 @@
 
             // Handle path-based scrolling after animation
             const path = window.location.pathname.slice(1); // Remove leading slash
-            if (path && path !== '') {
-                const target = document.getElementById(path);
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
+            const target = path ? document.getElementById(path) : null;
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                // Unfreezing the body can bring back an offset the browser held onto.
+                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
             }
         });
 
@@ -177,21 +183,32 @@
         height: 100%;
     }
 
+    /* Pinned to the screen, not the document, so it always starts at the very top whatever
+       the page's scroll position was when it appeared. */
     #page {
-        position: absolute;
+        position: fixed;
+        inset: 0;
         z-index: 10000;
         display: flex;
         background-color: rgba(0, 0, 0, 0.5);
-        height: 100vh;
-        width: 100vw;
         backdrop-filter: blur(40px);
         align-items: center;
         justify-content: center;
         overflow: hidden;
     }
-    /* The logo's own aspect ratio, plus room underneath for the boot log. */
+
+    /* The logo's own aspect ratio, plus room underneath for the boot log. It also shrinks to
+       the window's height: a canvas taller than the screen gets centred with its top cut off,
+       which reads as the splash being scrolled down. */
     canvas {
-        width: min(790px, 90vw);
-        height: calc(min(790px, 90vw) * 0.70088 + 9.5rem);
+        --w: min(790px, 90vw, calc((100vh - 9.5rem - 2rem) / 0.70088));
+        width: var(--w);
+        height: calc(var(--w) * 0.70088 + 9.5rem);
+    }
+
+    @supports (height: 100dvh) {
+        canvas {
+            --w: min(790px, 90vw, calc((100dvh - 9.5rem - 2rem) / 0.70088));
+        }
     }
 </style>

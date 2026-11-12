@@ -24,7 +24,16 @@ const CYAN = [0.15, 0.72, 0.95, 1];
 /** @type {RGBA} */
 const GOLD = [1, 0.8, 0.3, 1];
 
+// The site's own palette: its blue tiles, the violet of its backgrounds, and its orchid accent.
+/** @type {RGBA[]} */
+const SITE = [
+    [0.06, 0.38, 1, 1],
+    [0.39, 0, 1, 1],
+    [0.91, 0.47, 0.91, 1]
+];
+
 export const PALETTES = [
+    { name: 'Folio', colors: SITE },
     { name: 'Aurora', colors: [MINT, CYAN, VIOLET] },
     {
         name: 'Sunset',
@@ -146,9 +155,7 @@ export const SCENES = {
 
             g.paintReset();
             if (s.fill === 'gradient') {
-                g.shader(
-                    g.linearGradient({ x: 96, y: 96 }, { x: 416, y: 416 }, [MINT, CYAN, VIOLET])
-                );
+                g.shader(g.linearGradient({ x: 96, y: 96 }, { x: 416, y: 416 }, SITE));
             } else {
                 g.color(PINK);
             }
@@ -339,7 +346,7 @@ export const SCENES = {
 
     artwork: {
         label: 'Artwork',
-        blurb: 'A piece I made, drawn by calling GDrawSomething(canvas, dim), the same entry point the grading harness called, compiled from the same source. "Native 256²" renders it at the size it was graded at, one engine pixel per square.',
+        blurb: 'A piece I made, drawn by calling GDrawSomething(canvas, dim). "Native 256²" renders it at the size it was graded at, one engine pixel per square.',
         needsImage: true,
         transparent: false,
         logical: 256,
